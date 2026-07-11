@@ -18,6 +18,14 @@ const columns: FooterColumn[] = [
     ],
   },
   {
+    title: "Популярное",
+    links: [
+      { label: "Зарубежные виртуальные карты", kind: "route", to: "/foreign-virtual-cards" },
+      { label: "Карты для подписок", kind: "route", to: "/cards-for-subscriptions" },
+      { label: "Карты для путешествий", kind: "route", to: "/travel-cards" },
+    ],
+  },
+  {
     title: "О проекте",
     links: [
       { label: "О проекте", kind: "route", to: "/about" },

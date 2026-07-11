@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TravelCardsRouteImport } from './routes/travel-cards'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PodborRouteImport } from './routes/podbor'
 import { Route as PartnersRouteImport } from './routes/partners'
@@ -37,6 +38,11 @@ import { Route as AdminCardsRouteImport } from './routes/admin.cards'
 import { Route as AdminBlogRouteImport } from './routes/admin.blog'
 import { Route as AdminBanksRouteImport } from './routes/admin.banks'
 
+const TravelCardsRoute = TravelCardsRouteImport.update({
+  id: '/travel-cards',
+  path: '/travel-cards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -184,6 +190,7 @@ export interface FileRoutesByFullPath {
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/travel-cards': typeof TravelCardsRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
@@ -213,6 +220,7 @@ export interface FileRoutesByTo {
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/travel-cards': typeof TravelCardsRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
@@ -243,6 +251,7 @@ export interface FileRoutesById {
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/travel-cards': typeof TravelCardsRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
@@ -274,6 +283,7 @@ export interface FileRouteTypes {
     | '/partners'
     | '/podbor'
     | '/sitemap.xml'
+    | '/travel-cards'
     | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
@@ -303,6 +313,7 @@ export interface FileRouteTypes {
     | '/partners'
     | '/podbor'
     | '/sitemap.xml'
+    | '/travel-cards'
     | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
@@ -332,6 +343,7 @@ export interface FileRouteTypes {
     | '/partners'
     | '/podbor'
     | '/sitemap.xml'
+    | '/travel-cards'
     | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
@@ -362,6 +374,7 @@ export interface RootRouteChildren {
   PartnersRoute: typeof PartnersRoute
   PodborRoute: typeof PodborRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TravelCardsRoute: typeof TravelCardsRoute
   AdminBanksRoute: typeof AdminBanksRoute
   AdminBlogRoute: typeof AdminBlogRoute
   AdminCardsRoute: typeof AdminCardsRoute
@@ -383,6 +396,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/travel-cards': {
+      id: '/travel-cards'
+      path: '/travel-cards'
+      fullPath: '/travel-cards'
+      preLoaderRoute: typeof TravelCardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -586,6 +606,7 @@ const rootRouteChildren: RootRouteChildren = {
   PartnersRoute: PartnersRoute,
   PodborRoute: PodborRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TravelCardsRoute: TravelCardsRoute,
   AdminBanksRoute: AdminBanksRoute,
   AdminBlogRoute: AdminBlogRoute,
   AdminCardsRoute: AdminCardsRoute,
