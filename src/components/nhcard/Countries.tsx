@@ -1,19 +1,19 @@
-import { Link } from "@tanstack/react-router";
 import type { Card } from "@/lib/cards";
 
 type CountryDef = {
   name: string;
   flag: string;
   currency: string;
+  filterId: "am" | "kz" | "tr" | "kg" | "cy" | "hk";
 };
 
 const COUNTRIES: CountryDef[] = [
-  { name: "Армения", flag: "🇦🇲", currency: "AMD, USD" },
-  { name: "Казахстан", flag: "🇰🇿", currency: "KZT, USD" },
-  { name: "Турция", flag: "🇹🇷", currency: "TRY, USD" },
-  { name: "Киргизия", flag: "🇰🇬", currency: "KGS, USD" },
-  { name: "Кипр", flag: "🇨🇾", currency: "EUR" },
-  { name: "Гонконг", flag: "🇭🇰", currency: "HKD, USD" },
+  { name: "Армения", flag: "🇦🇲", currency: "AMD, USD", filterId: "am" },
+  { name: "Казахстан", flag: "🇰🇿", currency: "KZT, USD", filterId: "kz" },
+  { name: "Турция", flag: "🇹🇷", currency: "TRY, USD", filterId: "tr" },
+  { name: "Киргизия", flag: "🇰🇬", currency: "KGS, USD", filterId: "kg" },
+  { name: "Кипр", flag: "🇨🇾", currency: "EUR", filterId: "cy" },
+  { name: "Гонконг", flag: "🇭🇰", currency: "HKD, USD", filterId: "hk" },
 ];
 
 function plural(n: number) {
@@ -32,6 +32,12 @@ export function CountriesSection({ cards }: { cards: Card[] }) {
 
   if (items.length === 0) return null;
 
+  const handleClick = (filterId: CountryDef["filterId"]) => {
+    window.dispatchEvent(
+      new CustomEvent("erapay:apply-filter", { detail: { filter: filterId, query: "" } }),
+    );
+  };
+
   return (
     <section id="countries" className="scroll-mt-20 border-b border-border bg-surface/40">
       <div className="mx-auto max-w-[1240px] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
@@ -47,11 +53,11 @@ export function CountriesSection({ cards }: { cards: Card[] }) {
 
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {items.map((c) => (
-            <Link
+            <button
               key={c.name}
-              to="/"
-              hash="rating"
-              className="group flex flex-col rounded-xl border border-border bg-background p-5 transition hover:border-primary/30 hover:shadow-sm"
+              type="button"
+              onClick={() => handleClick(c.filterId)}
+              className="group flex cursor-pointer flex-col rounded-xl border border-border bg-background p-5 text-left transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
             >
               <span aria-hidden="true" className="text-3xl leading-none">
                 {c.flag}
@@ -62,7 +68,7 @@ export function CountriesSection({ cards }: { cards: Card[] }) {
               <p className="mt-1 text-xs text-muted-foreground">
                 {c.count} {plural(c.count)} · {c.currency}
               </p>
-            </Link>
+            </button>
           ))}
         </div>
       </div>
