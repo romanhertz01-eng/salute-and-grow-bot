@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      bank_pages: {
+        Row: {
+          content: string
+          created_at: string
+          h1: string
+          id: string
+          intro_text: string
+          keyword: string
+          meta_description: string
+          meta_title: string
+          priority: number
+          published: boolean
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          h1: string
+          id?: string
+          intro_text?: string
+          keyword?: string
+          meta_description?: string
+          meta_title?: string
+          priority?: number
+          published?: boolean
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          h1?: string
+          id?: string
+          intro_text?: string
+          keyword?: string
+          meta_description?: string
+          meta_title?: string
+          priority?: number
+          published?: boolean
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       blog_posts: {
         Row: {
           author_name: string
