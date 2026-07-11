@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type SyntheticEvent } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import {
@@ -10,7 +10,7 @@ import {
   type ServiceCategory,
 } from "@/lib/services";
 
-function ServiceLogo({ service, size = 28 }: { service: Service; size?: number }) {
+export function ServiceLogo({ service, size = 28 }: { service: Service; size?: number }) {
   const [failed, setFailed] = useState(false);
   const showPlate = service.plate || failed;
   const initials =
@@ -23,16 +23,23 @@ function ServiceLogo({ service, size = 28 }: { service: Service; size?: number }
       .join("") || service.name.slice(0, 2).toUpperCase();
 
   if (showPlate) {
+    // Slightly larger font for 1-letter initials, tighter for 3.
+    const fontPx = Math.max(9, Math.round(size * (initials.length >= 3 ? 0.32 : 0.4)));
     return (
       <div
-        style={{ width: size, height: size }}
-        className="flex items-center justify-center rounded-md bg-surface text-[10px] font-bold uppercase tracking-tight text-primary"
+        style={{ width: size, height: size, fontSize: fontPx }}
+        className="flex select-none items-center justify-center rounded-md bg-gradient-to-br from-surface to-border/50 font-bold uppercase tracking-tight text-primary ring-1 ring-inset ring-border/60"
         aria-hidden
       >
         {initials.slice(0, 3)}
       </div>
     );
   }
+
+  const handleLoad = (e: SyntheticEvent<HTMLImageElement>) => {
+    // Some 404/empty responses still fire onLoad — verify pixels rendered.
+    if (e.currentTarget.naturalWidth === 0) setFailed(true);
+  };
 
   return (
     <img
@@ -41,7 +48,10 @@ function ServiceLogo({ service, size = 28 }: { service: Service; size?: number }
       width={size}
       height={size}
       loading="lazy"
+      decoding="async"
+      referrerPolicy="no-referrer"
       onError={() => setFailed(true)}
+      onLoad={handleLoad}
       className="object-contain"
       style={{ width: size, height: size }}
     />
