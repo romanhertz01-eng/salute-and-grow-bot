@@ -22,6 +22,7 @@ const columns: FooterColumn[] = [
     links: [
       { label: "Методология", kind: "hash", hash: "methodology" },
       { label: "FAQ", kind: "hash", hash: "faq" },
+      { label: "Блог", kind: "route", to: "/blog" },
     ],
   },
   {
