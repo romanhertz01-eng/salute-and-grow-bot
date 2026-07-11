@@ -1,6 +1,7 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { isAdminUser } from "@/lib/admin-auth";
 import { LayoutDashboard, MessageSquare, CreditCard, FileText, LogOut, Loader2 } from "lucide-react";
 
 type AuthState = "loading" | "unauthorized" | "authorized";
@@ -26,12 +27,9 @@ export function AdminShell({ children, title }: { children: ReactNode; title: st
         navigate({ to: "/admin/login", replace: true });
         return;
       }
-      const { data: isAdmin, error: rpcErr } = await supabase.rpc("has_role", {
-        _user_id: userData.user.id,
-        _role: "admin",
-      });
+      const isAdmin = await isAdminUser(userData.user.id);
       if (!mounted) return;
-      if (rpcErr || !isAdmin) {
+      if (!isAdmin) {
         setState("unauthorized");
         return;
       }
