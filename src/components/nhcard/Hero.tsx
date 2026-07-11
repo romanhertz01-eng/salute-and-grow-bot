@@ -1,4 +1,4 @@
-import { ShieldCheck, Users, Globe2, Link2 } from "lucide-react";
+import { ShieldCheck, Users, Globe2, Link2, XCircle, Lock, AlertCircle } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { formatToday } from "@/lib/cards";
 
@@ -13,13 +13,15 @@ export function Hero({ total }: { total: number }) {
           </div>
 
           <h1 className="font-serif text-4xl font-bold leading-[1.08] tracking-tight text-primary sm:text-5xl lg:text-[56px]">
-            Зарубежные виртуальные карты для россиян 2026: рейтинг, сравнение и как оформить онлайн
+            Карты российских банков больше не работают за рубежом. Мы нашли те, что работают.
           </h1>
 
           <p className="mt-6 max-w-[620px] text-[17px] leading-relaxed text-foreground/75">
-            Карты российских банков не принимаются в App&nbsp;Store, Google&nbsp;Play, Netflix, Booking и большинстве
-            зарубежных сервисов. EraPay — независимый мониторинг международных виртуальных карт, которые
-            доступны из России: сравниваем условия, тарифы и надёжность эмитентов.
+            Не можете оплатить ChatGPT, Netflix или продлить подписку? Российские карты не принимают
+            в App&nbsp;Store, Google&nbsp;Play, Booking и на большинстве зарубежных сайтов.
+            EraPay — независимый мониторинг международных виртуальных карт, которые работают из России.
+            Сравниваем условия, тарифы и надёжность эмитентов — чтобы вы выбрали за пару минут,
+            а не искали методом проб и ошибок.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -44,6 +46,26 @@ export function Hero({ total }: { total: number }) {
               Проверено редакцией
             </Chip>
             <Chip icon={<Link2 className="h-3.5 w-3.5" />}>Партнёрские ссылки раскрыты</Chip>
+          </div>
+
+          <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-muted-foreground">
+            <span className="inline-flex items-center gap-1.5">
+              <XCircle className="h-3.5 w-3.5" aria-hidden />
+              Отклоняют оплату
+            </span>
+            <span aria-hidden className="text-border">·</span>
+            <span className="inline-flex items-center gap-1.5">
+              <Lock className="h-3.5 w-3.5" aria-hidden />
+              Блокируют карту
+            </span>
+            <span aria-hidden className="text-border">·</span>
+            <span className="inline-flex items-center gap-1.5">
+              <AlertCircle className="h-3.5 w-3.5" aria-hidden />
+              Скрытые комиссии съедают бюджет
+            </span>
+            <a href="#rating" className="font-medium text-accent hover:underline">
+              → Разбираемся, где этого нет
+            </a>
           </div>
         </div>
 
