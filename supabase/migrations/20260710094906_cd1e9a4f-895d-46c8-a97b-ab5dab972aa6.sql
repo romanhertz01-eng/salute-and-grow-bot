@@ -1,0 +1,1 @@
+ALTER TABLE public.cards ADD COLUMN IF NOT EXISTS top_services text[] NOT NULL DEFAULT '{}'::text[];
