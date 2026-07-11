@@ -72,7 +72,7 @@ export const SERVICES: Service[] = [
   { slug: "etsy", name: "Etsy", category: "shops" },
   { slug: "aliexpress", name: "AliExpress", category: "shops" },
   { slug: "temu", name: "Temu", category: "shops", plate: true },
-  { slug: "walmart", name: "Walmart", category: "shops" },
+  { slug: "walmart", name: "Walmart", category: "shops", plate: true },
   { slug: "iherb", name: "iHerb", category: "shops", plate: true },
   { slug: "dhgate", name: "DHgate", category: "shops", plate: true },
   { slug: "shopbase", name: "Shopbase", category: "shops", plate: true },
