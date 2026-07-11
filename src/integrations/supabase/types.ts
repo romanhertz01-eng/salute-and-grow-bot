@@ -14,7 +14,96 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cards: {
+        Row: {
+          affiliate_url: string | null
+          apple_pay: boolean
+          bank: string | null
+          bin_country: string | null
+          card_currency: string[] | null
+          created_at: string
+          editorial_score: number
+          google_pay: boolean
+          id: string
+          is_ad: boolean
+          issue_cost: string | null
+          issue_speed: string | null
+          issuer_country: string | null
+          kyc: boolean
+          last_checked: string
+          monthly_limit: string | null
+          name: string
+          payment_system: string | null
+          rank: number
+          reviews_count: number | null
+          service_cost: string | null
+          slug: string
+          supported_services_count: number | null
+          top_services: string[]
+          topup_fee: string | null
+          topup_methods: string[] | null
+          verified: boolean
+        }
+        Insert: {
+          affiliate_url?: string | null
+          apple_pay?: boolean
+          bank?: string | null
+          bin_country?: string | null
+          card_currency?: string[] | null
+          created_at?: string
+          editorial_score?: number
+          google_pay?: boolean
+          id?: string
+          is_ad?: boolean
+          issue_cost?: string | null
+          issue_speed?: string | null
+          issuer_country?: string | null
+          kyc?: boolean
+          last_checked?: string
+          monthly_limit?: string | null
+          name: string
+          payment_system?: string | null
+          rank: number
+          reviews_count?: number | null
+          service_cost?: string | null
+          slug: string
+          supported_services_count?: number | null
+          top_services?: string[]
+          topup_fee?: string | null
+          topup_methods?: string[] | null
+          verified?: boolean
+        }
+        Update: {
+          affiliate_url?: string | null
+          apple_pay?: boolean
+          bank?: string | null
+          bin_country?: string | null
+          card_currency?: string[] | null
+          created_at?: string
+          editorial_score?: number
+          google_pay?: boolean
+          id?: string
+          is_ad?: boolean
+          issue_cost?: string | null
+          issue_speed?: string | null
+          issuer_country?: string | null
+          kyc?: boolean
+          last_checked?: string
+          monthly_limit?: string | null
+          name?: string
+          payment_system?: string | null
+          rank?: number
+          reviews_count?: number | null
+          service_cost?: string | null
+          slug?: string
+          supported_services_count?: number | null
+          top_services?: string[]
+          topup_fee?: string | null
+          topup_methods?: string[] | null
+          verified?: boolean
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
