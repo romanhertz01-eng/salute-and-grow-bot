@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PodborRouteImport } from './routes/podbor'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServiceSlugRouteImport } from './routes/service.$slug'
 import { Route as CardsSlugRouteImport } from './routes/cards.$slug'
 
 const PodborRoute = PodborRouteImport.update({
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServiceSlugRoute = ServiceSlugRouteImport.update({
+  id: '/service/$slug',
+  path: '/service/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CardsSlugRoute = CardsSlugRouteImport.update({
   id: '/cards/$slug',
   path: '/cards/$slug',
@@ -33,30 +39,34 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/podbor': typeof PodborRoute
   '/cards/$slug': typeof CardsSlugRoute
+  '/service/$slug': typeof ServiceSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/podbor': typeof PodborRoute
   '/cards/$slug': typeof CardsSlugRoute
+  '/service/$slug': typeof ServiceSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/podbor': typeof PodborRoute
   '/cards/$slug': typeof CardsSlugRoute
+  '/service/$slug': typeof ServiceSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/podbor' | '/cards/$slug'
+  fullPaths: '/' | '/podbor' | '/cards/$slug' | '/service/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/podbor' | '/cards/$slug'
-  id: '__root__' | '/' | '/podbor' | '/cards/$slug'
+  to: '/' | '/podbor' | '/cards/$slug' | '/service/$slug'
+  id: '__root__' | '/' | '/podbor' | '/cards/$slug' | '/service/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PodborRoute: typeof PodborRoute
   CardsSlugRoute: typeof CardsSlugRoute
+  ServiceSlugRoute: typeof ServiceSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/service/$slug': {
+      id: '/service/$slug'
+      path: '/service/$slug'
+      fullPath: '/service/$slug'
+      preLoaderRoute: typeof ServiceSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cards/$slug': {
       id: '/cards/$slug'
       path: '/cards/$slug'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PodborRoute: PodborRoute,
   CardsSlugRoute: CardsSlugRoute,
+  ServiceSlugRoute: ServiceSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
