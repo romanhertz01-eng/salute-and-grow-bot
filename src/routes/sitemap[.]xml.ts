@@ -41,6 +41,28 @@ export const Route = createFileRoute("/sitemap.xml")({
           supabase.from("guide_pages" as never).select("slug").eq("published", true),
         ]);
 
+        const blogRes = await supabase
+          .from("blog_posts" as never)
+          .select("slug")
+          .eq("published", true);
+
+        entries.push({
+          path: "/blog",
+          lastmod: today,
+          changefreq: "weekly",
+          priority: "0.7",
+        });
+
+        for (const row of (blogRes.data ?? []) as { slug: string | null }[]) {
+          if (!row.slug) continue;
+          entries.push({
+            path: `/blog/${row.slug}`,
+            lastmod: today,
+            changefreq: "weekly",
+            priority: "0.6",
+          });
+        }
+
         for (const row of cardsRes.data ?? []) {
           if (!row.slug) continue;
           entries.push({
