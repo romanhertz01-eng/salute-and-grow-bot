@@ -549,7 +549,7 @@ export const SERVICES_BY_SLUG: Record<string, Service> = Object.fromEntries(
 
 // Per-card exact service counts (matches Exnode benchmark).
 const CARD_SERVICE_COUNTS: Record<string, number> = {
-  "plati-po-miru": SERVICES.length,
+  "plati-po-miru": 364,
   "wanttopay": 283,
   "wayment": 216,
   "aifory-pro": 143,
