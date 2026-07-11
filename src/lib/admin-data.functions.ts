@@ -61,7 +61,8 @@ export const listSeoPages = createServerFn({ method: "GET" })
       .select("*")
       .order("slug");
     if (error) throw new Error(error.message);
-    return (rows ?? []) as Array<Record<string, unknown>>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (rows ?? []) as any[];
   });
 
 export const updateSeoPage = createServerFn({ method: "POST" })
