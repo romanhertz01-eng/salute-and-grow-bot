@@ -1,6 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useServerFn } from "@tanstack/react-start";
+import {
+  listSeoPages,
+  updateSeoPage,
+  deleteSeoPage,
+  createSeoPage,
+} from "@/lib/admin-data.functions";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { Field, NumField, TextAreaField } from "@/components/admin/fields";
 import { Loader2, Pencil, Plus, Trash2, X, Eye, EyeOff } from "lucide-react";
@@ -72,10 +78,19 @@ function SeoPanel() {
   const [creating, setCreating] = useState(false);
   const [q, setQ] = useState("");
 
+  const fetchList = useServerFn(listSeoPages);
+  const runUpdate = useServerFn(updateSeoPage);
+  const runDelete = useServerFn(deleteSeoPage);
+
   async function load() {
     setRows(null);
-    const { data } = await supabase.from(tab).select("*").order("slug");
-    setRows((data as Row[] | null) ?? []);
+    try {
+      const data = await fetchList({ data: { table: tab } });
+      setRows((data as Row[]) ?? []);
+    } catch (e) {
+      console.error("listSeoPages failed", e);
+      setRows([]);
+    }
   }
 
   useEffect(() => {
@@ -84,13 +99,13 @@ function SeoPanel() {
   }, [tab]);
 
   async function togglePublished(row: Row) {
-    await supabase.from(tab).update({ published: !row.published }).eq("id", row.id);
+    await runUpdate({ data: { table: tab, id: row.id, patch: { published: !row.published } } });
     load();
   }
 
   async function remove(row: Row) {
     if (!confirm(`Удалить «${row.slug}»?`)) return;
-    await supabase.from(tab).delete().eq("id", row.id);
+    await runDelete({ data: { table: tab, id: row.id } });
     load();
   }
 
@@ -252,6 +267,8 @@ function SeoDialog({
   const [form, setForm] = useState<Row>(initial);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const runCreate = useServerFn(createSeoPage);
+  const runUpdate = useServerFn(updateSeoPage);
 
   function set(field: string, value: unknown) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -260,19 +277,21 @@ function SeoDialog({
   async function save() {
     setSaving(true);
     setError(null);
-    if (isNew) {
-      const { id: _id, ...insert } = form;
-      void _id;
-      const { error: e } = await supabase.from(table).insert(insert as never);
-      if (e) setError(e.message);
-      else onSaved();
-    } else {
-      const { id, ...rest } = form;
-      const { error: e } = await supabase.from(table).update(rest as never).eq("id", id);
-      if (e) setError(e.message);
-      else onSaved();
+    try {
+      if (isNew) {
+        const { id: _id, ...insert } = form;
+        void _id;
+        await runCreate({ data: { table, row: insert } });
+      } else {
+        const { id, ...rest } = form;
+        await runUpdate({ data: { table, id, patch: rest } });
+      }
+      onSaved();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setSaving(false);
     }
-    setSaving(false);
   }
 
   return (

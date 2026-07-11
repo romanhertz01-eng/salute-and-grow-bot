@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { AdminShell } from "@/components/admin/AdminShell";
-import { getAdminStats } from "@/lib/admin-stats.functions";
+import { getAdminStats } from "@/lib/admin-data.functions";
 import { CreditCard, FileText, Globe, BookOpen, MessageSquare } from "lucide-react";
 
 export const Route = createFileRoute("/admin/")({
