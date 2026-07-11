@@ -9,11 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TravelCardsRouteImport } from './routes/travel-cards'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PodborRouteImport } from './routes/podbor'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as MethodologyRouteImport } from './routes/methodology'
+import { Route as ForeignVirtualCardsRouteImport } from './routes/foreign-virtual-cards'
 import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
+import { Route as CardsForSubscriptionsRouteImport } from './routes/cards-for-subscriptions'
 import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -35,6 +38,11 @@ import { Route as AdminCardsRouteImport } from './routes/admin.cards'
 import { Route as AdminBlogRouteImport } from './routes/admin.blog'
 import { Route as AdminBanksRouteImport } from './routes/admin.banks'
 
+const TravelCardsRoute = TravelCardsRouteImport.update({
+  id: '/travel-cards',
+  path: '/travel-cards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -55,9 +63,19 @@ const MethodologyRoute = MethodologyRouteImport.update({
   path: '/methodology',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ForeignVirtualCardsRoute = ForeignVirtualCardsRouteImport.update({
+  id: '/foreign-virtual-cards',
+  path: '/foreign-virtual-cards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EditorialPolicyRoute = EditorialPolicyRouteImport.update({
   id: '/editorial-policy',
   path: '/editorial-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CardsForSubscriptionsRoute = CardsForSubscriptionsRouteImport.update({
+  id: '/cards-for-subscriptions',
+  path: '/cards-for-subscriptions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AffiliateDisclosureRoute = AffiliateDisclosureRouteImport.update({
@@ -165,11 +183,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
+  '/cards-for-subscriptions': typeof CardsForSubscriptionsRoute
   '/editorial-policy': typeof EditorialPolicyRoute
+  '/foreign-virtual-cards': typeof ForeignVirtualCardsRoute
   '/methodology': typeof MethodologyRoute
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/travel-cards': typeof TravelCardsRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
@@ -192,11 +213,14 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
+  '/cards-for-subscriptions': typeof CardsForSubscriptionsRoute
   '/editorial-policy': typeof EditorialPolicyRoute
+  '/foreign-virtual-cards': typeof ForeignVirtualCardsRoute
   '/methodology': typeof MethodologyRoute
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/travel-cards': typeof TravelCardsRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
@@ -220,11 +244,14 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
+  '/cards-for-subscriptions': typeof CardsForSubscriptionsRoute
   '/editorial-policy': typeof EditorialPolicyRoute
+  '/foreign-virtual-cards': typeof ForeignVirtualCardsRoute
   '/methodology': typeof MethodologyRoute
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/travel-cards': typeof TravelCardsRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
@@ -249,11 +276,14 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/affiliate-disclosure'
+    | '/cards-for-subscriptions'
     | '/editorial-policy'
+    | '/foreign-virtual-cards'
     | '/methodology'
     | '/partners'
     | '/podbor'
     | '/sitemap.xml'
+    | '/travel-cards'
     | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
@@ -276,11 +306,14 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/affiliate-disclosure'
+    | '/cards-for-subscriptions'
     | '/editorial-policy'
+    | '/foreign-virtual-cards'
     | '/methodology'
     | '/partners'
     | '/podbor'
     | '/sitemap.xml'
+    | '/travel-cards'
     | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
@@ -303,11 +336,14 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/affiliate-disclosure'
+    | '/cards-for-subscriptions'
     | '/editorial-policy'
+    | '/foreign-virtual-cards'
     | '/methodology'
     | '/partners'
     | '/podbor'
     | '/sitemap.xml'
+    | '/travel-cards'
     | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
@@ -331,11 +367,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AffiliateDisclosureRoute: typeof AffiliateDisclosureRoute
+  CardsForSubscriptionsRoute: typeof CardsForSubscriptionsRoute
   EditorialPolicyRoute: typeof EditorialPolicyRoute
+  ForeignVirtualCardsRoute: typeof ForeignVirtualCardsRoute
   MethodologyRoute: typeof MethodologyRoute
   PartnersRoute: typeof PartnersRoute
   PodborRoute: typeof PodborRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TravelCardsRoute: typeof TravelCardsRoute
   AdminBanksRoute: typeof AdminBanksRoute
   AdminBlogRoute: typeof AdminBlogRoute
   AdminCardsRoute: typeof AdminCardsRoute
@@ -357,6 +396,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/travel-cards': {
+      id: '/travel-cards'
+      path: '/travel-cards'
+      fullPath: '/travel-cards'
+      preLoaderRoute: typeof TravelCardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -385,11 +431,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MethodologyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/foreign-virtual-cards': {
+      id: '/foreign-virtual-cards'
+      path: '/foreign-virtual-cards'
+      fullPath: '/foreign-virtual-cards'
+      preLoaderRoute: typeof ForeignVirtualCardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/editorial-policy': {
       id: '/editorial-policy'
       path: '/editorial-policy'
       fullPath: '/editorial-policy'
       preLoaderRoute: typeof EditorialPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cards-for-subscriptions': {
+      id: '/cards-for-subscriptions'
+      path: '/cards-for-subscriptions'
+      fullPath: '/cards-for-subscriptions'
+      preLoaderRoute: typeof CardsForSubscriptionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/affiliate-disclosure': {
@@ -539,11 +599,14 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AffiliateDisclosureRoute: AffiliateDisclosureRoute,
+  CardsForSubscriptionsRoute: CardsForSubscriptionsRoute,
   EditorialPolicyRoute: EditorialPolicyRoute,
+  ForeignVirtualCardsRoute: ForeignVirtualCardsRoute,
   MethodologyRoute: MethodologyRoute,
   PartnersRoute: PartnersRoute,
   PodborRoute: PodborRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TravelCardsRoute: TravelCardsRoute,
   AdminBanksRoute: AdminBanksRoute,
   AdminBlogRoute: AdminBlogRoute,
   AdminCardsRoute: AdminCardsRoute,
