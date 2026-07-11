@@ -11,11 +11,18 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PodborRouteImport } from './routes/podbor'
+import { Route as PartnersRouteImport } from './routes/partners'
+import { Route as MethodologyRouteImport } from './routes/methodology'
+import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
+import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BanksIndexRouteImport } from './routes/banks.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ServiceSlugRouteImport } from './routes/service.$slug'
+import { Route as LegalTermsRouteImport } from './routes/legal.terms'
+import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as CountrySlugRouteImport } from './routes/country.$slug'
 import { Route as CardsSlugRouteImport } from './routes/cards.$slug'
@@ -36,6 +43,31 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const PodborRoute = PodborRouteImport.update({
   id: '/podbor',
   path: '/podbor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnersRoute = PartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MethodologyRoute = MethodologyRouteImport.update({
+  id: '/methodology',
+  path: '/methodology',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EditorialPolicyRoute = EditorialPolicyRouteImport.update({
+  id: '/editorial-policy',
+  path: '/editorial-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AffiliateDisclosureRoute = AffiliateDisclosureRouteImport.update({
+  id: '/affiliate-disclosure',
+  path: '/affiliate-disclosure',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -61,6 +93,16 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const ServiceSlugRoute = ServiceSlugRouteImport.update({
   id: '/service/$slug',
   path: '/service/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalTermsRoute = LegalTermsRouteImport.update({
+  id: '/legal/terms',
+  path: '/legal/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalPrivacyRoute = LegalPrivacyRouteImport.update({
+  id: '/legal/privacy',
+  path: '/legal/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GuidesSlugRoute = GuidesSlugRouteImport.update({
@@ -121,6 +163,11 @@ const AdminBanksRoute = AdminBanksRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/affiliate-disclosure': typeof AffiliateDisclosureRoute
+  '/editorial-policy': typeof EditorialPolicyRoute
+  '/methodology': typeof MethodologyRoute
+  '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/banks': typeof AdminBanksRoute
@@ -134,6 +181,8 @@ export interface FileRoutesByFullPath {
   '/cards/$slug': typeof CardsSlugRoute
   '/country/$slug': typeof CountrySlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/banks/': typeof BanksIndexRoute
@@ -141,6 +190,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/affiliate-disclosure': typeof AffiliateDisclosureRoute
+  '/editorial-policy': typeof EditorialPolicyRoute
+  '/methodology': typeof MethodologyRoute
+  '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/banks': typeof AdminBanksRoute
@@ -154,6 +208,8 @@ export interface FileRoutesByTo {
   '/cards/$slug': typeof CardsSlugRoute
   '/country/$slug': typeof CountrySlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin': typeof AdminIndexRoute
   '/banks': typeof BanksIndexRoute
@@ -162,6 +218,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/affiliate-disclosure': typeof AffiliateDisclosureRoute
+  '/editorial-policy': typeof EditorialPolicyRoute
+  '/methodology': typeof MethodologyRoute
+  '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/banks': typeof AdminBanksRoute
@@ -175,6 +236,8 @@ export interface FileRoutesById {
   '/cards/$slug': typeof CardsSlugRoute
   '/country/$slug': typeof CountrySlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/banks/': typeof BanksIndexRoute
@@ -184,6 +247,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
+    | '/affiliate-disclosure'
+    | '/editorial-policy'
+    | '/methodology'
+    | '/partners'
     | '/podbor'
     | '/sitemap.xml'
     | '/admin/banks'
@@ -197,6 +265,8 @@ export interface FileRouteTypes {
     | '/cards/$slug'
     | '/country/$slug'
     | '/guides/$slug'
+    | '/legal/privacy'
+    | '/legal/terms'
     | '/service/$slug'
     | '/admin/'
     | '/banks/'
@@ -204,6 +274,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
+    | '/affiliate-disclosure'
+    | '/editorial-policy'
+    | '/methodology'
+    | '/partners'
     | '/podbor'
     | '/sitemap.xml'
     | '/admin/banks'
@@ -217,6 +292,8 @@ export interface FileRouteTypes {
     | '/cards/$slug'
     | '/country/$slug'
     | '/guides/$slug'
+    | '/legal/privacy'
+    | '/legal/terms'
     | '/service/$slug'
     | '/admin'
     | '/banks'
@@ -224,6 +301,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
+    | '/affiliate-disclosure'
+    | '/editorial-policy'
+    | '/methodology'
+    | '/partners'
     | '/podbor'
     | '/sitemap.xml'
     | '/admin/banks'
@@ -237,6 +319,8 @@ export interface FileRouteTypes {
     | '/cards/$slug'
     | '/country/$slug'
     | '/guides/$slug'
+    | '/legal/privacy'
+    | '/legal/terms'
     | '/service/$slug'
     | '/admin/'
     | '/banks/'
@@ -245,6 +329,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AffiliateDisclosureRoute: typeof AffiliateDisclosureRoute
+  EditorialPolicyRoute: typeof EditorialPolicyRoute
+  MethodologyRoute: typeof MethodologyRoute
+  PartnersRoute: typeof PartnersRoute
   PodborRoute: typeof PodborRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   AdminBanksRoute: typeof AdminBanksRoute
@@ -258,6 +347,8 @@ export interface RootRouteChildren {
   CardsSlugRoute: typeof CardsSlugRoute
   CountrySlugRoute: typeof CountrySlugRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
+  LegalPrivacyRoute: typeof LegalPrivacyRoute
+  LegalTermsRoute: typeof LegalTermsRoute
   ServiceSlugRoute: typeof ServiceSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
   BanksIndexRoute: typeof BanksIndexRoute
@@ -278,6 +369,41 @@ declare module '@tanstack/react-router' {
       path: '/podbor'
       fullPath: '/podbor'
       preLoaderRoute: typeof PodborRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partners': {
+      id: '/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof PartnersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/methodology': {
+      id: '/methodology'
+      path: '/methodology'
+      fullPath: '/methodology'
+      preLoaderRoute: typeof MethodologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editorial-policy': {
+      id: '/editorial-policy'
+      path: '/editorial-policy'
+      fullPath: '/editorial-policy'
+      preLoaderRoute: typeof EditorialPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/affiliate-disclosure': {
+      id: '/affiliate-disclosure'
+      path: '/affiliate-disclosure'
+      fullPath: '/affiliate-disclosure'
+      preLoaderRoute: typeof AffiliateDisclosureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -313,6 +439,20 @@ declare module '@tanstack/react-router' {
       path: '/service/$slug'
       fullPath: '/service/$slug'
       preLoaderRoute: typeof ServiceSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/terms': {
+      id: '/legal/terms'
+      path: '/legal/terms'
+      fullPath: '/legal/terms'
+      preLoaderRoute: typeof LegalTermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/privacy': {
+      id: '/legal/privacy'
+      path: '/legal/privacy'
+      fullPath: '/legal/privacy'
+      preLoaderRoute: typeof LegalPrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/guides/$slug': {
@@ -397,6 +537,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AffiliateDisclosureRoute: AffiliateDisclosureRoute,
+  EditorialPolicyRoute: EditorialPolicyRoute,
+  MethodologyRoute: MethodologyRoute,
+  PartnersRoute: PartnersRoute,
   PodborRoute: PodborRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   AdminBanksRoute: AdminBanksRoute,
@@ -410,6 +555,8 @@ const rootRouteChildren: RootRouteChildren = {
   CardsSlugRoute: CardsSlugRoute,
   CountrySlugRoute: CountrySlugRoute,
   GuidesSlugRoute: GuidesSlugRoute,
+  LegalPrivacyRoute: LegalPrivacyRoute,
+  LegalTermsRoute: LegalTermsRoute,
   ServiceSlugRoute: ServiceSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
   BanksIndexRoute: BanksIndexRoute,
