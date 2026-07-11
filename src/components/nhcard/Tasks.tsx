@@ -1,25 +1,28 @@
 import { Sparkles, ShoppingBag, Megaphone, Plane, Gamepad2, Briefcase, ArrowRight, type LucideIcon } from "lucide-react";
 
 type TaskCard = {
+  id: string;
   title: string;
   icon: LucideIcon;
   examples: string;
-  query: string;
+  services: string[]; // service slugs
 };
 
 const TASKS: TaskCard[] = [
-  { title: "Подписки и нейросети", icon: Sparkles, examples: "ChatGPT, Claude, Netflix, Spotify, Midjourney", query: "ChatGPT" },
-  { title: "Покупки в магазинах", icon: ShoppingBag, examples: "Amazon, eBay, AliExpress, iHerb", query: "Amazon" },
-  { title: "Реклама и маркетинг", icon: Megaphone, examples: "Google Ads, TikTok Ads, Meta Ads", query: "Google Ads" },
-  { title: "Путешествия", icon: Plane, examples: "Booking, Airbnb, Agoda, авиабилеты", query: "Booking" },
-  { title: "Игры и сторы", icon: Gamepad2, examples: "Steam, PlayStation, Epic Games, App Store", query: "Steam" },
-  { title: "Работа и SaaS", icon: Briefcase, examples: "Adobe, Figma, Notion, GitHub, JetBrains", query: "Adobe" },
+  { id: "subs", title: "Подписки и нейросети", icon: Sparkles, examples: "ChatGPT, Claude, Netflix, Spotify, Midjourney", services: ["openai", "claude", "netflix", "spotify", "midjourney"] },
+  { id: "shops", title: "Покупки в магазинах", icon: ShoppingBag, examples: "Amazon, eBay, AliExpress, iHerb", services: ["amazon", "ebay", "aliexpress", "iherb"] },
+  { id: "ads", title: "Реклама и маркетинг", icon: Megaphone, examples: "Google Ads, TikTok Ads, Meta Ads", services: ["googleads", "tiktok", "meta"] },
+  { id: "travel", title: "Путешествия", icon: Plane, examples: "Booking, Airbnb, Agoda, авиабилеты", services: ["bookingdotcom", "airbnb", "agoda"] },
+  { id: "games", title: "Игры и сторы", icon: Gamepad2, examples: "Steam, PlayStation, Epic Games, App Store", services: ["steam", "playstation", "epicgames", "appstore"] },
+  { id: "work", title: "Работа и SaaS", icon: Briefcase, examples: "Adobe, Figma, Notion, GitHub, JetBrains", services: ["adobe", "figma", "notion", "github", "jetbrains"] },
 ];
 
 export function TasksSection() {
-  const handleClick = (query: string) => {
+  const handleClick = (task: TaskCard) => {
     window.dispatchEvent(
-      new CustomEvent("erapay:apply-filter", { detail: { filter: "all", query } }),
+      new CustomEvent("erapay:apply-filter", {
+        detail: { filter: "all", query: "", taskLabel: task.title, taskServices: task.services },
+      }),
     );
   };
   return (
@@ -40,9 +43,9 @@ export function TasksSection() {
             const Icon = t.icon;
             return (
               <button
-                key={t.title}
+                key={t.id}
                 type="button"
-                onClick={() => handleClick(t.query)}
+                onClick={() => handleClick(t)}
                 className="group flex cursor-pointer flex-col rounded-xl border border-border bg-surface/40 p-6 text-left transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
               >
                 <div className="inline-flex w-fit rounded-lg bg-primary/5 p-2.5 text-primary">
