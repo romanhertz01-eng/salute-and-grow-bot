@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { isAdminUser } from "@/lib/admin-auth";
 import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/login")({
@@ -24,11 +25,7 @@ function AdminLoginPage() {
     (async () => {
       const { data } = await supabase.auth.getUser();
       if (!data.user) return;
-      const { data: isAdmin } = await supabase.rpc("has_role", {
-        _user_id: data.user.id,
-        _role: "admin",
-      });
-      if (isAdmin) navigate({ to: "/admin", replace: true });
+      if (await isAdminUser(data.user.id)) navigate({ to: "/admin", replace: true });
     })();
   }, [navigate]);
 
@@ -45,11 +42,7 @@ function AdminLoginPage() {
       setLoading(false);
       return;
     }
-    const { data: isAdmin } = await supabase.rpc("has_role", {
-      _user_id: data.user.id,
-      _role: "admin",
-    });
-    if (!isAdmin) {
+    if (!(await isAdminUser(data.user.id))) {
       await supabase.auth.signOut();
       setError("У этого аккаунта нет роли admin");
       setLoading(false);
