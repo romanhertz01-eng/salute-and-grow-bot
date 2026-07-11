@@ -14,6 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
+      blog_posts: {
+        Row: {
+          author_name: string
+          category: string
+          content: string
+          cover_emoji: string
+          created_at: string
+          excerpt: string
+          id: string
+          keyword: string
+          meta_description: string
+          meta_title: string
+          published: boolean
+          published_at: string
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_name?: string
+          category?: string
+          content?: string
+          cover_emoji?: string
+          created_at?: string
+          excerpt?: string
+          id?: string
+          keyword?: string
+          meta_description?: string
+          meta_title?: string
+          published?: boolean
+          published_at?: string
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_name?: string
+          category?: string
+          content?: string
+          cover_emoji?: string
+          created_at?: string
+          excerpt?: string
+          id?: string
+          keyword?: string
+          meta_description?: string
+          meta_title?: string
+          published?: boolean
+          published_at?: string
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cards: {
         Row: {
           affiliate_url: string | null

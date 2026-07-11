@@ -165,3 +165,38 @@ html {
     color: var(--color-foreground);
   }
 }
+
+.blog-content h2 {
+  font-family: var(--font-serif, ui-serif, Georgia, serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+}
+.blog-content h3 {
+  font-family: var(--font-serif, ui-serif, Georgia, serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.blog-content p {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.75;
+}
+.blog-content ul,
+.blog-content ol {
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+  line-height: 1.75;
+}
+.blog-content ul { list-style: disc; }
+.blog-content ol { list-style: decimal; }
+.blog-content li { margin-top: 0.25rem; }
+.blog-content strong { font-weight: 600; color: var(--color-primary); }
+.blog-content a { color: var(--color-accent); text-decoration: underline; }
