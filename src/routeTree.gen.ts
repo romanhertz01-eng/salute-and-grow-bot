@@ -13,6 +13,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PodborRouteImport } from './routes/podbor'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as MethodologyRouteImport } from './routes/methodology'
+import { Route as ForeignVirtualCardsRouteImport } from './routes/foreign-virtual-cards'
 import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
 import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
 import { Route as AboutRouteImport } from './routes/about'
@@ -53,6 +54,11 @@ const PartnersRoute = PartnersRouteImport.update({
 const MethodologyRoute = MethodologyRouteImport.update({
   id: '/methodology',
   path: '/methodology',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForeignVirtualCardsRoute = ForeignVirtualCardsRouteImport.update({
+  id: '/foreign-virtual-cards',
+  path: '/foreign-virtual-cards',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EditorialPolicyRoute = EditorialPolicyRouteImport.update({
@@ -166,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/editorial-policy': typeof EditorialPolicyRoute
+  '/foreign-virtual-cards': typeof ForeignVirtualCardsRoute
   '/methodology': typeof MethodologyRoute
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
@@ -193,6 +200,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/editorial-policy': typeof EditorialPolicyRoute
+  '/foreign-virtual-cards': typeof ForeignVirtualCardsRoute
   '/methodology': typeof MethodologyRoute
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
@@ -221,6 +229,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/editorial-policy': typeof EditorialPolicyRoute
+  '/foreign-virtual-cards': typeof ForeignVirtualCardsRoute
   '/methodology': typeof MethodologyRoute
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
@@ -250,6 +259,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/affiliate-disclosure'
     | '/editorial-policy'
+    | '/foreign-virtual-cards'
     | '/methodology'
     | '/partners'
     | '/podbor'
@@ -277,6 +287,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/affiliate-disclosure'
     | '/editorial-policy'
+    | '/foreign-virtual-cards'
     | '/methodology'
     | '/partners'
     | '/podbor'
@@ -304,6 +315,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/affiliate-disclosure'
     | '/editorial-policy'
+    | '/foreign-virtual-cards'
     | '/methodology'
     | '/partners'
     | '/podbor'
@@ -332,6 +344,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AffiliateDisclosureRoute: typeof AffiliateDisclosureRoute
   EditorialPolicyRoute: typeof EditorialPolicyRoute
+  ForeignVirtualCardsRoute: typeof ForeignVirtualCardsRoute
   MethodologyRoute: typeof MethodologyRoute
   PartnersRoute: typeof PartnersRoute
   PodborRoute: typeof PodborRoute
@@ -383,6 +396,13 @@ declare module '@tanstack/react-router' {
       path: '/methodology'
       fullPath: '/methodology'
       preLoaderRoute: typeof MethodologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/foreign-virtual-cards': {
+      id: '/foreign-virtual-cards'
+      path: '/foreign-virtual-cards'
+      fullPath: '/foreign-virtual-cards'
+      preLoaderRoute: typeof ForeignVirtualCardsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/editorial-policy': {
@@ -540,6 +560,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AffiliateDisclosureRoute: AffiliateDisclosureRoute,
   EditorialPolicyRoute: EditorialPolicyRoute,
+  ForeignVirtualCardsRoute: ForeignVirtualCardsRoute,
   MethodologyRoute: MethodologyRoute,
   PartnersRoute: PartnersRoute,
   PodborRoute: PodborRoute,
@@ -565,13 +586,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
