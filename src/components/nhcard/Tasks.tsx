@@ -1,22 +1,27 @@
-import { Link } from "@tanstack/react-router";
 import { Sparkles, ShoppingBag, Megaphone, Plane, Gamepad2, Briefcase, ArrowRight, type LucideIcon } from "lucide-react";
 
 type TaskCard = {
   title: string;
   icon: LucideIcon;
   examples: string;
+  query: string;
 };
 
 const TASKS: TaskCard[] = [
-  { title: "Подписки и нейросети", icon: Sparkles, examples: "ChatGPT, Claude, Netflix, Spotify, Midjourney" },
-  { title: "Покупки в магазинах", icon: ShoppingBag, examples: "Amazon, eBay, AliExpress, iHerb" },
-  { title: "Реклама и маркетинг", icon: Megaphone, examples: "Google Ads, TikTok Ads, Meta Ads" },
-  { title: "Путешествия", icon: Plane, examples: "Booking, Airbnb, Agoda, авиабилеты" },
-  { title: "Игры и сторы", icon: Gamepad2, examples: "Steam, PlayStation, Epic Games, App Store" },
-  { title: "Работа и SaaS", icon: Briefcase, examples: "Adobe, Figma, Notion, GitHub, JetBrains" },
+  { title: "Подписки и нейросети", icon: Sparkles, examples: "ChatGPT, Claude, Netflix, Spotify, Midjourney", query: "ChatGPT" },
+  { title: "Покупки в магазинах", icon: ShoppingBag, examples: "Amazon, eBay, AliExpress, iHerb", query: "Amazon" },
+  { title: "Реклама и маркетинг", icon: Megaphone, examples: "Google Ads, TikTok Ads, Meta Ads", query: "Google Ads" },
+  { title: "Путешествия", icon: Plane, examples: "Booking, Airbnb, Agoda, авиабилеты", query: "Booking" },
+  { title: "Игры и сторы", icon: Gamepad2, examples: "Steam, PlayStation, Epic Games, App Store", query: "Steam" },
+  { title: "Работа и SaaS", icon: Briefcase, examples: "Adobe, Figma, Notion, GitHub, JetBrains", query: "Adobe" },
 ];
 
 export function TasksSection() {
+  const handleClick = (query: string) => {
+    window.dispatchEvent(
+      new CustomEvent("erapay:apply-filter", { detail: { filter: "all", query } }),
+    );
+  };
   return (
     <section id="task" className="scroll-mt-20 border-b border-border bg-background">
       <div className="mx-auto max-w-[1240px] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
@@ -34,11 +39,11 @@ export function TasksSection() {
           {TASKS.map((t) => {
             const Icon = t.icon;
             return (
-              <Link
+              <button
                 key={t.title}
-                to="/"
-                hash="rating"
-                className="group flex flex-col rounded-xl border border-border bg-surface/40 p-6 transition hover:border-primary/30 hover:shadow-sm"
+                type="button"
+                onClick={() => handleClick(t.query)}
+                className="group flex cursor-pointer flex-col rounded-xl border border-border bg-surface/40 p-6 text-left transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
               >
                 <div className="inline-flex w-fit rounded-lg bg-primary/5 p-2.5 text-primary">
                   <Icon className="h-5 w-5" />
@@ -53,7 +58,7 @@ export function TasksSection() {
                   Смотреть карты
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </span>
-              </Link>
+              </button>
             );
           })}
         </div>
