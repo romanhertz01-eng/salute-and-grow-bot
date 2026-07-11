@@ -20,17 +20,19 @@ const columns: FooterColumn[] = [
   {
     title: "О проекте",
     links: [
-      { label: "Методология", kind: "hash", hash: "methodology" },
-      { label: "FAQ", kind: "hash", hash: "faq" },
+      { label: "О проекте", kind: "route", to: "/about" },
+      { label: "Методология", kind: "route", to: "/methodology" },
+      { label: "Редакционная политика", kind: "route", to: "/editorial-policy" },
       { label: "Блог", kind: "route", to: "/blog" },
-      { label: "Банковские карты", kind: "route", to: "/banks" },
     ],
   },
   {
-    title: "Контакты",
+    title: "Правовое",
     links: [
-      { label: "Telegram", kind: "external", href: "#", rel: "nofollow" },
-      { label: "Написать редакции", kind: "external", href: "#" },
+      { label: "Партнёрам", kind: "route", to: "/partners" },
+      { label: "Раскрытие партнёрских ссылок", kind: "route", to: "/affiliate-disclosure" },
+      { label: "Пользовательское соглашение", kind: "route", to: "/legal/terms" },
+      { label: "Политика конфиденциальности", kind: "route", to: "/legal/privacy" },
     ],
   },
 ];

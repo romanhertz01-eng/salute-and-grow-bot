@@ -34,6 +34,19 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/", lastmod: today, changefreq: "weekly", priority: "1.0" },
         ];
 
+        const infoPaths = [
+          "/about",
+          "/methodology",
+          "/partners",
+          "/editorial-policy",
+          "/affiliate-disclosure",
+          "/legal/terms",
+          "/legal/privacy",
+        ];
+        for (const p of infoPaths) {
+          entries.push({ path: p, lastmod: today, changefreq: "weekly", priority: "0.4" });
+        }
+
         const [cardsRes, servicesRes, countriesRes, guidesRes] = await Promise.all([
           supabase.from("cards").select("slug"),
           supabase.from("service_pages").select("slug").eq("published", true),
