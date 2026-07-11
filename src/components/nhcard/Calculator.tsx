@@ -56,7 +56,7 @@ export function CalculatorSection({ cards }: { cards: Card[] }) {
   }, [cards, turnover]);
 
   return (
-    <section className="border-b border-border bg-background">
+    <section id="calculator" className="scroll-mt-20 border-b border-border bg-background">
       <div className="mx-auto max-w-[1240px] px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <div className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-accent">
           Калькулятор · единственный в рунете

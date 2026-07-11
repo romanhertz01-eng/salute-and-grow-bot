@@ -1,12 +1,16 @@
 import { Link } from "@tanstack/react-router";
 import { formatToday } from "@/lib/cards";
 
-const nav: { label: string; href: string; to?: string }[] = [
-  { label: "Рейтинг", href: "#rating" },
-  { label: "Подбор", href: "/podbor", to: "/podbor" },
-  { label: "По странам", href: "#countries" },
-  { label: "Как оформить", href: "#how" },
-  { label: "FAQ", href: "#faq" },
+type NavItem =
+  | { label: string; kind: "hash"; hash: string }
+  | { label: string; kind: "route"; to: string };
+
+const nav: NavItem[] = [
+  { label: "Рейтинг", kind: "hash", hash: "rating" },
+  { label: "Калькулятор", kind: "hash", hash: "calculator" },
+  { label: "Подбор", kind: "route", to: "/podbor" },
+  { label: "Методология", kind: "hash", hash: "methodology" },
+  { label: "FAQ", kind: "hash", hash: "faq" },
 ];
 
 export function SiteHeader() {
@@ -32,22 +36,23 @@ export function SiteHeader() {
 
         <nav className="hidden flex-1 items-center justify-center gap-7 lg:flex">
           {nav.map((item) =>
-            item.to ? (
+            item.kind === "route" ? (
               <Link
-                key={item.href}
+                key={item.label}
                 to={item.to}
                 className="text-sm font-medium text-foreground/75 transition-colors hover:text-primary"
               >
                 {item.label}
               </Link>
             ) : (
-              <a
-                key={item.href}
-                href={item.href}
+              <Link
+                key={item.label}
+                to="/"
+                hash={item.hash}
                 className="text-sm font-medium text-foreground/75 transition-colors hover:text-primary"
               >
                 {item.label}
-              </a>
+              </Link>
             ),
           )}
         </nav>
@@ -56,12 +61,13 @@ export function SiteHeader() {
           <span className="hidden text-xs text-muted-foreground md:inline">
             Обновлено: {formatToday()}
           </span>
-          <a
-            href="#rating"
+          <Link
+            to="/"
+            hash="rating"
             className="inline-flex h-9 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
           >
             К рейтингу
-          </a>
+          </Link>
         </div>
       </div>
     </header>

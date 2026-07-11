@@ -30,7 +30,7 @@ export const FAQ_ITEMS = [
 
 export function FaqSection() {
   return (
-    <section id="faq" className="border-t border-border bg-background">
+    <section id="faq" className="scroll-mt-20 border-t border-border bg-background">
       <div className="mx-auto max-w-[900px] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
         <div className="text-center">
           <div className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
