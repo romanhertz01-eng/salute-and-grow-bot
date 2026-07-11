@@ -114,6 +114,10 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .font-serif { font-family: var(--font-serif); }
 
 .dark {
