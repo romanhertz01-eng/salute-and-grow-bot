@@ -72,7 +72,7 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-border bg-surface">
       <div className="mx-auto max-w-[1240px] px-4 py-14 sm:px-6 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-[1.5fr_repeat(3,1fr)]">
+        <div className="grid gap-10 lg:grid-cols-[1.5fr_repeat(4,1fr)]">
           <div>
             <Link to="/" className="font-serif text-2xl font-bold" aria-label="EraPay — на главную">
               <span className="text-primary">Era</span>
