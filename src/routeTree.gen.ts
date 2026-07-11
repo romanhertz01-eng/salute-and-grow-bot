@@ -9,15 +9,9 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as PodborRouteImport } from './routes/podbor'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CardsSlugRouteImport } from './routes/cards.$slug'
 
-const PodborRoute = PodborRouteImport.update({
-  id: '/podbor',
-  path: '/podbor',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,43 +25,32 @@ const CardsSlugRoute = CardsSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/podbor': typeof PodborRoute
   '/cards/$slug': typeof CardsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/podbor': typeof PodborRoute
   '/cards/$slug': typeof CardsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/podbor': typeof PodborRoute
   '/cards/$slug': typeof CardsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/podbor' | '/cards/$slug'
+  fullPaths: '/' | '/cards/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/podbor' | '/cards/$slug'
-  id: '__root__' | '/' | '/podbor' | '/cards/$slug'
+  to: '/' | '/cards/$slug'
+  id: '__root__' | '/' | '/cards/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  PodborRoute: typeof PodborRoute
   CardsSlugRoute: typeof CardsSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/podbor': {
-      id: '/podbor'
-      path: '/podbor'
-      fullPath: '/podbor'
-      preLoaderRoute: typeof PodborRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -87,7 +70,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  PodborRoute: PodborRoute,
   CardsSlugRoute: CardsSlugRoute,
 }
 export const routeTree = rootRouteImport
