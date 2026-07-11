@@ -20,6 +20,7 @@ import { ServicesModal, ServicePreview } from "@/components/nhcard/ServicesModal
 import { cardBySlugQueryOptions, cardsQueryOptions, formatDate, initials } from "@/lib/cards";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import { getCardServiceSlugs } from "@/lib/services";
 
 type ReviewRow = Database["public"]["Tables"]["reviews"]["Row"];
 
