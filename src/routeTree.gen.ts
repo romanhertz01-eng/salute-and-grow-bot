@@ -15,6 +15,7 @@ import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as ForeignVirtualCardsRouteImport } from './routes/foreign-virtual-cards'
 import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
+import { Route as CardsForSubscriptionsRouteImport } from './routes/cards-for-subscriptions'
 import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -64,6 +65,11 @@ const ForeignVirtualCardsRoute = ForeignVirtualCardsRouteImport.update({
 const EditorialPolicyRoute = EditorialPolicyRouteImport.update({
   id: '/editorial-policy',
   path: '/editorial-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CardsForSubscriptionsRoute = CardsForSubscriptionsRouteImport.update({
+  id: '/cards-for-subscriptions',
+  path: '/cards-for-subscriptions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AffiliateDisclosureRoute = AffiliateDisclosureRouteImport.update({
@@ -171,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
+  '/cards-for-subscriptions': typeof CardsForSubscriptionsRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/foreign-virtual-cards': typeof ForeignVirtualCardsRoute
   '/methodology': typeof MethodologyRoute
@@ -199,6 +206,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
+  '/cards-for-subscriptions': typeof CardsForSubscriptionsRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/foreign-virtual-cards': typeof ForeignVirtualCardsRoute
   '/methodology': typeof MethodologyRoute
@@ -228,6 +236,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
+  '/cards-for-subscriptions': typeof CardsForSubscriptionsRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/foreign-virtual-cards': typeof ForeignVirtualCardsRoute
   '/methodology': typeof MethodologyRoute
@@ -258,6 +267,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/affiliate-disclosure'
+    | '/cards-for-subscriptions'
     | '/editorial-policy'
     | '/foreign-virtual-cards'
     | '/methodology'
@@ -286,6 +296,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/affiliate-disclosure'
+    | '/cards-for-subscriptions'
     | '/editorial-policy'
     | '/foreign-virtual-cards'
     | '/methodology'
@@ -314,6 +325,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/affiliate-disclosure'
+    | '/cards-for-subscriptions'
     | '/editorial-policy'
     | '/foreign-virtual-cards'
     | '/methodology'
@@ -343,6 +355,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AffiliateDisclosureRoute: typeof AffiliateDisclosureRoute
+  CardsForSubscriptionsRoute: typeof CardsForSubscriptionsRoute
   EditorialPolicyRoute: typeof EditorialPolicyRoute
   ForeignVirtualCardsRoute: typeof ForeignVirtualCardsRoute
   MethodologyRoute: typeof MethodologyRoute
@@ -410,6 +423,13 @@ declare module '@tanstack/react-router' {
       path: '/editorial-policy'
       fullPath: '/editorial-policy'
       preLoaderRoute: typeof EditorialPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cards-for-subscriptions': {
+      id: '/cards-for-subscriptions'
+      path: '/cards-for-subscriptions'
+      fullPath: '/cards-for-subscriptions'
+      preLoaderRoute: typeof CardsForSubscriptionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/affiliate-disclosure': {
@@ -559,6 +579,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AffiliateDisclosureRoute: AffiliateDisclosureRoute,
+  CardsForSubscriptionsRoute: CardsForSubscriptionsRoute,
   EditorialPolicyRoute: EditorialPolicyRoute,
   ForeignVirtualCardsRoute: ForeignVirtualCardsRoute,
   MethodologyRoute: MethodologyRoute,
