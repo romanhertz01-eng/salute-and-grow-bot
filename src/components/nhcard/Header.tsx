@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { formatToday } from "@/lib/cards";
 
-const nav = [
+const nav: { label: string; href: string; to?: string }[] = [
   { label: "Рейтинг", href: "#rating" },
-  { label: "По задаче", href: "#task" },
+  { label: "Подбор", href: "/podbor", to: "/podbor" },
   { label: "По странам", href: "#countries" },
   { label: "Как оформить", href: "#how" },
   { label: "FAQ", href: "#faq" },
@@ -31,15 +31,25 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden flex-1 items-center justify-center gap-7 lg:flex">
-          {nav.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="text-sm font-medium text-foreground/75 transition-colors hover:text-primary"
-            >
-              {item.label}
-            </a>
-          ))}
+          {nav.map((item) =>
+            item.to ? (
+              <Link
+                key={item.href}
+                to={item.to}
+                className="text-sm font-medium text-foreground/75 transition-colors hover:text-primary"
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <a
+                key={item.href}
+                href={item.href}
+                className="text-sm font-medium text-foreground/75 transition-colors hover:text-primary"
+              >
+                {item.label}
+              </a>
+            ),
+          )}
         </nav>
 
         <div className="ml-auto flex items-center gap-4">
