@@ -104,6 +104,39 @@ export type Database = {
         }
         Relationships: []
       }
+      reviews: {
+        Row: {
+          author_name: string
+          card_slug: string
+          created_at: string
+          id: string
+          is_demo: boolean
+          rating: number
+          status: string
+          text: string
+        }
+        Insert: {
+          author_name: string
+          card_slug: string
+          created_at?: string
+          id?: string
+          is_demo?: boolean
+          rating: number
+          status?: string
+          text: string
+        }
+        Update: {
+          author_name?: string
+          card_slug?: string
+          created_at?: string
+          id?: string
+          is_demo?: boolean
+          rating?: number
+          status?: string
+          text?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
