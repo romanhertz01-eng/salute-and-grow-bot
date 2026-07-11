@@ -267,6 +267,8 @@ function SeoDialog({
   const [form, setForm] = useState<Row>(initial);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const runCreate = useServerFn(createSeoPage);
+  const runUpdate = useServerFn(updateSeoPage);
 
   function set(field: string, value: unknown) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -275,19 +277,21 @@ function SeoDialog({
   async function save() {
     setSaving(true);
     setError(null);
-    if (isNew) {
-      const { id: _id, ...insert } = form;
-      void _id;
-      const { error: e } = await supabase.from(table).insert(insert as never);
-      if (e) setError(e.message);
-      else onSaved();
-    } else {
-      const { id, ...rest } = form;
-      const { error: e } = await supabase.from(table).update(rest as never).eq("id", id);
-      if (e) setError(e.message);
-      else onSaved();
+    try {
+      if (isNew) {
+        const { id: _id, ...insert } = form;
+        void _id;
+        await runCreate({ data: { table, row: insert } });
+      } else {
+        const { id, ...rest } = form;
+        await runUpdate({ data: { table, id, patch: rest } });
+      }
+      onSaved();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setSaving(false);
     }
-    setSaving(false);
   }
 
   return (
