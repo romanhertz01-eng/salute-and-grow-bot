@@ -4,6 +4,7 @@ import { Apple, Smartphone, Zap, ArrowUpRight, ShieldCheck } from "lucide-react"
 import type { Card } from "@/lib/cards";
 import { initials } from "@/lib/cards";
 import { getCardServiceSlugs, getTableServiceSlugs } from "@/lib/services";
+import { SERVICES_BY_SLUG } from "@/lib/services";
 import { ServicePreview, ServicesModal } from "./ServicesModal";
 
 type SortKey = "rank" | "price" | "speed";
@@ -57,14 +58,25 @@ export function RatingSection({ cards }: { cards: Card[] }) {
   const [filter, setFilter] = useState<Filter>("all");
   const [sort, setSort] = useState<SortKey>("rank");
   const [query, setQuery] = useState("");
+  const [taskFilter, setTaskFilter] = useState<{ label: string; services: string[] } | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     function onApply(e: Event) {
-      const detail = (e as CustomEvent<{ filter?: Filter; query?: string }>).detail;
+      const detail = (e as CustomEvent<{
+        filter?: Filter;
+        query?: string;
+        taskLabel?: string;
+        taskServices?: string[];
+      }>).detail;
       if (!detail) return;
       if (detail.filter) setFilter(detail.filter);
       if (typeof detail.query === "string") setQuery(detail.query);
+      if (detail.taskServices && detail.taskLabel) {
+        setTaskFilter({ label: detail.taskLabel, services: detail.taskServices });
+      } else if (detail.taskServices === null) {
+        setTaskFilter(null);
+      }
       requestAnimationFrame(() => {
         sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
@@ -76,16 +88,30 @@ export function RatingSection({ cards }: { cards: Card[] }) {
   const filtered = useMemo(() => {
     const test = FILTERS.find((f) => f.id === filter)?.test ?? (() => true);
     const q = query.trim().toLowerCase();
-    const list = cards.filter(
-      (c) => test(c) && (q === "" || c.name.toLowerCase().includes(q) || (c.bank ?? "").toLowerCase().includes(q)),
-    );
+    const list = cards.filter((c) => {
+      if (!test(c)) return false;
+      const cardSlugs = getCardServiceSlugs(c.slug, c.supported_services_count ?? 0);
+      if (taskFilter) {
+        const set = new Set(cardSlugs);
+        if (!taskFilter.services.some((s) => set.has(s))) return false;
+      }
+      if (q !== "") {
+        const inNameOrBank =
+          c.name.toLowerCase().includes(q) || (c.bank ?? "").toLowerCase().includes(q);
+        const inServices = cardSlugs.some((slug) =>
+          (SERVICES_BY_SLUG[slug]?.name ?? "").toLowerCase().includes(q),
+        );
+        if (!inNameOrBank && !inServices) return false;
+      }
+      return true;
+    });
     const sorted = [...list].sort((a, b) => {
       if (sort === "price") return priceRank(a.issue_cost) - priceRank(b.issue_cost);
       if (sort === "speed") return speedRank(a.issue_speed) - speedRank(b.issue_speed);
       return a.rank - b.rank;
     });
     return sorted;
-  }, [cards, filter, sort, query]);
+  }, [cards, filter, sort, query, taskFilter]);
 
   return (
     <section ref={sectionRef} id="rating" className="scroll-mt-20 border-b border-border bg-background">
@@ -107,6 +133,22 @@ export function RatingSection({ cards }: { cards: Card[] }) {
             className="h-11 w-full rounded-md border border-border bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
           />
         </div>
+
+        {taskFilter && (
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-2 rounded-md border border-accent/30 bg-accent/10 px-3 py-1.5 text-xs font-medium text-primary">
+              Показаны карты для: <strong className="font-semibold">{taskFilter.label}</strong>
+              <button
+                type="button"
+                onClick={() => setTaskFilter(null)}
+                aria-label="Сбросить фильтр по задаче"
+                className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-sm text-accent hover:bg-accent/20"
+              >
+                ✕
+              </button>
+            </span>
+          </div>
+        )}
 
         {/* Filter bar */}
         <div className="mb-5 flex flex-wrap items-center gap-3">
