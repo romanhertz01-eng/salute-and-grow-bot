@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useServerFn } from "@tanstack/react-start";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { getAdminStats } from "@/lib/admin-stats.functions";
 import { CreditCard, FileText, Globe, BookOpen, MessageSquare } from "lucide-react";
 
 export const Route = createFileRoute("/admin/")({
@@ -30,25 +31,18 @@ function Stats() {
     guides: number;
     pending: number;
   } | null>(null);
+  const fetchStats = useServerFn(getAdminStats);
 
   useEffect(() => {
     (async () => {
-      const [cards, services, countries, guides, pending] = await Promise.all([
-        supabase.from("cards").select("id", { count: "exact", head: true }),
-        supabase.from("service_pages").select("id", { count: "exact", head: true }),
-        supabase.from("country_pages").select("id", { count: "exact", head: true }),
-        supabase.from("guide_pages").select("id", { count: "exact", head: true }),
-        supabase.from("reviews").select("id", { count: "exact", head: true }).eq("status", "pending"),
-      ]);
-      setStats({
-        cards: cards.count ?? 0,
-        services: services.count ?? 0,
-        countries: countries.count ?? 0,
-        guides: guides.count ?? 0,
-        pending: pending.count ?? 0,
-      });
+      try {
+        const s = await fetchStats();
+        setStats(s);
+      } catch (e) {
+        console.error("admin stats failed", e);
+      }
     })();
-  }, []);
+  }, [fetchStats]);
 
   const items = [
     { icon: CreditCard, label: "Карт", value: stats?.cards, color: "text-blue-600" },
