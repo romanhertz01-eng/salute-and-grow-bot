@@ -104,6 +104,63 @@ export type Database = {
         }
         Relationships: []
       }
+      country_pages: {
+        Row: {
+          created_at: string
+          currency: string
+          flag_emoji: string
+          h1: string
+          id: string
+          intro_text: string | null
+          keyword: string
+          meta_description: string
+          meta_title: string
+          name_en: string
+          name_ru: string
+          priority: number
+          published: boolean
+          region: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          currency: string
+          flag_emoji: string
+          h1: string
+          id?: string
+          intro_text?: string | null
+          keyword: string
+          meta_description: string
+          meta_title: string
+          name_en: string
+          name_ru: string
+          priority?: number
+          published?: boolean
+          region: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          currency?: string
+          flag_emoji?: string
+          h1?: string
+          id?: string
+          intro_text?: string | null
+          keyword?: string
+          meta_description?: string
+          meta_title?: string
+          name_en?: string
+          name_ru?: string
+          priority?: number
+          published?: boolean
+          region?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           author_name: string
