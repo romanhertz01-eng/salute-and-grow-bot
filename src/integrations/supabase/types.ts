@@ -137,6 +137,54 @@ export type Database = {
         }
         Relationships: []
       }
+      service_pages: {
+        Row: {
+          category: string
+          created_at: string
+          h1: string
+          id: string
+          intro_text: string | null
+          keyword: string
+          meta_description: string
+          meta_title: string
+          name: string
+          priority: number
+          published: boolean
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          h1: string
+          id?: string
+          intro_text?: string | null
+          keyword: string
+          meta_description: string
+          meta_title: string
+          name: string
+          priority?: number
+          published?: boolean
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          h1?: string
+          id?: string
+          intro_text?: string | null
+          keyword?: string
+          meta_description?: string
+          meta_title?: string
+          name?: string
+          priority?: number
+          published?: boolean
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
