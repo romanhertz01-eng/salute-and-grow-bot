@@ -130,8 +130,8 @@ export const SERVICES: Service[] = [
   // Crypto
   { slug: "binance", name: "Binance", category: "crypto" },
   { slug: "trustwallet", name: "Trust Wallet", category: "crypto", plate: true },
-  { slug: "coinbase", name: "Coinbase", category: "crypto" },
-  { slug: "bybit", name: "Bybit", category: "crypto" },
+  { slug: "coinbase", name: "Coinbase", category: "crypto", plate: true },
+  { slug: "bybit", name: "Bybit", category: "crypto", plate: true },
 
   // Messengers / cloud
   { slug: "wechat", name: "WeChat", category: "messengers" },
