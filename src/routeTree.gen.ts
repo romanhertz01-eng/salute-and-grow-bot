@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PodborRouteImport } from './routes/podbor'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BanksIndexRouteImport } from './routes/banks.index'
@@ -36,6 +37,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const PodborRoute = PodborRouteImport.update({
   id: '/podbor',
   path: '/podbor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -121,6 +127,7 @@ const AdminBanksRoute = AdminBanksRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/banks': typeof AdminBanksRoute
@@ -141,6 +148,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/banks': typeof AdminBanksRoute
@@ -162,6 +170,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/banks': typeof AdminBanksRoute
@@ -184,6 +193,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/podbor'
     | '/sitemap.xml'
     | '/admin/banks'
@@ -204,6 +214,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/podbor'
     | '/sitemap.xml'
     | '/admin/banks'
@@ -224,6 +235,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/podbor'
     | '/sitemap.xml'
     | '/admin/banks'
@@ -245,6 +257,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   PodborRoute: typeof PodborRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   AdminBanksRoute: typeof AdminBanksRoute
@@ -278,6 +291,13 @@ declare module '@tanstack/react-router' {
       path: '/podbor'
       fullPath: '/podbor'
       preLoaderRoute: typeof PodborRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -397,6 +417,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   PodborRoute: PodborRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   AdminBanksRoute: AdminBanksRoute,
