@@ -112,7 +112,7 @@ export const Route = createFileRoute("/service/$slug")({
       return { meta: [{ title: "Сервис не найден · EraPay" }, { name: "robots", content: "noindex" }] };
     }
     const page = p.page;
-    const url = `https://salute-and-grow-bot.lovable.app/service/${page.slug}`;
+    const url = `https://erapay.ru/service/${page.slug}`;
     return {
       meta: [
         { title: page.meta_title },
@@ -122,6 +122,7 @@ export const Route = createFileRoute("/service/$slug")({
         { property: "og:description", content: page.meta_description },
         { property: "og:type", content: "article" },
         { property: "og:url", content: url },
+        { name: "robots", content: "index, follow" },
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [
@@ -131,8 +132,8 @@ export const Route = createFileRoute("/service/$slug")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Главная", item: "https://salute-and-grow-bot.lovable.app/" },
-              { "@type": "ListItem", position: 2, name: "Карты для сервисов", item: "https://salute-and-grow-bot.lovable.app/service" },
+              { "@type": "ListItem", position: 1, name: "Главная", item: "https://erapay.ru/" },
+              { "@type": "ListItem", position: 2, name: "Карты для сервисов", item: "https://erapay.ru/service" },
               { "@type": "ListItem", position: 3, name: page.name, item: url },
             ],
           }),
