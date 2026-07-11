@@ -53,9 +53,9 @@ export const SERVICES: Service[] = [
   { slug: "elevenlabs", name: "ElevenLabs", category: "ai" },
   { slug: "abacusai", name: "Abacus.AI", category: "ai", plate: true },
   { slug: "tripoai", name: "Tripo AI", category: "ai", plate: true },
-  { slug: "x", name: "x.AI", category: "ai" },
-  { slug: "google", name: "Google One", category: "ai" },
-  { slug: "github-copilot", name: "GitHub Copilot", category: "ai", plate: true },
+  { slug: "x", name: "x.AI", category: "ai", plate: true },
+  { slug: "google", name: "Google One", category: "ai", plate: true },
+  { slug: "githubcopilot", name: "GitHub Copilot", category: "ai" },
   { slug: "vercel", name: "v0.dev", category: "ai" },
   { slug: "freepik", name: "Freepik", category: "ai" },
 
@@ -73,7 +73,7 @@ export const SERVICES: Service[] = [
   { slug: "aliexpress", name: "AliExpress", category: "shops" },
   { slug: "temu", name: "Temu", category: "shops", plate: true },
   { slug: "walmart", name: "Walmart", category: "shops" },
-  { slug: "iherb", name: "iHerb", category: "shops" },
+  { slug: "iherb", name: "iHerb", category: "shops", plate: true },
   { slug: "dhgate", name: "DHgate", category: "shops", plate: true },
   { slug: "shopbase", name: "Shopbase", category: "shops", plate: true },
   { slug: "shopline", name: "Shopline", category: "shops", plate: true },
@@ -87,7 +87,7 @@ export const SERVICES: Service[] = [
   { slug: "wargaming", name: "Wargaming", category: "games", plate: true },
   { slug: "instantgaming", name: "Instant Gaming", category: "games", plate: true },
   { slug: "tebex", name: "Tebex", category: "games", plate: true },
-  { slug: "nintendo", name: "Nintendo eShop", category: "games" },
+  { slug: "nintendo", name: "Nintendo eShop", category: "games", plate: true },
   { slug: "xbox", name: "Xbox", category: "games" },
 
   // Ads
@@ -129,7 +129,7 @@ export const SERVICES: Service[] = [
 
   // Crypto
   { slug: "binance", name: "Binance", category: "crypto" },
-  { slug: "trustwallet", name: "Trust Wallet", category: "crypto" },
+  { slug: "trustwallet", name: "Trust Wallet", category: "crypto", plate: true },
   { slug: "coinbase", name: "Coinbase", category: "crypto" },
   { slug: "bybit", name: "Bybit", category: "crypto" },
 
