@@ -43,7 +43,7 @@ export const CATEGORY_ORDER: ServiceCategory[] = [
 export const SERVICES: Service[] = [
   // AI
   { slug: "openai", name: "ChatGPT", category: "ai" },
-  { slug: "anthropic", name: "Claude", category: "ai" },
+  { slug: "claude", name: "Claude", category: "ai" },
   { slug: "deepseek", name: "DeepSeek", category: "ai" },
   { slug: "perplexity", name: "Perplexity", category: "ai" },
   { slug: "midjourney", name: "Midjourney", category: "ai", plate: true },
@@ -177,4 +177,98 @@ export function getCardServices(cardSlug: string, count: number): Service[] {
 
 export function simpleIconUrl(slug: string): string {
   return `https://cdn.simpleicons.org/${slug}`;
+}
+
+/**
+ * Priority order of the most recognizable services for the table row preview.
+ * Cards get their top-4 icons re-sorted to match this order first, then the
+ * remaining catalog fills any leftover slots. Crypto logos are intentionally
+ * absent — they only surface when the card has none of the popular services.
+ */
+const TABLE_PRIORITY_SLUGS: string[] = [
+  "openai",       // ChatGPT
+  "netflix",
+  "spotify",
+  "steam",
+  "youtube",
+  "adobe",
+  "amazon",
+  "googleplay",
+  "appletv",
+  "bookingdotcom", // Booking
+];
+
+/**
+ * For crypto-focused cards (Heleket, e.PN) crypto/AI logos come first — that's
+ * what their audience recognizes.
+ */
+const CRYPTO_CARD_PRIORITY_SLUGS: string[] = [
+  "binance",
+  "openai",       // ChatGPT
+  "steam",
+  "bybit",
+  "coinbase",
+  "trustwallet",
+  "netflix",
+  "spotify",
+];
+
+function isCryptoCard(cardSlug: string): boolean {
+  const s = cardSlug.toLowerCase();
+  return /heleket|e[-.]?pn|epn/.test(s);
+}
+
+/**
+ * Returns up to `limit` slugs to render in the table row preview, deduped and
+ * re-ordered by the priority list appropriate for the card. The modal keeps
+ * the full unfiltered list.
+ */
+export function getTableServiceSlugs(
+  cardSlug: string,
+  allSlugs: string[],
+  limit = 4,
+): string[] {
+  // Dedupe while preserving order.
+  const seen = new Set<string>();
+  const unique: string[] = [];
+  for (const s of allSlugs) {
+    if (!s || seen.has(s)) continue;
+    seen.add(s);
+    unique.push(s);
+  }
+
+  const priority = isCryptoCard(cardSlug)
+    ? CRYPTO_CARD_PRIORITY_SLUGS
+    : TABLE_PRIORITY_SLUGS;
+
+  const set = new Set(unique);
+  const out: string[] = [];
+
+  // 1. Priority hits, in priority order.
+  for (const p of priority) {
+    if (set.has(p)) out.push(p);
+    if (out.length >= limit) return out;
+  }
+
+  // 2. Fill from the remaining card slugs in original order, skipping crypto
+  //    for regular cards unless nothing else is available.
+  const already = new Set(out);
+  const isCrypto = (slug: string) => SERVICES_BY_SLUG[slug]?.category === "crypto";
+
+  const nonCryptoRest = unique.filter((s) => !already.has(s) && !isCrypto(s));
+  for (const s of nonCryptoRest) {
+    out.push(s);
+    if (out.length >= limit) return out;
+  }
+
+  // 3. Only now fall back to crypto logos (for regular cards with no popular
+  //    services at all). For crypto cards this branch is unreachable since
+  //    crypto slugs are already prioritized in step 1.
+  const cryptoRest = unique.filter((s) => !already.has(s) && isCrypto(s) && !out.includes(s));
+  for (const s of cryptoRest) {
+    out.push(s);
+    if (out.length >= limit) return out;
+  }
+
+  return out;
 }

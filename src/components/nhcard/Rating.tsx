@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Apple, Smartphone, Zap, ArrowUpRight, ShieldCheck } from "lucide-react";
 import type { Card } from "@/lib/cards";
 import { initials } from "@/lib/cards";
-import { getCardServiceSlugs } from "@/lib/services";
+import { getCardServiceSlugs, getTableServiceSlugs } from "@/lib/services";
 import { ServicePreview, ServicesModal } from "./ServicesModal";
 
 type SortKey = "rank" | "price" | "speed";
@@ -170,6 +170,10 @@ function TableRow({ card, first }: { card: Card; first: boolean }) {
     () => getCardServiceSlugs(card.slug, card.supported_services_count ?? 0),
     [card.slug, card.supported_services_count],
   );
+  const tableSlugs = useMemo(
+    () => getTableServiceSlugs(card.slug, serviceSlugs, 4),
+    [card.slug, serviceSlugs],
+  );
   return (
     <tr className="group relative border-b border-border last:border-b-0 transition-colors hover:bg-surface/60">
 
@@ -221,7 +225,7 @@ function TableRow({ card, first }: { card: Card; first: boolean }) {
       <td className="px-3 py-4 align-top text-foreground">{card.issue_speed}</td>
       <td className="hidden px-3 py-4 align-top xl:table-cell">
         <ServicePreview
-          slugs={serviceSlugs}
+          slugs={tableSlugs}
           total={card.supported_services_count ?? serviceSlugs.length}
           onOpen={() => setModalOpen(true)}
         />
@@ -269,6 +273,10 @@ function MobileCard({ card, first }: { card: Card; first: boolean }) {
   const serviceSlugs = useMemo(
     () => getCardServiceSlugs(card.slug, card.supported_services_count ?? 0),
     [card.slug, card.supported_services_count],
+  );
+  const tableSlugs = useMemo(
+    () => getTableServiceSlugs(card.slug, serviceSlugs, 4),
+    [card.slug, serviceSlugs],
   );
   return (
     <article
@@ -322,7 +330,7 @@ function MobileCard({ card, first }: { card: Card; first: boolean }) {
       {serviceSlugs.length > 0 && (
         <div className="mt-3 border-t border-border pt-3">
           <ServicePreview
-            slugs={serviceSlugs}
+            slugs={tableSlugs}
             total={card.supported_services_count ?? serviceSlugs.length}
             onOpen={() => setModalOpen(true)}
           />
