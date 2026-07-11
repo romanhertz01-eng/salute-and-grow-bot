@@ -161,6 +161,54 @@ export type Database = {
         }
         Relationships: []
       }
+      guide_pages: {
+        Row: {
+          created_at: string
+          guide_type: string
+          h1: string
+          id: string
+          keyword: string
+          meta_description: string
+          meta_title: string
+          priority: number
+          published: boolean
+          related_slug: string
+          slug: string
+          target_name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          guide_type: string
+          h1: string
+          id?: string
+          keyword: string
+          meta_description: string
+          meta_title: string
+          priority?: number
+          published?: boolean
+          related_slug: string
+          slug: string
+          target_name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          guide_type?: string
+          h1?: string
+          id?: string
+          keyword?: string
+          meta_description?: string
+          meta_title?: string
+          priority?: number
+          published?: boolean
+          related_slug?: string
+          slug?: string
+          target_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           author_name: string
