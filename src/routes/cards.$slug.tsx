@@ -109,10 +109,12 @@ function CardPage() {
   // Число в заголовке, «+N» в таблице и содержимое модалки всегда совпадают.
   const serviceSlugs = useMemo(() => {
     if (!card) return [] as string[];
-    const seed =
-      card.supported_services_count ??
-      (card.top_services?.length ?? 0);
-    return getCardServiceSlugs(card.slug, seed);
+    // Source of truth: the per-card catalog slice. Falls back to the DB
+    // number for cards not yet in CARD_SERVICE_COUNTS.
+    return getCardServiceSlugs(
+      card.slug,
+      card.supported_services_count ?? card.top_services?.length ?? 0,
+    );
   }, [card]);
   const servicesTotal = serviceSlugs.length;
 
