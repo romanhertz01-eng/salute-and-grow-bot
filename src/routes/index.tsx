@@ -7,6 +7,8 @@ import { SiteFooter } from "@/components/nhcard/Footer";
 import { Hero } from "@/components/nhcard/Hero";
 import { RatingSection } from "@/components/nhcard/Rating";
 import { TrustSection } from "@/components/nhcard/Trust";
+import { TasksSection } from "@/components/nhcard/Tasks";
+import { CountriesSection } from "@/components/nhcard/Countries";
 import { CalculatorSection } from "@/components/nhcard/Calculator";
 import { MethodologySection } from "@/components/nhcard/Methodology";
 import { FaqSection, FAQ_ITEMS } from "@/components/nhcard/Faq";
@@ -69,6 +71,8 @@ function HomeContent() {
     <>
       <Hero total={cards.length} />
       <RatingSection cards={cards} />
+      <TasksSection />
+      <CountriesSection cards={cards} />
       <TrustSection />
       <CalculatorSection cards={cards} />
       <MethodologySection />
