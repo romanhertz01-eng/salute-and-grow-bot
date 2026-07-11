@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Apple, Smartphone, Zap, ArrowUpRight, ShieldCheck } from "lucide-react";
 import type { Card } from "@/lib/cards";
@@ -17,7 +17,10 @@ type Filter =
   | "nokyc"
   | "am"
   | "kz"
-  | "tr";
+  | "tr"
+  | "kg"
+  | "cy"
+  | "hk";
 
 const FILTERS: { id: Filter; label: (n: number) => string; test: (c: Card) => boolean }[] = [
   { id: "all", label: (n) => `Все ${n}`, test: () => true },
@@ -29,6 +32,9 @@ const FILTERS: { id: Filter; label: (n: number) => string; test: (c: Card) => bo
   { id: "am", label: () => "Армения", test: (c) => c.issuer_country === "Армения" },
   { id: "kz", label: () => "Казахстан", test: (c) => c.issuer_country === "Казахстан" },
   { id: "tr", label: () => "Турция", test: (c) => c.issuer_country === "Турция" },
+  { id: "kg", label: () => "Киргизия", test: (c) => c.issuer_country === "Киргизия" },
+  { id: "cy", label: () => "Кипр", test: (c) => c.issuer_country === "Кипр" },
+  { id: "hk", label: () => "Гонконг", test: (c) => c.issuer_country === "Гонконг" },
 ];
 
 function priceRank(cost: string | null): number {
@@ -51,6 +57,21 @@ export function RatingSection({ cards }: { cards: Card[] }) {
   const [filter, setFilter] = useState<Filter>("all");
   const [sort, setSort] = useState<SortKey>("rank");
   const [query, setQuery] = useState("");
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    function onApply(e: Event) {
+      const detail = (e as CustomEvent<{ filter?: Filter; query?: string }>).detail;
+      if (!detail) return;
+      if (detail.filter) setFilter(detail.filter);
+      if (typeof detail.query === "string") setQuery(detail.query);
+      requestAnimationFrame(() => {
+        sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+    window.addEventListener("erapay:apply-filter", onApply as EventListener);
+    return () => window.removeEventListener("erapay:apply-filter", onApply as EventListener);
+  }, []);
 
   const filtered = useMemo(() => {
     const test = FILTERS.find((f) => f.id === filter)?.test ?? (() => true);
@@ -67,7 +88,7 @@ export function RatingSection({ cards }: { cards: Card[] }) {
   }, [cards, filter, sort, query]);
 
   return (
-    <section id="rating" className="scroll-mt-20 border-b border-border bg-background">
+    <section ref={sectionRef} id="rating" className="scroll-mt-20 border-b border-border bg-background">
       <div className="mx-auto max-w-[1240px] px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
         <div className="mb-5 flex flex-col gap-2">
           <div className="text-xs font-semibold uppercase tracking-wider text-accent">Рейтинг · 2026</div>
