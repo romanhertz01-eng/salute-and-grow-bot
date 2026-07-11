@@ -1,4 +1,5 @@
 import { ShieldCheck, Users, Globe2, Link2 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { formatToday } from "@/lib/cards";
 
 export function Hero({ total }: { total: number }) {
@@ -28,12 +29,12 @@ export function Hero({ total }: { total: number }) {
             >
               К рейтингу карт →
             </a>
-            <a
-              href="#task"
+            <Link
+              to="/podbor"
               className="inline-flex h-11 items-center rounded-md border border-border bg-background px-6 text-sm font-semibold text-primary transition-colors hover:border-primary/40"
             >
               Подобрать под задачу
-            </a>
+            </Link>
           </div>
 
           <div className="mt-8 flex flex-wrap gap-2">
