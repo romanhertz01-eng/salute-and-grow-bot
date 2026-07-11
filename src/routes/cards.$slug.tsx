@@ -20,6 +20,7 @@ import { ServicesModal, ServicePreview } from "@/components/nhcard/ServicesModal
 import { cardBySlugQueryOptions, cardsQueryOptions, formatDate, initials } from "@/lib/cards";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import { getCardServiceSlugs } from "@/lib/services";
 
 type ReviewRow = Database["public"]["Tables"]["reviews"]["Row"];
 
@@ -103,6 +104,17 @@ function CardPage() {
     () => allCards.filter((c) => c.slug !== slug).slice(0, 4),
     [allCards, slug],
   );
+
+  // Единый источник правды по сервисам карты: справочник SERVICES.
+  // Число в заголовке, «+N» в таблице и содержимое модалки всегда совпадают.
+  const serviceSlugs = useMemo(() => {
+    if (!card) return [] as string[];
+    const seed =
+      card.supported_services_count ??
+      (card.top_services?.length ?? 0);
+    return getCardServiceSlugs(card.slug, seed);
+  }, [card]);
+  const servicesTotal = serviceSlugs.length;
 
   // Aggregate rating from published reviews (real data only)
   const { data: reviewAgg } = useSuspenseQuery({
@@ -370,7 +382,7 @@ function CardPage() {
                   <Tile label="Google Pay" value={card.google_pay ? "поддерживается" : "нет"} />
                   <Tile
                     label="Сервисов поддерживается"
-                    value={card.supported_services_count ? String(card.supported_services_count) : null}
+                    value={servicesTotal > 0 ? String(servicesTotal) : null}
                   />
                 </div>
               </div>
@@ -411,7 +423,7 @@ function CardPage() {
         </section>
 
         {/* SUPPORTED SERVICES */}
-        {(card.top_services?.length ?? 0) > 0 && (
+        {servicesTotal > 0 && (
           <section className="border-b border-border bg-surface">
             <div className="mx-auto max-w-[1160px] px-4 py-12 sm:px-6 lg:px-8">
               <div className="flex flex-wrap items-baseline justify-between gap-3">
@@ -423,13 +435,13 @@ function CardPage() {
                   onClick={() => setModalOpen(true)}
                   className="text-sm font-semibold text-accent hover:underline"
                 >
-                  Все {card.supported_services_count ?? card.top_services.length} сервисов →
+                  Все {servicesTotal} сервисов →
                 </button>
               </div>
               <div className="mt-6">
                 <ServicePreview
-                  slugs={card.top_services}
-                  total={card.supported_services_count ?? card.top_services.length}
+                  slugs={serviceSlugs}
+                  total={servicesTotal}
                   onOpen={() => setModalOpen(true)}
                 />
               </div>
@@ -438,7 +450,7 @@ function CardPage() {
               open={modalOpen}
               onClose={() => setModalOpen(false)}
               cardName={card.name}
-              slugs={card.top_services}
+              slugs={serviceSlugs}
             />
           </section>
         )}
