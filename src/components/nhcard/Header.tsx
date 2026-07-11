@@ -11,6 +11,7 @@ const nav: NavItem[] = [
   { label: "По странам", kind: "hash", hash: "countries" },
   { label: "Калькулятор", kind: "hash", hash: "calculator" },
   { label: "Подбор", kind: "route", to: "/podbor" },
+  { label: "Блог", kind: "route", to: "/blog" },
   { label: "Методология", kind: "hash", hash: "methodology" },
   { label: "FAQ", kind: "hash", hash: "faq" },
 ];
