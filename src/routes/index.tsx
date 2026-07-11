@@ -28,7 +28,11 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Сравнение 15 зарубежных виртуальных карт для россиян: тарифы, лимиты, способы пополнения. Проверено редакцией.",
       },
+      { property: "og:url", content: "https://erapay.ru/" },
+      { property: "og:type", content: "website" },
+      { name: "robots", content: "index, follow" },
     ],
+    links: [{ rel: "canonical", href: "https://erapay.ru/" }],
     scripts: [
       {
         type: "application/ld+json",

@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PodborRouteImport } from './routes/podbor'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServiceSlugRouteImport } from './routes/service.$slug'
 import { Route as CardsSlugRouteImport } from './routes/cards.$slug'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PodborRoute = PodborRouteImport.update({
   id: '/podbor',
   path: '/podbor',
@@ -38,12 +44,14 @@ const CardsSlugRoute = CardsSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/podbor': typeof PodborRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/cards/$slug': typeof CardsSlugRoute
   '/service/$slug': typeof ServiceSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/podbor': typeof PodborRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/cards/$slug': typeof CardsSlugRoute
   '/service/$slug': typeof ServiceSlugRoute
 }
@@ -51,26 +59,46 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/podbor': typeof PodborRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/cards/$slug': typeof CardsSlugRoute
   '/service/$slug': typeof ServiceSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/podbor' | '/cards/$slug' | '/service/$slug'
+  fullPaths:
+    | '/'
+    | '/podbor'
+    | '/sitemap.xml'
+    | '/cards/$slug'
+    | '/service/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/podbor' | '/cards/$slug' | '/service/$slug'
-  id: '__root__' | '/' | '/podbor' | '/cards/$slug' | '/service/$slug'
+  to: '/' | '/podbor' | '/sitemap.xml' | '/cards/$slug' | '/service/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/podbor'
+    | '/sitemap.xml'
+    | '/cards/$slug'
+    | '/service/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PodborRoute: typeof PodborRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   CardsSlugRoute: typeof CardsSlugRoute
   ServiceSlugRoute: typeof ServiceSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/podbor': {
       id: '/podbor'
       path: '/podbor'
@@ -105,9 +133,20 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PodborRoute: PodborRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   CardsSlugRoute: CardsSlugRoute,
   ServiceSlugRoute: ServiceSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
