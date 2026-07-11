@@ -5,25 +5,21 @@ type TaskCard = {
   title: string;
   icon: LucideIcon;
   examples: string;
-  services: string[]; // service slugs
 };
 
 const TASKS: TaskCard[] = [
-  { id: "subs", title: "Подписки и нейросети", icon: Sparkles, examples: "ChatGPT, Claude, Netflix, Spotify, Midjourney", services: ["openai", "claude", "netflix", "spotify", "midjourney"] },
-  { id: "shops", title: "Покупки в магазинах", icon: ShoppingBag, examples: "Amazon, eBay, AliExpress, iHerb", services: ["amazon", "ebay", "aliexpress", "iherb"] },
-  { id: "ads", title: "Реклама и маркетинг", icon: Megaphone, examples: "Google Ads, TikTok Ads, Meta Ads", services: ["googleads", "tiktok", "meta"] },
-  { id: "travel", title: "Путешествия", icon: Plane, examples: "Booking, Airbnb, Agoda, авиабилеты", services: ["bookingdotcom", "airbnb", "agoda"] },
-  { id: "games", title: "Игры и сторы", icon: Gamepad2, examples: "Steam, PlayStation, Epic Games, App Store", services: ["steam", "playstation", "epicgames", "appstore"] },
-  { id: "work", title: "Работа и SaaS", icon: Briefcase, examples: "Adobe, Figma, Notion, GitHub, JetBrains", services: ["adobe", "figma", "notion", "github", "jetbrains"] },
+  { id: "subs", title: "Подписки и нейросети", icon: Sparkles, examples: "ChatGPT, Claude, Netflix, Spotify, Midjourney" },
+  { id: "shops", title: "Покупки в магазинах", icon: ShoppingBag, examples: "Amazon, eBay, AliExpress, iHerb" },
+  { id: "ads", title: "Реклама и маркетинг", icon: Megaphone, examples: "Google Ads, TikTok Ads, Meta Ads" },
+  { id: "travel", title: "Путешествия", icon: Plane, examples: "Booking, Airbnb, Agoda, авиабилеты" },
+  { id: "games", title: "Игры и сторы", icon: Gamepad2, examples: "Steam, PlayStation, Epic Games, App Store" },
+  { id: "work", title: "Работа и SaaS", icon: Briefcase, examples: "Adobe, Figma, Notion, GitHub, JetBrains" },
 ];
 
 export function TasksSection() {
-  const handleClick = (task: TaskCard) => {
-    window.dispatchEvent(
-      new CustomEvent("erapay:apply-filter", {
-        detail: { filter: "all", query: "", taskLabel: task.title, taskServices: task.services },
-      }),
-    );
+  const handleClick = () => {
+    const el = document.getElementById("rating");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
   return (
     <section id="task" className="scroll-mt-20 border-b border-border bg-background">
@@ -45,7 +41,7 @@ export function TasksSection() {
               <button
                 key={t.id}
                 type="button"
-                onClick={() => handleClick(t)}
+                onClick={handleClick}
                 className="group flex cursor-pointer flex-col rounded-xl border border-border bg-surface/40 p-6 text-left transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
               >
                 <div className="inline-flex w-fit rounded-lg bg-primary/5 p-2.5 text-primary">
