@@ -256,7 +256,7 @@ function TableRow({ card, first }: { card: Card; first: boolean }) {
       <td className="hidden px-3 py-4 align-top xl:table-cell">
         <ServicePreview
           slugs={tableSlugs}
-          total={card.supported_services_count ?? serviceSlugs.length}
+          total={serviceSlugs.length}
           onOpen={() => setModalOpen(true)}
         />
       </td>
@@ -361,7 +361,7 @@ function MobileCard({ card, first }: { card: Card; first: boolean }) {
         <div className="mt-3 border-t border-border pt-3">
           <ServicePreview
             slugs={tableSlugs}
-            total={card.supported_services_count ?? serviceSlugs.length}
+            total={serviceSlugs.length}
             onOpen={() => setModalOpen(true)}
           />
         </div>
