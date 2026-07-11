@@ -67,7 +67,7 @@ export function RatingSection({ cards }: { cards: Card[] }) {
   }, [cards, filter, sort, query]);
 
   return (
-    <section id="rating" className="border-b border-border bg-background">
+    <section id="rating" className="scroll-mt-20 border-b border-border bg-background">
       <div className="mx-auto max-w-[1240px] px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
         <div className="mb-5 flex flex-col gap-2">
           <div className="text-xs font-semibold uppercase tracking-wider text-accent">Рейтинг · 2026</div>
