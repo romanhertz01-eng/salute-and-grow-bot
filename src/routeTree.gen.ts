@@ -13,17 +13,20 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PodborRouteImport } from './routes/podbor'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BanksIndexRouteImport } from './routes/banks.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ServiceSlugRouteImport } from './routes/service.$slug'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
 import { Route as CountrySlugRouteImport } from './routes/country.$slug'
 import { Route as CardsSlugRouteImport } from './routes/cards.$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as BanksSlugRouteImport } from './routes/banks.$slug'
 import { Route as AdminSeoRouteImport } from './routes/admin.seo'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminCardsRouteImport } from './routes/admin.cards'
 import { Route as AdminBlogRouteImport } from './routes/admin.blog'
+import { Route as AdminBanksRouteImport } from './routes/admin.banks'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -43,6 +46,11 @@ const IndexRoute = IndexRouteImport.update({
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BanksIndexRoute = BanksIndexRouteImport.update({
+  id: '/banks/',
+  path: '/banks/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -75,6 +83,11 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BanksSlugRoute = BanksSlugRouteImport.update({
+  id: '/banks/$slug',
+  path: '/banks/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminSeoRoute = AdminSeoRouteImport.update({
   id: '/admin/seo',
   path: '/admin/seo',
@@ -100,39 +113,50 @@ const AdminBlogRoute = AdminBlogRouteImport.update({
   path: '/admin/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminBanksRoute = AdminBanksRouteImport.update({
+  id: '/admin/banks',
+  path: '/admin/banks',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/seo': typeof AdminSeoRoute
+  '/banks/$slug': typeof BanksSlugRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/cards/$slug': typeof CardsSlugRoute
   '/country/$slug': typeof CountrySlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/banks/': typeof BanksIndexRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/seo': typeof AdminSeoRoute
+  '/banks/$slug': typeof BanksSlugRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/cards/$slug': typeof CardsSlugRoute
   '/country/$slug': typeof CountrySlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin': typeof AdminIndexRoute
+  '/banks': typeof BanksIndexRoute
   '/blog': typeof BlogIndexRoute
 }
 export interface FileRoutesById {
@@ -140,17 +164,20 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/seo': typeof AdminSeoRoute
+  '/banks/$slug': typeof BanksSlugRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/cards/$slug': typeof CardsSlugRoute
   '/country/$slug': typeof CountrySlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/banks/': typeof BanksIndexRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
@@ -159,51 +186,60 @@ export interface FileRouteTypes {
     | '/'
     | '/podbor'
     | '/sitemap.xml'
+    | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
     | '/admin/login'
     | '/admin/reviews'
     | '/admin/seo'
+    | '/banks/$slug'
     | '/blog/$slug'
     | '/cards/$slug'
     | '/country/$slug'
     | '/guides/$slug'
     | '/service/$slug'
     | '/admin/'
+    | '/banks/'
     | '/blog/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/podbor'
     | '/sitemap.xml'
+    | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
     | '/admin/login'
     | '/admin/reviews'
     | '/admin/seo'
+    | '/banks/$slug'
     | '/blog/$slug'
     | '/cards/$slug'
     | '/country/$slug'
     | '/guides/$slug'
     | '/service/$slug'
     | '/admin'
+    | '/banks'
     | '/blog'
   id:
     | '__root__'
     | '/'
     | '/podbor'
     | '/sitemap.xml'
+    | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
     | '/admin/login'
     | '/admin/reviews'
     | '/admin/seo'
+    | '/banks/$slug'
     | '/blog/$slug'
     | '/cards/$slug'
     | '/country/$slug'
     | '/guides/$slug'
     | '/service/$slug'
     | '/admin/'
+    | '/banks/'
     | '/blog/'
   fileRoutesById: FileRoutesById
 }
@@ -211,17 +247,20 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PodborRoute: typeof PodborRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  AdminBanksRoute: typeof AdminBanksRoute
   AdminBlogRoute: typeof AdminBlogRoute
   AdminCardsRoute: typeof AdminCardsRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSeoRoute: typeof AdminSeoRoute
+  BanksSlugRoute: typeof BanksSlugRoute
   BlogSlugRoute: typeof BlogSlugRoute
   CardsSlugRoute: typeof CardsSlugRoute
   CountrySlugRoute: typeof CountrySlugRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
   ServiceSlugRoute: typeof ServiceSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  BanksIndexRoute: typeof BanksIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
 }
 
@@ -253,6 +292,13 @@ declare module '@tanstack/react-router' {
       path: '/blog'
       fullPath: '/blog/'
       preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/banks/': {
+      id: '/banks/'
+      path: '/banks'
+      fullPath: '/banks/'
+      preLoaderRoute: typeof BanksIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -297,6 +343,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/banks/$slug': {
+      id: '/banks/$slug'
+      path: '/banks/$slug'
+      fullPath: '/banks/$slug'
+      preLoaderRoute: typeof BanksSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/seo': {
       id: '/admin/seo'
       path: '/admin/seo'
@@ -332,6 +385,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBlogRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/banks': {
+      id: '/admin/banks'
+      path: '/admin/banks'
+      fullPath: '/admin/banks'
+      preLoaderRoute: typeof AdminBanksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -339,17 +399,20 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PodborRoute: PodborRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  AdminBanksRoute: AdminBanksRoute,
   AdminBlogRoute: AdminBlogRoute,
   AdminCardsRoute: AdminCardsRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminReviewsRoute: AdminReviewsRoute,
   AdminSeoRoute: AdminSeoRoute,
+  BanksSlugRoute: BanksSlugRoute,
   BlogSlugRoute: BlogSlugRoute,
   CardsSlugRoute: CardsSlugRoute,
   CountrySlugRoute: CountrySlugRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   ServiceSlugRoute: ServiceSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
+  BanksIndexRoute: BanksIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
 }
 export const routeTree = rootRouteImport

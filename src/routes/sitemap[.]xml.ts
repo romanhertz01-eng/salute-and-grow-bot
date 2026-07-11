@@ -46,6 +46,11 @@ export const Route = createFileRoute("/sitemap.xml")({
           .select("slug")
           .eq("published", true);
 
+        const banksRes = await supabase
+          .from("bank_pages")
+          .select("slug")
+          .eq("published", true);
+
         entries.push({
           path: "/blog",
           lastmod: today,
@@ -57,6 +62,22 @@ export const Route = createFileRoute("/sitemap.xml")({
           if (!row.slug) continue;
           entries.push({
             path: `/blog/${row.slug}`,
+            lastmod: today,
+            changefreq: "weekly",
+            priority: "0.6",
+          });
+        }
+
+        entries.push({
+          path: "/banks",
+          lastmod: today,
+          changefreq: "weekly",
+          priority: "0.7",
+        });
+        for (const row of (banksRes.data ?? []) as { slug: string | null }[]) {
+          if (!row.slug) continue;
+          entries.push({
+            path: `/banks/${row.slug}`,
             lastmod: today,
             changefreq: "weekly",
             priority: "0.6",

@@ -2,7 +2,7 @@ import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { isAdminUser } from "@/lib/admin-auth";
-import { LayoutDashboard, MessageSquare, CreditCard, FileText, Newspaper, LogOut, Loader2 } from "lucide-react";
+import { LayoutDashboard, MessageSquare, CreditCard, FileText, Newspaper, Landmark, LogOut, Loader2 } from "lucide-react";
 
 type AuthState = "loading" | "unauthorized" | "authorized";
 
@@ -12,6 +12,7 @@ const NAV: Array<{ to: string; label: string; icon: typeof LayoutDashboard; exac
   { to: "/admin/cards", label: "Карты", icon: CreditCard },
   { to: "/admin/seo", label: "SEO-страницы", icon: FileText },
   { to: "/admin/blog", label: "Блог", icon: Newspaper },
+  { to: "/admin/banks", label: "Банки", icon: Landmark },
 ];
 
 export function AdminShell({ children, title }: { children: ReactNode; title: string }) {
