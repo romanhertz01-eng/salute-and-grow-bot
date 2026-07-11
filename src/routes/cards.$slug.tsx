@@ -9,18 +9,27 @@ import { cardBySlugQueryOptions, formatDate, initials } from "@/lib/cards";
 
 export const Route = createFileRoute("/cards/$slug")({
   head: ({ loaderData }) => {
-    const name = (loaderData as { name?: string } | undefined)?.name ?? "Карта";
+    const data = loaderData as { name?: string; slug?: string } | undefined;
+    const name = data?.name ?? "Карта";
+    const slug = data?.slug ?? "";
+    const url = `https://erapay.ru/cards/${slug}`;
     return {
       meta: [
         { title: `${name} — обзор и тарифы · EraPay` },
         { name: "description", content: `Условия, лимиты и способы пополнения карты ${name}. Проверено редакцией EraPay.` },
+        { property: "og:title", content: `${name} — обзор и тарифы · EraPay` },
+        { property: "og:description", content: `Условия, лимиты и способы пополнения карты ${name}. Проверено редакцией EraPay.` },
+        { property: "og:url", content: url },
+        { property: "og:type", content: "article" },
+        { name: "robots", content: "index, follow" },
       ],
+      links: [{ rel: "canonical", href: url }],
     };
   },
   loader: async ({ context, params }) => {
     const card = await context.queryClient.ensureQueryData(cardBySlugQueryOptions(params.slug));
     if (!card) throw notFound();
-    return { name: card.name };
+    return { name: card.name, slug: card.slug };
   },
   component: CardPage,
   notFoundComponent: () => (
