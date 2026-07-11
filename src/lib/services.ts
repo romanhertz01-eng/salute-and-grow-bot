@@ -244,9 +244,14 @@ export function getTableServiceSlugs(
   const set = new Set(unique);
   const out: string[] = [];
 
+  const hasRealIcon = (slug: string) => {
+    const s = SERVICES_BY_SLUG[slug];
+    return !!s && !s.plate;
+  };
+
   // 1. Priority hits, in priority order.
   for (const p of priority) {
-    if (set.has(p)) out.push(p);
+    if (set.has(p) && hasRealIcon(p)) out.push(p);
     if (out.length >= limit) return out;
   }
 
@@ -255,7 +260,9 @@ export function getTableServiceSlugs(
   const already = new Set(out);
   const isCrypto = (slug: string) => SERVICES_BY_SLUG[slug]?.category === "crypto";
 
-  const nonCryptoRest = unique.filter((s) => !already.has(s) && !isCrypto(s));
+  const nonCryptoRest = unique.filter(
+    (s) => !already.has(s) && !isCrypto(s) && hasRealIcon(s),
+  );
   for (const s of nonCryptoRest) {
     out.push(s);
     if (out.length >= limit) return out;
@@ -264,8 +271,18 @@ export function getTableServiceSlugs(
   // 3. Only now fall back to crypto logos (for regular cards with no popular
   //    services at all). For crypto cards this branch is unreachable since
   //    crypto slugs are already prioritized in step 1.
-  const cryptoRest = unique.filter((s) => !already.has(s) && isCrypto(s) && !out.includes(s));
+  const cryptoRest = unique.filter(
+    (s) => !already.has(s) && isCrypto(s) && hasRealIcon(s) && !out.includes(s),
+  );
   for (const s of cryptoRest) {
+    out.push(s);
+    if (out.length >= limit) return out;
+  }
+
+  // 4. Last-resort fallback: allow plate services if we still don't have
+  //    enough — the row must not be empty.
+  const plateRest = unique.filter((s) => !out.includes(s));
+  for (const s of plateRest) {
     out.push(s);
     if (out.length >= limit) return out;
   }
