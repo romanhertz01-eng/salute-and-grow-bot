@@ -4,6 +4,7 @@ import { ArrowLeft, ShieldCheck } from "lucide-react";
 
 import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
+import { ReviewsSection } from "@/components/nhcard/Reviews";
 import { cardBySlugQueryOptions, formatDate, initials } from "@/lib/cards";
 
 export const Route = createFileRoute("/cards/$slug")({
@@ -136,6 +137,8 @@ function CardPage() {
             EraPay не является эмитентом карты. Условия могут меняться — проверяйте информацию на сайте эмитента.
           </p>
         </section>
+
+        <ReviewsSection cardSlug={card.slug} cardName={card.name} />
       </main>
       <SiteFooter />
     </div>
