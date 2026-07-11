@@ -5,12 +5,12 @@ import { LayoutDashboard, MessageSquare, CreditCard, FileText, LogOut, Loader2 }
 
 type AuthState = "loading" | "unauthorized" | "authorized";
 
-const NAV = [
+const NAV: Array<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
   { to: "/admin", label: "Дашборд", icon: LayoutDashboard, exact: true },
   { to: "/admin/reviews", label: "Отзывы", icon: MessageSquare },
   { to: "/admin/cards", label: "Карты", icon: CreditCard },
   { to: "/admin/seo", label: "SEO-страницы", icon: FileText },
-] as const;
+];
 
 export function AdminShell({ children, title }: { children: ReactNode; title: string }) {
   const [state, setState] = useState<AuthState>("loading");
@@ -85,7 +85,7 @@ export function AdminShell({ children, title }: { children: ReactNode; title: st
             return (
               <Link
                 key={item.to}
-                to={item.to}
+                to={item.to as "/admin"}
                 className={`flex items-center gap-2 rounded-md px-3 py-2 ${
                   active ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100"
                 }`}
