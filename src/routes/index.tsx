@@ -15,6 +15,9 @@ import { FaqSection, FAQ_ITEMS } from "@/components/nhcard/Faq";
 import { cardsQueryOptions } from "@/lib/cards";
 import { PUBLIC_ROBOTS } from "@/lib/config";
 import { homeCountriesQueryOptions } from "@/components/nhcard/Countries";
+import { TopupSection } from "@/components/nhcard/Topup";
+import { HowToSection, HOWTO_STEPS } from "@/components/nhcard/HowTo";
+import { BlogTeaserSection, homeBlogTeaserQueryOptions } from "@/components/nhcard/BlogTeaser";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -48,12 +51,27 @@ export const Route = createFileRoute("/")({
           })),
         }),
       },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "HowTo",
+          name: "Как оформить зарубежную карту за 6 шагов",
+          step: HOWTO_STEPS.map((s) => ({
+            "@type": "HowToStep",
+            position: s.n,
+            name: s.title,
+            text: s.text,
+          })),
+        }),
+      },
     ],
   }),
   loader: async ({ context }) => {
     await Promise.all([
       context.queryClient.ensureQueryData(cardsQueryOptions),
       context.queryClient.ensureQueryData(homeCountriesQueryOptions),
+      context.queryClient.ensureQueryData(homeBlogTeaserQueryOptions),
     ]);
     return {};
   },
@@ -87,7 +105,10 @@ function HomeContent() {
       <CountriesSection />
       <TrustSection />
       <CalculatorSection cards={cards} />
+      <TopupSection />
+      <HowToSection />
       <MethodologySection />
+      <BlogTeaserSection />
       <FaqSection />
     </>
   );
