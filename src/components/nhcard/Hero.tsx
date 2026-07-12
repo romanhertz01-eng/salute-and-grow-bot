@@ -1,6 +1,5 @@
 import { ShieldCheck, Users, Globe2, Link2, XCircle, Lock, AlertCircle } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { formatToday } from "@/lib/cards";
 
 export function Hero({ total }: { total: number }) {
   return (
@@ -91,7 +90,7 @@ export function Hero({ total }: { total: number }) {
               <div className="text-[11px] font-semibold uppercase tracking-wider text-accent">Фактчек</div>
               <div className="mt-0.5 font-serif text-lg font-bold text-primary">Марина Вишневская</div>
               <div className="mt-1 text-sm text-muted-foreground">
-                Финтех-аналитик EraPay. Сверила тарифы и условия эмитентов, {formatToday()}.
+                Финтех-аналитик EraPay. Сверила тарифы и условия эмитентов.
               </div>
             </div>
           </div>
