@@ -60,6 +60,12 @@ function formatDate(iso: string): string {
   return d.toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" });
 }
 
+function readingMinutes(content: string): number {
+  const text = content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  const words = text ? text.split(" ").length : 0;
+  return Math.max(1, Math.round(words / 200));
+}
+
 export const Route = createFileRoute("/blog/$slug")({
   head: ({ loaderData, params }) => {
     const p = loaderData as { post?: BlogPost } | undefined;
