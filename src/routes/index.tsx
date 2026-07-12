@@ -84,7 +84,7 @@ function HomeContent() {
       <Hero total={cards.length} />
       <RatingSection cards={cards} withControls />
       <TasksSection />
-      <CountriesSection cards={cards} />
+      <CountriesSection />
       <TrustSection />
       <CalculatorSection cards={cards} />
       <MethodologySection />

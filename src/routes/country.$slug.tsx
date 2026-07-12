@@ -57,66 +57,44 @@ const countryPagesByRegionQueryOptions = (region: string) =>
 
 function introFor(page: CountryPage): string {
   if (page.intro_text && page.intro_text.trim().length > 0) return page.intro_text;
-  const { name_ru, currency, region } = page;
-  switch (region) {
-    case "СНГ":
-      return `В ${name_ru} у россиян работают карты «Мир» — в супермаркетах, отелях и банкоматах. Но не везде: онлайн-сервисы, авиабилеты и часть ресторанов принимают только Visa и Mastercard. Ниже — карты из рейтинга EraPay, которыми пользователи закрывают все сценарии оплаты в ${name_ru} в валюте ${currency}.`;
-    case "Европа":
-      return `В ${name_ru} российские карты не принимают ни в одной точке — ни офлайн, ни онлайн. Единственный рабочий вариант — зарубежная виртуальная карта Visa или Mastercard с BIN нейтральной страны. Валюта оплаты — ${currency}. Ниже — карты EraPay, которые пользователи берут в поездку в ${name_ru}: без блокировок в отелях, ресторанах и Booking.`;
-    case "Азия":
-      return `В ${name_ru} российские карты не принимают. Visa и Mastercard иностранных банков работают в отелях, ресторанах и онлайне, во многих местах также принимают UnionPay. Локальная валюта — ${currency}, наличные пригодятся на рынках и в транспорте. Ниже — карты, которыми пользователи EraPay оплачивают поездки в ${name_ru}.`;
-    case "Ближний Восток":
-      return `В ${name_ru} российские карты не работают. Visa и Mastercard иностранных банков принимают в отелях, ресторанах и торговых центрах без ограничений, валюта расчётов — ${currency}. В такси и на рынках лучше иметь немного наличных. Ниже — карты EraPay, которые уверенно проходят в ${name_ru}.`;
-    case "Африка":
-      return `В ${name_ru} российские карты не принимают, а инфраструктура терминалов есть только в туристических зонах и крупных отелях. Visa и Mastercard иностранных банков работают, валюта расчётов — ${currency}. Значительную часть расходов удобнее закрывать наличными. Ниже — карты EraPay для поездки в ${name_ru}.`;
-    case "Америка":
-      return `В ${name_ru} российские карты полностью отключены от международных платёжных систем. Единственный вариант — зарубежная виртуальная Visa или Mastercard. Валюта расчётов — ${currency}. Ниже — карты EraPay, которые пользователи берут в ${name_ru}: с высокими лимитами и поддержкой предавторизации в отелях и прокате авто.`;
-    default:
-      return `Оплата в ${name_ru} российскими картами невозможна. Ниже — рейтинг зарубежных виртуальных карт EraPay для платежей в ${currency}.`;
-  }
+  const { name_ru, currency } = page;
+  return `С 2022 года карты российских банков не работают за границей — они отключены от Visa и Mastercard, а «Мир» принимают лишь в отдельных странах СНГ. Для поездки в ${name_ru} нужна иностранная карта Visa или Mastercard: ей платят в отелях, ресторанах, магазинах и онлайне, а часть суммы блокируется под депозит при заселении и аренде авто. Локальная валюта расчётов — ${currency}; небольшой запас наличных пригодится на такси, рынки и чаевые. Ниже — общий рейтинг карт EraPay и то, на что смотреть перед поездкой.`;
 }
 
 function faqFor(page: CountryPage): { q: string; a: string }[] {
-  const { name_ru, currency, region } = page;
-  const visaAnswer =
-    region === "СНГ"
-      ? `Да, Visa и Mastercard иностранных банков принимают в ${name_ru} без ограничений. Карты «Мир» работают в большинстве офлайн-точек, но онлайн-платежи и часть сервисов — только по Visa/Mastercard.`
-      : region === "Азия"
-        ? `Да, Visa и Mastercard иностранных банков работают в ${name_ru} в отелях, ресторанах и онлайне. Во многих сетях также принимают UnionPay — удобно для крупных покупок.`
-        : `Да, Visa и Mastercard иностранных банков в ${name_ru} принимают. Карты российских банков отклоняются во всех точках, включая онлайн.`;
+  const { name_ru, currency } = page;
   return [
     {
-      q: `Работают ли карты Visa и Mastercard в ${name_ru}?`,
-      a: visaAnswer,
+      q: `Что взять в поездку в ${name_ru} — карту или наличные?`,
+      a: `Основные траты — отели, рестораны, аренда авто, крупные покупки — удобнее закрывать иностранной картой Visa или Mastercard: курс ближе к межбанку, а депозит возвращается автоматически. Небольшой запас наличных в ${currency} стоит держать на такси, транспорт, рынки и чаевые.`,
     },
     {
-      q: `Какую карту брать в ${name_ru} в 2026 году?`,
-      a: `Лучше всего работают виртуальные карты с BIN нейтральных стран (Армения, Казахстан, Кипр, Гонконг) — они проходят в терминалах, онлайн и выдерживают hold в отелях. Конкретные варианты — в верхней части рейтинга выше, с тарифами и скоростью выпуска.`,
+      q: `Работает ли Apple Pay и Google Pay в ${name_ru}?`,
+      a: `Бесконтактная оплата через Apple Pay и Google Pay работает там, где принимают физическую карту эмитента. Уточните поддержку в карточке конкретной карты в рейтинге — фильтр «Apple Pay» помогает выбрать подходящий вариант.`,
     },
     {
-      q: `Нужны ли наличные в ${name_ru}?`,
-      a: `Небольшой запас наличных в ${currency} стоит иметь на такси, рынки, транспорт и чаевые. Крупные покупки — отели, аренда авто, рестораны — удобнее оплачивать картой: и по курсу выгоднее, и hold возвращается быстрее.`,
+      q: `Как проходит конвертация в ${currency}?`,
+      a: `Списание идёт в валюте покупки, а карта конвертирует по курсу эмитента. У карт из верхней части рейтинга курс близок к межбанковскому, скрытых наценок нет — точные условия указаны в карточке каждой карты.`,
     },
     {
-      q: `Есть ли комиссия за конвертацию в ${currency}?`,
-      a: `Комиссия зависит от эмитента карты. У карт из верхней части рейтинга EraPay курс близок к межбанку, скрытых наценок нет — точные тарифы указаны в карточке каждой карты.`,
+      q: `Что с депозитом в отеле и прокате авто?`,
+      a: `Отели и прокат авто блокируют сумму под страховой депозит (обычно 100–300 евро эквивалента). Деньги возвращаются автоматически в течение 5–30 дней после выезда. Держите на карте запас 20–30% сверх стоимости брони, иначе hold не пройдёт.`,
+    },
+    {
+      q: `Какая карта подойдёт для оплаты в ${name_ru}?`,
+      a: `Смотрите на четыре параметра: поддержка Apple Pay/Google Pay, мультивалютные счета для минимизации конвертаций, лимиты по операции и суточные, наличие 3-D Secure для онлайн-платежей. Конкретные варианты — в топ-5 рейтинга выше.`,
     },
   ];
 }
 
-function prioritizeCards(cards: Card[], countrySlug: string): Card[] {
-  const sorted = [...cards].sort((a, b) => a.rank - b.rank);
-  if (countrySlug === "china" || countrySlug === "hong-kong") {
-    return sorted
-      .slice()
-      .sort((a, b) => {
-        const aUp = (a.payment_system ?? "").toLowerCase().includes("unionpay") ? -1 : 0;
-        const bUp = (b.payment_system ?? "").toLowerCase().includes("unionpay") ? -1 : 0;
-        return aUp - bUp || a.rank - b.rank;
-      })
-      .slice(0, 5);
-  }
-  return sorted.slice(0, 5);
+function topCards(cards: Card[]): Card[] {
+  return [...cards].sort((a, b) => a.rank - b.rank).slice(0, 5);
+}
+
+function issuerCardsFor(cards: Card[], countryName: string): Card[] {
+  return cards
+    .filter((c) => c.issuer_country === countryName)
+    .sort((a, b) => a.rank - b.rank);
 }
 
 export const Route = createFileRoute("/country/$slug")({
@@ -203,7 +181,8 @@ function CountryPageView() {
 
   if (!page) return null;
 
-  const topCards = prioritizeCards(cards, page.slug);
+  const top = topCards(cards);
+  const issuerCards = issuerCardsFor(cards, page.name_ru);
   const relatedOthers = neighbors.filter((n) => n.slug !== page.slug).slice(0, 4);
   const faq = faqFor(page);
   const intro = introFor(page);
@@ -245,9 +224,46 @@ function CountryPageView() {
                 Весь рейтинг →
               </Link>
             </div>
+            <p className="mb-6 max-w-3xl text-sm text-muted-foreground sm:text-base">
+              Общий рейтинг EraPay: карты, которые проходят в поездке.
+              На что смотреть для {page.name_ru}: поддержка Apple Pay / Google Pay,
+              мультивалюта, суточные лимиты и 3-D Secure для онлайн-платежей.
+            </p>
           </div>
-          <RatingSection cards={topCards} />
+          <RatingSection cards={top} />
         </section>
+
+        {issuerCards.length > 0 && (
+          <section className="border-b border-border bg-surface">
+            <div className="mx-auto max-w-[1040px] px-4 py-10 sm:px-6 lg:px-8">
+              <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">
+                Выпускаются в {page.name_ru}
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Карты с эмиссией {page.flag_emoji} {page.name_ru} — полезны, если нужен локальный BIN.
+              </p>
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                {issuerCards.map((c) => (
+                  <li key={c.slug}>
+                    <Link
+                      to="/cards/$slug"
+                      params={{ slug: c.slug }}
+                      className="block rounded-lg border border-border bg-background p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
+                    >
+                      <div className="text-xs font-semibold uppercase tracking-wider text-accent">
+                        {c.payment_system ?? "Visa/Mastercard"}
+                      </div>
+                      <div className="mt-1 font-serif text-lg font-bold text-primary">{c.name}</div>
+                      {c.bank && (
+                        <div className="mt-1 text-sm text-muted-foreground">{c.bank}</div>
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
 
         <section className="border-b border-border bg-surface">
           <div className="mx-auto max-w-[1040px] px-4 py-12 sm:px-6 lg:px-8">
