@@ -21,6 +21,7 @@ import { cardBySlugQueryOptions, cardsQueryOptions, formatDate, initials } from 
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { getCardServiceSlugs } from "@/lib/services";
+import { PUBLIC_ROBOTS } from "@/lib/config";
 
 type ReviewRow = Database["public"]["Tables"]["reviews"]["Row"];
 
@@ -38,7 +39,7 @@ export const Route = createFileRoute("/cards/$slug")({
         { property: "og:description", content: `Условия, лимиты и способы пополнения карты ${name}. Проверено редакцией EraPay.` },
         { property: "og:url", content: url },
         { property: "og:type", content: "article" },
-        { name: "robots", content: "index, follow" },
+        { name: "robots", content: PUBLIC_ROBOTS },
       ],
       links: [{ rel: "canonical", href: url }],
     };

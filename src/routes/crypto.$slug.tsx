@@ -2,6 +2,7 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { TopicArticlePage, type TopicConfig, type TopicPageRow } from "@/components/nhcard/TopicPage";
+import { PUBLIC_ROBOTS } from "@/lib/config";
 
 type Row = TopicPageRow & {
   meta_title: string;
@@ -99,7 +100,7 @@ export const Route = createFileRoute("/crypto/$slug")({
         { property: "og:description", content: p.meta_description || p.intro_text },
         { property: "og:type", content: "article" },
         { property: "og:url", content: url },
-        { name: "robots", content: "index, follow" },
+        { name: "robots", content: PUBLIC_ROBOTS },
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [
