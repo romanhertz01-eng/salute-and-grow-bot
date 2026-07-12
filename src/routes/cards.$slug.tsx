@@ -465,7 +465,7 @@ function CardPage() {
         {/* REVIEWS */}
         <div className="mx-auto flex max-w-[1040px] items-center justify-end px-4 pt-8 sm:px-6 lg:px-8">
           <Link
-            to="/cards/$slug_/reviews"
+            to="/cards/$slug/reviews"
             params={{ slug: card.slug }}
             className="text-sm font-semibold text-accent hover:underline"
           >
