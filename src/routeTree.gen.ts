@@ -20,23 +20,29 @@ import { Route as CardsForSubscriptionsRouteImport } from './routes/cards-for-su
 import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CryptoIndexRouteImport } from './routes/crypto.index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BanksIndexRouteImport } from './routes/banks.index'
+import { Route as AiIndexRouteImport } from './routes/ai.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ServiceSlugRouteImport } from './routes/service.$slug'
 import { Route as LegalTermsRouteImport } from './routes/legal.terms'
 import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
+import { Route as CryptoSlugRouteImport } from './routes/crypto.$slug'
 import { Route as CountrySlugRouteImport } from './routes/country.$slug'
 import { Route as CardsSlugRouteImport } from './routes/cards.$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as BanksSlugRouteImport } from './routes/banks.$slug'
+import { Route as AiSlugRouteImport } from './routes/ai.$slug'
 import { Route as AdminSeoRouteImport } from './routes/admin.seo'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminCryptoRouteImport } from './routes/admin.crypto'
 import { Route as AdminCardsRouteImport } from './routes/admin.cards'
 import { Route as AdminBlogRouteImport } from './routes/admin.blog'
 import { Route as AdminBanksRouteImport } from './routes/admin.banks'
+import { Route as AdminAiRouteImport } from './routes/admin.ai'
 
 const TravelCardsRoute = TravelCardsRouteImport.update({
   id: '/travel-cards',
@@ -93,6 +99,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CryptoIndexRoute = CryptoIndexRouteImport.update({
+  id: '/crypto/',
+  path: '/crypto/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
@@ -101,6 +112,11 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
 const BanksIndexRoute = BanksIndexRouteImport.update({
   id: '/banks/',
   path: '/banks/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiIndexRoute = AiIndexRouteImport.update({
+  id: '/ai/',
+  path: '/ai/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -128,6 +144,11 @@ const GuidesSlugRoute = GuidesSlugRouteImport.update({
   path: '/guides/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CryptoSlugRoute = CryptoSlugRouteImport.update({
+  id: '/crypto/$slug',
+  path: '/crypto/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CountrySlugRoute = CountrySlugRouteImport.update({
   id: '/country/$slug',
   path: '/country/$slug',
@@ -148,6 +169,11 @@ const BanksSlugRoute = BanksSlugRouteImport.update({
   path: '/banks/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiSlugRoute = AiSlugRouteImport.update({
+  id: '/ai/$slug',
+  path: '/ai/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminSeoRoute = AdminSeoRouteImport.update({
   id: '/admin/seo',
   path: '/admin/seo',
@@ -161,6 +187,11 @@ const AdminReviewsRoute = AdminReviewsRouteImport.update({
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
   path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCryptoRoute = AdminCryptoRouteImport.update({
+  id: '/admin/crypto',
+  path: '/admin/crypto',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminCardsRoute = AdminCardsRouteImport.update({
@@ -178,6 +209,11 @@ const AdminBanksRoute = AdminBanksRouteImport.update({
   path: '/admin/banks',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminAiRoute = AdminAiRouteImport.update({
+  id: '/admin/ai',
+  path: '/admin/ai',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -191,23 +227,29 @@ export interface FileRoutesByFullPath {
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
+  '/admin/ai': typeof AdminAiRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
+  '/admin/crypto': typeof AdminCryptoRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/seo': typeof AdminSeoRoute
+  '/ai/$slug': typeof AiSlugRoute
   '/banks/$slug': typeof BanksSlugRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/cards/$slug': typeof CardsSlugRoute
   '/country/$slug': typeof CountrySlugRoute
+  '/crypto/$slug': typeof CryptoSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/ai/': typeof AiIndexRoute
   '/banks/': typeof BanksIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/crypto/': typeof CryptoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -221,23 +263,29 @@ export interface FileRoutesByTo {
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
+  '/admin/ai': typeof AdminAiRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
+  '/admin/crypto': typeof AdminCryptoRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/seo': typeof AdminSeoRoute
+  '/ai/$slug': typeof AiSlugRoute
   '/banks/$slug': typeof BanksSlugRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/cards/$slug': typeof CardsSlugRoute
   '/country/$slug': typeof CountrySlugRoute
+  '/crypto/$slug': typeof CryptoSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin': typeof AdminIndexRoute
+  '/ai': typeof AiIndexRoute
   '/banks': typeof BanksIndexRoute
   '/blog': typeof BlogIndexRoute
+  '/crypto': typeof CryptoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -252,23 +300,29 @@ export interface FileRoutesById {
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
+  '/admin/ai': typeof AdminAiRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
+  '/admin/crypto': typeof AdminCryptoRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/seo': typeof AdminSeoRoute
+  '/ai/$slug': typeof AiSlugRoute
   '/banks/$slug': typeof BanksSlugRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/cards/$slug': typeof CardsSlugRoute
   '/country/$slug': typeof CountrySlugRoute
+  '/crypto/$slug': typeof CryptoSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/ai/': typeof AiIndexRoute
   '/banks/': typeof BanksIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/crypto/': typeof CryptoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -284,23 +338,29 @@ export interface FileRouteTypes {
     | '/podbor'
     | '/sitemap.xml'
     | '/travel-cards'
+    | '/admin/ai'
     | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
+    | '/admin/crypto'
     | '/admin/login'
     | '/admin/reviews'
     | '/admin/seo'
+    | '/ai/$slug'
     | '/banks/$slug'
     | '/blog/$slug'
     | '/cards/$slug'
     | '/country/$slug'
+    | '/crypto/$slug'
     | '/guides/$slug'
     | '/legal/privacy'
     | '/legal/terms'
     | '/service/$slug'
     | '/admin/'
+    | '/ai/'
     | '/banks/'
     | '/blog/'
+    | '/crypto/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -314,23 +374,29 @@ export interface FileRouteTypes {
     | '/podbor'
     | '/sitemap.xml'
     | '/travel-cards'
+    | '/admin/ai'
     | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
+    | '/admin/crypto'
     | '/admin/login'
     | '/admin/reviews'
     | '/admin/seo'
+    | '/ai/$slug'
     | '/banks/$slug'
     | '/blog/$slug'
     | '/cards/$slug'
     | '/country/$slug'
+    | '/crypto/$slug'
     | '/guides/$slug'
     | '/legal/privacy'
     | '/legal/terms'
     | '/service/$slug'
     | '/admin'
+    | '/ai'
     | '/banks'
     | '/blog'
+    | '/crypto'
   id:
     | '__root__'
     | '/'
@@ -344,23 +410,29 @@ export interface FileRouteTypes {
     | '/podbor'
     | '/sitemap.xml'
     | '/travel-cards'
+    | '/admin/ai'
     | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
+    | '/admin/crypto'
     | '/admin/login'
     | '/admin/reviews'
     | '/admin/seo'
+    | '/ai/$slug'
     | '/banks/$slug'
     | '/blog/$slug'
     | '/cards/$slug'
     | '/country/$slug'
+    | '/crypto/$slug'
     | '/guides/$slug'
     | '/legal/privacy'
     | '/legal/terms'
     | '/service/$slug'
     | '/admin/'
+    | '/ai/'
     | '/banks/'
     | '/blog/'
+    | '/crypto/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -375,23 +447,29 @@ export interface RootRouteChildren {
   PodborRoute: typeof PodborRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TravelCardsRoute: typeof TravelCardsRoute
+  AdminAiRoute: typeof AdminAiRoute
   AdminBanksRoute: typeof AdminBanksRoute
   AdminBlogRoute: typeof AdminBlogRoute
   AdminCardsRoute: typeof AdminCardsRoute
+  AdminCryptoRoute: typeof AdminCryptoRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSeoRoute: typeof AdminSeoRoute
+  AiSlugRoute: typeof AiSlugRoute
   BanksSlugRoute: typeof BanksSlugRoute
   BlogSlugRoute: typeof BlogSlugRoute
   CardsSlugRoute: typeof CardsSlugRoute
   CountrySlugRoute: typeof CountrySlugRoute
+  CryptoSlugRoute: typeof CryptoSlugRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
   LegalPrivacyRoute: typeof LegalPrivacyRoute
   LegalTermsRoute: typeof LegalTermsRoute
   ServiceSlugRoute: typeof ServiceSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AiIndexRoute: typeof AiIndexRoute
   BanksIndexRoute: typeof BanksIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
+  CryptoIndexRoute: typeof CryptoIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -473,6 +551,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/crypto/': {
+      id: '/crypto/'
+      path: '/crypto'
+      fullPath: '/crypto/'
+      preLoaderRoute: typeof CryptoIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/': {
       id: '/blog/'
       path: '/blog'
@@ -485,6 +570,13 @@ declare module '@tanstack/react-router' {
       path: '/banks'
       fullPath: '/banks/'
       preLoaderRoute: typeof BanksIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai/': {
+      id: '/ai/'
+      path: '/ai'
+      fullPath: '/ai/'
+      preLoaderRoute: typeof AiIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -522,6 +614,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuidesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/crypto/$slug': {
+      id: '/crypto/$slug'
+      path: '/crypto/$slug'
+      fullPath: '/crypto/$slug'
+      preLoaderRoute: typeof CryptoSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/country/$slug': {
       id: '/country/$slug'
       path: '/country/$slug'
@@ -550,6 +649,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BanksSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai/$slug': {
+      id: '/ai/$slug'
+      path: '/ai/$slug'
+      fullPath: '/ai/$slug'
+      preLoaderRoute: typeof AiSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/seo': {
       id: '/admin/seo'
       path: '/admin/seo'
@@ -569,6 +675,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/crypto': {
+      id: '/admin/crypto'
+      path: '/admin/crypto'
+      fullPath: '/admin/crypto'
+      preLoaderRoute: typeof AdminCryptoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/cards': {
@@ -592,6 +705,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBanksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/ai': {
+      id: '/admin/ai'
+      path: '/admin/ai'
+      fullPath: '/admin/ai'
+      preLoaderRoute: typeof AdminAiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -607,23 +727,29 @@ const rootRouteChildren: RootRouteChildren = {
   PodborRoute: PodborRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TravelCardsRoute: TravelCardsRoute,
+  AdminAiRoute: AdminAiRoute,
   AdminBanksRoute: AdminBanksRoute,
   AdminBlogRoute: AdminBlogRoute,
   AdminCardsRoute: AdminCardsRoute,
+  AdminCryptoRoute: AdminCryptoRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminReviewsRoute: AdminReviewsRoute,
   AdminSeoRoute: AdminSeoRoute,
+  AiSlugRoute: AiSlugRoute,
   BanksSlugRoute: BanksSlugRoute,
   BlogSlugRoute: BlogSlugRoute,
   CardsSlugRoute: CardsSlugRoute,
   CountrySlugRoute: CountrySlugRoute,
+  CryptoSlugRoute: CryptoSlugRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   LegalPrivacyRoute: LegalPrivacyRoute,
   LegalTermsRoute: LegalTermsRoute,
   ServiceSlugRoute: ServiceSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AiIndexRoute: AiIndexRoute,
   BanksIndexRoute: BanksIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
+  CryptoIndexRoute: CryptoIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

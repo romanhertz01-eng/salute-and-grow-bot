@@ -23,6 +23,8 @@ const columns: FooterColumn[] = [
       { label: "Зарубежные виртуальные карты", kind: "route", to: "/foreign-virtual-cards" },
       { label: "Карты для подписок", kind: "route", to: "/cards-for-subscriptions" },
       { label: "Карты для путешествий", kind: "route", to: "/travel-cards" },
+      { label: "Крипта", kind: "route", to: "/crypto" },
+      { label: "Нейросети", kind: "route", to: "/ai" },
     ],
   },
   {

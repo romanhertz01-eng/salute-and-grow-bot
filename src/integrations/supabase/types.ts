@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_pages: {
+        Row: {
+          content: string
+          created_at: string
+          h1: string
+          id: string
+          intro_text: string
+          keyword: string
+          meta_description: string
+          meta_title: string
+          partner_url: string
+          priority: number
+          published: boolean
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          h1: string
+          id?: string
+          intro_text?: string
+          keyword?: string
+          meta_description?: string
+          meta_title?: string
+          partner_url?: string
+          priority?: number
+          published?: boolean
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          h1?: string
+          id?: string
+          intro_text?: string
+          keyword?: string
+          meta_description?: string
+          meta_title?: string
+          partner_url?: string
+          priority?: number
+          published?: boolean
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       bank_pages: {
         Row: {
           content: string
@@ -259,6 +310,57 @@ export type Database = {
           published?: boolean
           region?: string
           slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      crypto_pages: {
+        Row: {
+          content: string
+          created_at: string
+          h1: string
+          id: string
+          intro_text: string
+          keyword: string
+          meta_description: string
+          meta_title: string
+          partner_url: string
+          priority: number
+          published: boolean
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          h1: string
+          id?: string
+          intro_text?: string
+          keyword?: string
+          meta_description?: string
+          meta_title?: string
+          partner_url?: string
+          priority?: number
+          published?: boolean
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          h1?: string
+          id?: string
+          intro_text?: string
+          keyword?: string
+          meta_description?: string
+          meta_title?: string
+          partner_url?: string
+          priority?: number
+          published?: boolean
+          slug?: string
+          title?: string
           updated_at?: string
         }
         Relationships: []
