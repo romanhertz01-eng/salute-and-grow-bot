@@ -13,7 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { PUBLIC_ROBOTS } from "@/lib/config";
 
-const OG_IMAGE_URL = "https://erapay.ru/og.png";
+const OG_IMAGE_URL = "https://salute-and-grow-bot.lovable.app/og.png";
 
 function NotFoundComponent() {
   return (
