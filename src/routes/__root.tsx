@@ -12,6 +12,9 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { PUBLIC_ROBOTS } from "@/lib/config";
+import ogDefault from "@/assets/og-default.jpg.asset.json";
+
+const OG_IMAGE_URL = `https://salute-and-grow-bot.lovable.app${ogDefault.url}`;
 
 function NotFoundComponent() {
   return (
@@ -95,8 +98,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "EraPay — независимый рейтинг зарубежных виртуальных карт 2026" },
       { name: "twitter:description", content: "Сравнение 15 зарубежных виртуальных карт для россиян: тарифы, лимиты, способы пополнения. Проверено редакцией." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/fe690a89-c325-4550-a7f9-b0bc96e67240/id-preview-41042ed6--80633ad3-a72e-4774-ba55-efe85cd4e018.lovable.app-1783744303458.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/fe690a89-c325-4550-a7f9-b0bc96e67240/id-preview-41042ed6--80633ad3-a72e-4774-ba55-efe85cd4e018.lovable.app-1783744303458.png" },
+      { property: "og:image", content: OG_IMAGE_URL },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:type", content: "image/jpeg" },
+      { name: "twitter:image", content: OG_IMAGE_URL },
     ],
     links: [
       {
