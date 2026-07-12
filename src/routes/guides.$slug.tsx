@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { cardsQueryOptions, formatToday } from "@/lib/cards";
+import { PUBLIC_ROBOTS } from "@/lib/config";
 
 type GuidePage = {
   id: string;
@@ -161,7 +162,7 @@ export const Route = createFileRoute("/guides/$slug")({
         { property: "og:description", content: page.meta_description },
         { property: "og:type", content: "article" },
         { property: "og:url", content: url },
-        { name: "robots", content: "index, follow" },
+        { name: "robots", content: PUBLIC_ROBOTS },
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [

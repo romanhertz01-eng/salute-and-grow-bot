@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/nhcard/Footer";
 import { RatingSection } from "@/components/nhcard/Rating";
 import { supabase } from "@/integrations/supabase/client";
 import { cardsQueryOptions } from "@/lib/cards";
+import { PUBLIC_ROBOTS } from "@/lib/config";
 
 type ServicePage = {
   id: string;
@@ -122,7 +123,7 @@ export const Route = createFileRoute("/service/$slug")({
         { property: "og:description", content: page.meta_description },
         { property: "og:type", content: "article" },
         { property: "og:url", content: url },
-        { name: "robots", content: "index, follow" },
+        { name: "robots", content: PUBLIC_ROBOTS },
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [

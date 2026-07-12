@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { TopicIndexPage, type TopicConfig } from "@/components/nhcard/TopicPage";
+import { PUBLIC_ROBOTS } from "@/lib/config";
 
 type Row = { slug: string; title: string; intro_text: string; priority: number };
 
@@ -42,7 +43,7 @@ export const Route = createFileRoute("/crypto/")({
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://erapay.ru/crypto" },
-      { name: "robots", content: "index, follow" },
+      { name: "robots", content: PUBLIC_ROBOTS },
     ],
     links: [{ rel: "canonical", href: "https://erapay.ru/crypto" }],
   }),

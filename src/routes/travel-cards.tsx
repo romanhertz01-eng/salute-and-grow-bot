@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/nhcard/Footer";
 import { RatingSection } from "@/components/nhcard/Rating";
 import { supabase } from "@/integrations/supabase/client";
 import { cardsQueryOptions } from "@/lib/cards";
+import { PUBLIC_ROBOTS } from "@/lib/config";
 
 const URL = "https://erapay.ru/travel-cards";
 const TITLE = "Карта для путешествий за границей: рейтинг 2026";
@@ -68,7 +69,7 @@ export const Route = createFileRoute("/travel-cards")({
       { property: "og:type", content: "website" },
       { property: "og:url", content: URL },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "robots", content: "index, follow" },
+      { name: "robots", content: PUBLIC_ROBOTS },
     ],
     links: [{ rel: "canonical", href: URL }],
     scripts: [

@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TravelCardsRouteImport } from './routes/travel-cards'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as PodborRouteImport } from './routes/podbor'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as MethodologyRouteImport } from './routes/methodology'
@@ -52,6 +53,11 @@ const TravelCardsRoute = TravelCardsRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PodborRoute = PodborRouteImport.update({
@@ -225,6 +231,7 @@ export interface FileRoutesByFullPath {
   '/methodology': typeof MethodologyRoute
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
   '/admin/ai': typeof AdminAiRoute
@@ -261,6 +268,7 @@ export interface FileRoutesByTo {
   '/methodology': typeof MethodologyRoute
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
   '/admin/ai': typeof AdminAiRoute
@@ -298,6 +306,7 @@ export interface FileRoutesById {
   '/methodology': typeof MethodologyRoute
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
   '/admin/ai': typeof AdminAiRoute
@@ -336,6 +345,7 @@ export interface FileRouteTypes {
     | '/methodology'
     | '/partners'
     | '/podbor'
+    | '/robots.txt'
     | '/sitemap.xml'
     | '/travel-cards'
     | '/admin/ai'
@@ -372,6 +382,7 @@ export interface FileRouteTypes {
     | '/methodology'
     | '/partners'
     | '/podbor'
+    | '/robots.txt'
     | '/sitemap.xml'
     | '/travel-cards'
     | '/admin/ai'
@@ -408,6 +419,7 @@ export interface FileRouteTypes {
     | '/methodology'
     | '/partners'
     | '/podbor'
+    | '/robots.txt'
     | '/sitemap.xml'
     | '/travel-cards'
     | '/admin/ai'
@@ -445,6 +457,7 @@ export interface RootRouteChildren {
   MethodologyRoute: typeof MethodologyRoute
   PartnersRoute: typeof PartnersRoute
   PodborRoute: typeof PodborRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TravelCardsRoute: typeof TravelCardsRoute
   AdminAiRoute: typeof AdminAiRoute
@@ -486,6 +499,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/podbor': {
@@ -725,6 +745,7 @@ const rootRouteChildren: RootRouteChildren = {
   MethodologyRoute: MethodologyRoute,
   PartnersRoute: PartnersRoute,
   PodborRoute: PodborRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TravelCardsRoute: TravelCardsRoute,
   AdminAiRoute: AdminAiRoute,

@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
 import { RatingSection } from "@/components/nhcard/Rating";
 import { cardsQueryOptions } from "@/lib/cards";
+import { PUBLIC_ROBOTS } from "@/lib/config";
 
 const URL = "https://erapay.ru/cards-for-subscriptions";
 const TITLE = "Виртуальная карта для подписок: рейтинг 2026";
@@ -55,7 +56,7 @@ export const Route = createFileRoute("/cards-for-subscriptions")({
       { property: "og:type", content: "website" },
       { property: "og:url", content: URL },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "robots", content: "index, follow" },
+      { name: "robots", content: PUBLIC_ROBOTS },
     ],
     links: [{ rel: "canonical", href: URL }],
     scripts: [

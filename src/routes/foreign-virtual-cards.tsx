@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
 import { RatingSection } from "@/components/nhcard/Rating";
 import { cardsQueryOptions } from "@/lib/cards";
+import { PUBLIC_ROBOTS } from "@/lib/config";
 
 const URL = "https://erapay.ru/foreign-virtual-cards";
 const TITLE = "Зарубежная виртуальная карта: рейтинг для россиян в 2026";
@@ -58,7 +59,7 @@ export const Route = createFileRoute("/foreign-virtual-cards")({
       { property: "og:type", content: "website" },
       { property: "og:url", content: URL },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "robots", content: "index, follow" },
+      { name: "robots", content: PUBLIC_ROBOTS },
     ],
     links: [{ rel: "canonical", href: URL }],
     scripts: [

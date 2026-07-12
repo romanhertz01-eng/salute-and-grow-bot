@@ -13,6 +13,7 @@ import { CalculatorSection } from "@/components/nhcard/Calculator";
 import { MethodologySection } from "@/components/nhcard/Methodology";
 import { FaqSection, FAQ_ITEMS } from "@/components/nhcard/Faq";
 import { cardsQueryOptions } from "@/lib/cards";
+import { PUBLIC_ROBOTS } from "@/lib/config";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,7 +31,7 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:url", content: "https://erapay.ru/" },
       { property: "og:type", content: "website" },
-      { name: "robots", content: "index, follow" },
+      { name: "robots", content: PUBLIC_ROBOTS },
     ],
     links: [{ rel: "canonical", href: "https://erapay.ru/" }],
     scripts: [

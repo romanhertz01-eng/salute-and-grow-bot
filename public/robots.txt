@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /podbor
-
-Sitemap: https://erapay.ru/sitemap.xml
