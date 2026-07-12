@@ -254,8 +254,8 @@ function CountryPageView() {
                         {c.payment_system ?? "Visa/Mastercard"}
                       </div>
                       <div className="mt-1 font-serif text-lg font-bold text-primary">{c.name}</div>
-                      {c.tagline && (
-                        <div className="mt-1 text-sm text-muted-foreground">{c.tagline}</div>
+                      {c.bank && (
+                        <div className="mt-1 text-sm text-muted-foreground">{c.bank}</div>
                       )}
                     </Link>
                   </li>
