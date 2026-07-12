@@ -27,6 +27,7 @@ import { Route as BanksIndexRouteImport } from './routes/banks.index'
 import { Route as AiIndexRouteImport } from './routes/ai.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ServiceSlugRouteImport } from './routes/service.$slug'
+import { Route as NetworkSlugRouteImport } from './routes/network.$slug'
 import { Route as LegalTermsRouteImport } from './routes/legal.terms'
 import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
@@ -134,6 +135,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const ServiceSlugRoute = ServiceSlugRouteImport.update({
   id: '/service/$slug',
   path: '/service/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NetworkSlugRoute = NetworkSlugRouteImport.update({
+  id: '/network/$slug',
+  path: '/network/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalTermsRoute = LegalTermsRouteImport.update({
@@ -257,6 +263,7 @@ export interface FileRoutesByFullPath {
   '/guides/$slug': typeof GuidesSlugRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/network/$slug': typeof NetworkSlugRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/ai/': typeof AiIndexRoute
@@ -295,6 +302,7 @@ export interface FileRoutesByTo {
   '/guides/$slug': typeof GuidesSlugRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/network/$slug': typeof NetworkSlugRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin': typeof AdminIndexRoute
   '/ai': typeof AiIndexRoute
@@ -334,6 +342,7 @@ export interface FileRoutesById {
   '/guides/$slug': typeof GuidesSlugRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/network/$slug': typeof NetworkSlugRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/ai/': typeof AiIndexRoute
@@ -374,6 +383,7 @@ export interface FileRouteTypes {
     | '/guides/$slug'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/network/$slug'
     | '/service/$slug'
     | '/admin/'
     | '/ai/'
@@ -412,6 +422,7 @@ export interface FileRouteTypes {
     | '/guides/$slug'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/network/$slug'
     | '/service/$slug'
     | '/admin'
     | '/ai'
@@ -450,6 +461,7 @@ export interface FileRouteTypes {
     | '/guides/$slug'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/network/$slug'
     | '/service/$slug'
     | '/admin/'
     | '/ai/'
@@ -489,6 +501,7 @@ export interface RootRouteChildren {
   GuidesSlugRoute: typeof GuidesSlugRoute
   LegalPrivacyRoute: typeof LegalPrivacyRoute
   LegalTermsRoute: typeof LegalTermsRoute
+  NetworkSlugRoute: typeof NetworkSlugRoute
   ServiceSlugRoute: typeof ServiceSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AiIndexRoute: typeof AiIndexRoute
@@ -624,6 +637,13 @@ declare module '@tanstack/react-router' {
       path: '/service/$slug'
       fullPath: '/service/$slug'
       preLoaderRoute: typeof ServiceSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/network/$slug': {
+      id: '/network/$slug'
+      path: '/network/$slug'
+      fullPath: '/network/$slug'
+      preLoaderRoute: typeof NetworkSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal/terms': {
@@ -785,6 +805,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuidesSlugRoute: GuidesSlugRoute,
   LegalPrivacyRoute: LegalPrivacyRoute,
   LegalTermsRoute: LegalTermsRoute,
+  NetworkSlugRoute: NetworkSlugRoute,
   ServiceSlugRoute: ServiceSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
   AiIndexRoute: AiIndexRoute,
