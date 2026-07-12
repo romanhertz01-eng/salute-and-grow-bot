@@ -225,9 +225,13 @@ function CardPage() {
             <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
               <div className="min-w-0">
                 <div className="flex items-start gap-5">
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg border border-border bg-background font-serif text-xl font-bold text-primary">
-                    {initials(card.name)}
-                  </div>
+                  <CardLogo
+                    name={card.name}
+                    logoUrl={card.logo_url}
+                    logoDomain={card.logo_domain}
+                    size={64}
+                    plateClassName="rounded-lg border border-border bg-background text-primary"
+                  />
                   <div className="min-w-0 flex-1">
                     <div className="text-xs font-semibold uppercase tracking-wider text-accent">
                       Место в рейтинге · #{card.rank}
@@ -490,9 +494,7 @@ function CardPage() {
                       className="block h-full rounded-lg border border-border bg-background p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-surface font-serif text-sm font-bold text-primary">
-                          {initials(r.name)}
-                        </div>
+                        <CardLogo name={r.name} logoUrl={r.logo_url} logoDomain={r.logo_domain} size={40} />
                         <div className="font-serif text-lg font-bold text-primary">
                           {Number(r.editorial_score).toFixed(1)}
                         </div>
