@@ -400,6 +400,11 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
             <MobileCard key={c.id} card={c} first={i === 0 && sort === "rank" && activeChip === null} />
           ))}
         </div>
+        {serviceSlug && excludedForService > 0 && (
+          <p className="mt-3 text-xs text-muted-foreground">
+            {excludedForService} карт не участвуют в фильтре — их список сервисов уточняется.
+          </p>
+        )}
           </>
         )}
       </div>
