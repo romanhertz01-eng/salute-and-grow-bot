@@ -1,28 +1,22 @@
 import { useMemo, useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { ShieldCheck } from "lucide-react";
 import type { Card } from "@/lib/cards";
+import { DEMO_MODE } from "@/lib/config";
 
-type TopupScenario = { id: string; label: string; fee: number };
-type CardType = { id: string; label: string; issue: number; service: number };
+type TopupFilter = { id: "any" | "sbp" | "usdt"; label: string };
 
-const TOPUP_SCENARIOS: TopupScenario[] = [
-  { id: "sbp0", label: "СБП · 0%", fee: 0 },
-  { id: "sbp2", label: "СБП · 2%", fee: 2 },
-  { id: "sbp4", label: "СБП · 4%", fee: 4 },
-  { id: "usdt", label: "USDT · 1.5%", fee: 1.5 },
+const TOPUP_FILTERS: TopupFilter[] = [
+  { id: "any", label: "Не важно" },
+  { id: "sbp", label: "СБП" },
+  { id: "usdt", label: "USDT" },
 ];
 
-const CARD_TYPES: CardType[] = [
-  { id: "free", label: "Бесплатный выпуск", issue: 0, service: 0 },
-  { id: "paid", label: "Платная (~990 ₽)", issue: 990, service: 0 },
-  { id: "premium", label: "Премиум-пластик", issue: 14990, service: 2400 },
-];
-
-function parseNumber(value: string | null): number {
-  if (!value) return 0;
-  const cleaned = value.replace(/\s|\u00a0/g, "");
-  const match = cleaned.match(/-?\d+(?:[.,]\d+)?/);
-  if (!match) return 0;
-  return parseFloat(match[0].replace(",", "."));
+function matchesTopup(card: Card, filter: TopupFilter["id"]): boolean {
+  if (filter === "any") return true;
+  const methods = card.topup_methods ?? [];
+  if (filter === "sbp") return methods.some((m) => /сбп/i.test(m));
+  return methods.some((m) => /usdt|крипт/i.test(m));
 }
 
 function formatRub(n: number): string {
@@ -31,35 +25,39 @@ function formatRub(n: number): string {
 
 export function CalculatorSection({ cards }: { cards: Card[] }) {
   const [turnover, setTurnover] = useState(15000);
-  const [scenarioId, setScenarioId] = useState("sbp2");
-  const [cardTypeId, setCardTypeId] = useState("paid");
+  const [topupId, setTopupId] = useState<TopupFilter["id"]>("any");
 
-  const scenario = TOPUP_SCENARIOS.find((s) => s.id === scenarioId)!;
-  const cardType = CARD_TYPES.find((c) => c.id === cardTypeId)!;
-
-  const yearlyIssue = cardType.issue;
-  const yearlyService = cardType.service;
-  const yearlyTopup = turnover * 12 * (scenario.fee / 100);
-  const total = yearlyIssue + yearlyService + yearlyTopup;
-
-  const recommendations = useMemo(() => {
-    return cards
+  const { recommendations, excludedCount } = useMemo(() => {
+    const filtered = cards.filter((c) => matchesTopup(c, topupId));
+    const priced = filtered.filter(
+      (c) =>
+        c.issue_cost_rub != null &&
+        c.service_cost_rub_year != null &&
+        c.topup_fee_percent != null,
+    );
+    const scored = priced
       .map((c) => {
-        const issue = parseNumber(c.issue_cost);
-        const svc = parseNumber(c.service_cost);
-        const fee = parseNumber(c.topup_fee);
-        const cost = issue + svc + turnover * 12 * (fee / 100);
-        return { card: c, cost };
+        const issue = c.issue_cost_rub ?? 0;
+        const svc = c.service_cost_rub_year ?? 0;
+        const fee = c.topup_fee_percent ?? 0;
+        const topup = turnover * 12 * (fee / 100);
+        return { card: c, issue, svc, fee, topup, total: issue + svc + topup };
       })
-      .sort((a, b) => a.cost - b.cost)
-      .slice(0, 2);
-  }, [cards, turnover]);
+      .sort((a, b) => a.total - b.total)
+      .slice(0, 3);
+    return {
+      recommendations: scored,
+      excludedCount: filtered.length - priced.length,
+    };
+  }, [cards, turnover, topupId]);
+
+  const top = recommendations[0];
 
   return (
     <section id="calculator" className="scroll-mt-20 border-b border-border bg-background">
       <div className="mx-auto max-w-[1240px] px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
         <div className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-accent">
-          Калькулятор · единственный в рунете
+          Калькулятор
         </div>
         <h2 className="max-w-3xl font-serif text-3xl font-bold tracking-tight text-primary sm:text-4xl lg:text-[42px] lg:leading-[1.15]">
           Сколько реально стоит карта за год
@@ -94,16 +92,16 @@ export function CalculatorSection({ cards }: { cards: Card[] }) {
               </div>
             </div>
 
-            <div className="mb-8">
-              <div className="mb-3 text-sm font-semibold text-primary">Сценарий пополнения</div>
+            <div>
+              <div className="mb-3 text-sm font-semibold text-primary">Чем пополняете</div>
               <div className="flex flex-wrap gap-2">
-                {TOPUP_SCENARIOS.map((s) => {
-                  const active = s.id === scenarioId;
+                {TOPUP_FILTERS.map((s) => {
+                  const active = s.id === topupId;
                   return (
                     <button
                       key={s.id}
                       type="button"
-                      onClick={() => setScenarioId(s.id)}
+                      onClick={() => setTopupId(s.id)}
                       className={
                         "rounded-full border px-4 py-2 text-sm transition " +
                         (active
@@ -117,75 +115,104 @@ export function CalculatorSection({ cards }: { cards: Card[] }) {
                 })}
               </div>
             </div>
-
-            <div>
-              <div className="mb-3 text-sm font-semibold text-primary">Тип карты</div>
-              <div className="flex flex-wrap gap-2">
-                {CARD_TYPES.map((c) => {
-                  const active = c.id === cardTypeId;
-                  return (
-                    <button
-                      key={c.id}
-                      type="button"
-                      onClick={() => setCardTypeId(c.id)}
-                      className={
-                        "rounded-full border px-4 py-2 text-sm transition " +
-                        (active
-                          ? "border-primary bg-primary text-primary-foreground"
-                          : "border-border bg-background text-foreground hover:border-primary/40")
-                      }
-                    >
-                      {c.label}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
           </div>
 
-          {/* Result card */}
+          {/* Result card — TCO for the top pick */}
           <div className="rounded-xl bg-primary p-6 text-primary-foreground shadow-lg sm:p-8">
-            <div className="text-sm uppercase tracking-[0.14em] text-primary-foreground/70">
-              Реальная стоимость за год
-            </div>
-            <div className="mt-3 font-serif text-5xl font-bold tracking-tight sm:text-6xl">
-              {formatRub(total)}
-            </div>
-            <div className="mt-2 text-sm text-primary-foreground/70">
-              При обороте {formatRub(turnover)}/мес
-            </div>
-
-            <dl className="mt-8 space-y-3 border-t border-primary-foreground/15 pt-6 text-sm">
-              <div className="flex justify-between">
-                <dt className="text-primary-foreground/80">Выпуск</dt>
-                <dd className="tabular-nums">{formatRub(yearlyIssue)}</dd>
-              </div>
-              <div className="flex justify-between">
-                <dt className="text-primary-foreground/80">Обслуживание (12 мес)</dt>
-                <dd className="tabular-nums">{formatRub(yearlyService)}</dd>
-              </div>
-              <div className="flex justify-between">
-                <dt className="text-primary-foreground/80">
-                  Комиссия пополнения ({scenario.fee}%)
-                </dt>
-                <dd className="tabular-nums">{formatRub(yearlyTopup)}</dd>
-              </div>
-              <div className="mt-2 flex justify-between border-t border-primary-foreground/15 pt-3 font-semibold">
-                <dt>Итого за год</dt>
-                <dd className="font-serif text-lg tabular-nums">{formatRub(total)}</dd>
-              </div>
-            </dl>
-
-            {recommendations.length > 0 && (
-              <div className="mt-6 rounded-lg bg-primary-foreground/10 p-4 text-sm">
-                <div className="text-primary-foreground/70">Под ваши параметры подходят:</div>
-                <div className="mt-1 font-semibold">
-                  {recommendations.map((r) => r.card.name).join(", ")}
+            {top ? (
+              <>
+                <div className="text-sm uppercase tracking-[0.14em] text-primary-foreground/70">
+                  Лучший вариант · год
                 </div>
+                <div className="mt-2 font-serif text-2xl font-bold sm:text-3xl">
+                  {top.card.name}
+                </div>
+                <div className="mt-3 font-serif text-5xl font-bold tracking-tight sm:text-6xl">
+                  {formatRub(top.total)}
+                </div>
+                <div className="mt-2 text-sm text-primary-foreground/70">
+                  При обороте {formatRub(turnover)}/мес
+                </div>
+
+                <dl className="mt-8 space-y-3 border-t border-primary-foreground/15 pt-6 text-sm">
+                  <div className="flex justify-between">
+                    <dt className="text-primary-foreground/80">Выпуск</dt>
+                    <dd className="tabular-nums">{formatRub(top.issue)}</dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt className="text-primary-foreground/80">Обслуживание (12 мес)</dt>
+                    <dd className="tabular-nums">{formatRub(top.svc)}</dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt className="text-primary-foreground/80">
+                      Комиссия пополнения ({top.fee}%)
+                    </dt>
+                    <dd className="tabular-nums">{formatRub(top.topup)}</dd>
+                  </div>
+                  <div className="mt-2 flex justify-between border-t border-primary-foreground/15 pt-3 font-semibold">
+                    <dt>Итого за год</dt>
+                    <dd className="font-serif text-lg tabular-nums">{formatRub(top.total)}</dd>
+                  </div>
+                </dl>
+              </>
+            ) : (
+              <div className="text-sm text-primary-foreground/80">
+                Под выбранный способ пополнения нет карт с точными тарифами.
               </div>
             )}
           </div>
         </div>
+
+        {recommendations.length > 0 && (
+          <div className="mt-8">
+            <div className="mb-3 text-sm font-semibold text-primary">
+              Рекомендации под ваш профиль
+            </div>
+            <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              {recommendations.map((r, i) => (
+                <li
+                  key={r.card.id}
+                  className="rounded-xl border border-border bg-surface/40 p-4"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-semibold text-muted-foreground">
+                      #{i + 1}
+                    </span>
+                    <Link
+                      to="/cards/$slug"
+                      params={{ slug: r.card.slug }}
+                      className="text-sm font-semibold text-primary hover:underline"
+                    >
+                      {r.card.name}
+                    </Link>
+                    {r.card.verified && (
+                      <ShieldCheck className="h-4 w-4 text-accent" aria-label="Проверено" />
+                    )}
+                    {r.card.is_ad && (
+                      <span className="rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted-foreground">
+                        Реклама
+                      </span>
+                    )}
+                  </div>
+                  <div className="mt-2 font-serif text-xl font-bold text-primary tabular-nums">
+                    {formatRub(r.total)}
+                  </div>
+                  <div className="mt-1 text-xs text-muted-foreground">за год</div>
+                </li>
+              ))}
+            </ul>
+            {excludedCount > 0 && (
+              <div className="mt-3 text-xs text-muted-foreground">
+                {excludedCount} карт не в расчёте — нет точных тарифов.
+              </div>
+            )}
+            {DEMO_MODE && (
+              <div className="mt-2 text-xs text-muted-foreground">
+                Расчёт по демонстрационным тарифам.
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );
