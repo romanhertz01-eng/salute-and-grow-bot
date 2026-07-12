@@ -289,8 +289,20 @@ function TableRow({ card, first }: { card: Card; first: boolean }) {
       <td className="px-3 py-4 align-top text-foreground">{card.issue_cost}</td>
       <td className="px-3 py-4 align-top text-foreground">{card.service_cost}</td>
       <td className="px-3 py-4 align-top text-foreground">{card.topup_fee}</td>
-      <td className="px-3 py-4 align-top text-foreground">{card.monthly_limit}</td>
-      <td className="px-3 py-4 align-top text-foreground">{card.issue_speed}</td>
+      <td className="px-3 py-4 align-top">
+        {card.monthly_limit ? (
+          <span className="text-foreground">{card.monthly_limit}</span>
+        ) : (
+          <span className="text-muted-foreground/70">нет данных</span>
+        )}
+      </td>
+      <td className="px-3 py-4 align-top">
+        {card.issue_speed ? (
+          <span className="text-foreground">{card.issue_speed}</span>
+        ) : (
+          <span className="text-muted-foreground/70">нет данных</span>
+        )}
+      </td>
       <td className="hidden px-3 py-4 align-top xl:table-cell">
         <ServicePreview
           slugs={tableSlugs}
@@ -436,7 +448,13 @@ function Row({ label, value, mono }: { label: string; value: string | null; mono
   return (
     <div className="flex items-baseline justify-between gap-3">
       <dt className="text-muted-foreground">{label}</dt>
-      <dd className={`text-right font-medium text-foreground ${mono ? "font-mono" : ""}`}>{value ?? "—"}</dd>
+      <dd
+        className={`text-right font-medium ${mono ? "font-mono " : ""}${
+          value ? "text-foreground" : "text-muted-foreground/70"
+        }`}
+      >
+        {value ?? "нет данных"}
+      </dd>
     </div>
   );
 }
