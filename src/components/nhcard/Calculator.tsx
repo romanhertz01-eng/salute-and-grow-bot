@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { ShieldCheck } from "lucide-react";
 import type { Card } from "@/lib/cards";
 import { DEMO_MODE } from "@/lib/config";
+import { CardLogo } from "./CardLogo";
 
 type TopupFilter = { id: "any" | "sbp" | "usdt"; label: string };
 
@@ -178,6 +179,13 @@ export function CalculatorSection({ cards }: { cards: Card[] }) {
                     <span className="text-xs font-semibold text-muted-foreground">
                       #{i + 1}
                     </span>
+                    <CardLogo
+                      name={r.card.name}
+                      logoUrl={r.card.logo_url}
+                      logoDomain={r.card.logo_domain}
+                      size={20}
+                      plateClassName="rounded border border-border bg-background text-primary"
+                    />
                     <Link
                       to="/cards/$slug"
                       params={{ slug: r.card.slug }}
