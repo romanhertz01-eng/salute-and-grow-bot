@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TravelCardsRouteImport } from './routes/travel-cards'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ShoppingCardsRouteImport } from './routes/shopping-cards'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as PodborRouteImport } from './routes/podbor'
 import { Route as PartnersRouteImport } from './routes/partners'
@@ -56,6 +57,11 @@ const TravelCardsRoute = TravelCardsRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShoppingCardsRoute = ShoppingCardsRouteImport.update({
+  id: '/shopping-cards',
+  path: '/shopping-cards',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
@@ -250,6 +256,7 @@ export interface FileRoutesByFullPath {
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/shopping-cards': typeof ShoppingCardsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
   '/admin/ai': typeof AdminAiRoute
@@ -290,6 +297,7 @@ export interface FileRoutesByTo {
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/shopping-cards': typeof ShoppingCardsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
   '/admin/ai': typeof AdminAiRoute
@@ -331,6 +339,7 @@ export interface FileRoutesById {
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/shopping-cards': typeof ShoppingCardsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
   '/admin/ai': typeof AdminAiRoute
@@ -373,6 +382,7 @@ export interface FileRouteTypes {
     | '/partners'
     | '/podbor'
     | '/robots.txt'
+    | '/shopping-cards'
     | '/sitemap.xml'
     | '/travel-cards'
     | '/admin/ai'
@@ -413,6 +423,7 @@ export interface FileRouteTypes {
     | '/partners'
     | '/podbor'
     | '/robots.txt'
+    | '/shopping-cards'
     | '/sitemap.xml'
     | '/travel-cards'
     | '/admin/ai'
@@ -453,6 +464,7 @@ export interface FileRouteTypes {
     | '/partners'
     | '/podbor'
     | '/robots.txt'
+    | '/shopping-cards'
     | '/sitemap.xml'
     | '/travel-cards'
     | '/admin/ai'
@@ -494,6 +506,7 @@ export interface RootRouteChildren {
   PartnersRoute: typeof PartnersRoute
   PodborRoute: typeof PodborRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
+  ShoppingCardsRoute: typeof ShoppingCardsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TravelCardsRoute: typeof TravelCardsRoute
   AdminAiRoute: typeof AdminAiRoute
@@ -538,6 +551,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shopping-cards': {
+      id: '/shopping-cards'
+      path: '/shopping-cards'
+      fullPath: '/shopping-cards'
+      preLoaderRoute: typeof ShoppingCardsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/robots.txt': {
@@ -806,6 +826,7 @@ const rootRouteChildren: RootRouteChildren = {
   PartnersRoute: PartnersRoute,
   PodborRoute: PodborRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
+  ShoppingCardsRoute: ShoppingCardsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TravelCardsRoute: TravelCardsRoute,
   AdminAiRoute: AdminAiRoute,
