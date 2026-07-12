@@ -282,7 +282,8 @@ function GuidePageView() {
               {page.h1}
             </h1>
             <p className="mt-4 text-sm text-muted-foreground">
-              Обновлено {formatToday()} · Автор — Дмитрий Соколовский, редактор EraPay
+              {page.updated_at ? `Обновлено ${formatDate(page.updated_at)} · ` : ""}
+              Автор — Дмитрий Соколовский, редактор EraPay
             </p>
             <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {page.meta_description}
