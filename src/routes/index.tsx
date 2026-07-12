@@ -14,6 +14,7 @@ import { MethodologySection } from "@/components/nhcard/Methodology";
 import { FaqSection, FAQ_ITEMS } from "@/components/nhcard/Faq";
 import { cardsQueryOptions } from "@/lib/cards";
 import { PUBLIC_ROBOTS } from "@/lib/config";
+import { homeCountriesQueryOptions } from "@/components/nhcard/Countries";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -49,7 +50,13 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(cardsQueryOptions),
+  loader: async ({ context }) => {
+    await Promise.all([
+      context.queryClient.ensureQueryData(cardsQueryOptions),
+      context.queryClient.ensureQueryData(homeCountriesQueryOptions),
+    ]);
+    return {};
+  },
   component: HomePage,
   errorComponent: ({ error }) => (
     <div className="p-10 text-center text-sm text-muted-foreground">Не удалось загрузить рейтинг: {error.message}</div>

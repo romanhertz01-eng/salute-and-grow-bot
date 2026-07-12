@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WorkCardsRouteImport } from './routes/work-cards'
 import { Route as TravelCardsRouteImport } from './routes/travel-cards'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ShoppingCardsRouteImport } from './routes/shopping-cards'
@@ -51,6 +52,11 @@ import { Route as AdminBanksRouteImport } from './routes/admin.banks'
 import { Route as AdminAiRouteImport } from './routes/admin.ai'
 import { Route as CardsSlugReviewsRouteImport } from './routes/cards.$slug_.reviews'
 
+const WorkCardsRoute = WorkCardsRouteImport.update({
+  id: '/work-cards',
+  path: '/work-cards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TravelCardsRoute = TravelCardsRouteImport.update({
   id: '/travel-cards',
   path: '/travel-cards',
@@ -273,6 +279,7 @@ export interface FileRoutesByFullPath {
   '/shopping-cards': typeof ShoppingCardsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
+  '/work-cards': typeof WorkCardsRoute
   '/admin/ai': typeof AdminAiRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
@@ -316,6 +323,7 @@ export interface FileRoutesByTo {
   '/shopping-cards': typeof ShoppingCardsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
+  '/work-cards': typeof WorkCardsRoute
   '/admin/ai': typeof AdminAiRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
@@ -360,6 +368,7 @@ export interface FileRoutesById {
   '/shopping-cards': typeof ShoppingCardsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
+  '/work-cards': typeof WorkCardsRoute
   '/admin/ai': typeof AdminAiRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
@@ -405,6 +414,7 @@ export interface FileRouteTypes {
     | '/shopping-cards'
     | '/sitemap.xml'
     | '/travel-cards'
+    | '/work-cards'
     | '/admin/ai'
     | '/admin/banks'
     | '/admin/blog'
@@ -448,6 +458,7 @@ export interface FileRouteTypes {
     | '/shopping-cards'
     | '/sitemap.xml'
     | '/travel-cards'
+    | '/work-cards'
     | '/admin/ai'
     | '/admin/banks'
     | '/admin/blog'
@@ -491,6 +502,7 @@ export interface FileRouteTypes {
     | '/shopping-cards'
     | '/sitemap.xml'
     | '/travel-cards'
+    | '/work-cards'
     | '/admin/ai'
     | '/admin/banks'
     | '/admin/blog'
@@ -535,6 +547,7 @@ export interface RootRouteChildren {
   ShoppingCardsRoute: typeof ShoppingCardsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TravelCardsRoute: typeof TravelCardsRoute
+  WorkCardsRoute: typeof WorkCardsRoute
   AdminAiRoute: typeof AdminAiRoute
   AdminBanksRoute: typeof AdminBanksRoute
   AdminBlogRoute: typeof AdminBlogRoute
@@ -565,6 +578,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/work-cards': {
+      id: '/work-cards'
+      path: '/work-cards'
+      fullPath: '/work-cards'
+      preLoaderRoute: typeof WorkCardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/travel-cards': {
       id: '/travel-cards'
       path: '/travel-cards'
@@ -871,6 +891,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShoppingCardsRoute: ShoppingCardsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TravelCardsRoute: TravelCardsRoute,
+  WorkCardsRoute: WorkCardsRoute,
   AdminAiRoute: AdminAiRoute,
   AdminBanksRoute: AdminBanksRoute,
   AdminBlogRoute: AdminBlogRoute,

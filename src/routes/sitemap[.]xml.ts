@@ -34,7 +34,15 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/", lastmod: STATIC_DATE, changefreq: "weekly", priority: "1.0" },
         ];
 
-        const landingPaths = ["/foreign-virtual-cards", "/cards-for-subscriptions", "/travel-cards"];
+        const landingPaths = [
+          "/foreign-virtual-cards",
+          "/cards-for-subscriptions",
+          "/travel-cards",
+          "/shopping-cards",
+          "/ads-cards",
+          "/gaming-cards",
+          "/work-cards",
+        ];
         for (const p of landingPaths) {
           entries.push({ path: p, lastmod: STATIC_DATE, changefreq: "weekly", priority: "0.9" });
         }

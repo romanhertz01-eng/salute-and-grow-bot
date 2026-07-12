@@ -381,6 +381,11 @@ function ServicePage() {
             <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {intro}
             </p>
+            {page.slug === "facebook-ads" && (
+              <p className="mt-4 max-w-3xl text-xs leading-relaxed text-muted-foreground">
+                * Компания Meta признана экстремистской организацией, её деятельность запрещена на территории РФ.
+              </p>
+            )}
           </div>
         </section>
 
