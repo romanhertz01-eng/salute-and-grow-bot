@@ -12,9 +12,8 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { PUBLIC_ROBOTS } from "@/lib/config";
-import ogDefault from "@/assets/og-default.jpg.asset.json";
 
-const OG_IMAGE_URL = `https://salute-and-grow-bot.lovable.app${ogDefault.url}`;
+const OG_IMAGE_URL = "https://erapay.ru/og.png";
 
 function NotFoundComponent() {
   return (
@@ -95,13 +94,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Сравнение 15 зарубежных виртуальных карт для россиян: тарифы, лимиты, способы пополнения. Проверено редакцией.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "EraPay" },
+      { property: "og:locale", content: "ru_RU" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "EraPay — независимый рейтинг зарубежных виртуальных карт 2026" },
       { name: "twitter:description", content: "Сравнение 15 зарубежных виртуальных карт для россиян: тарифы, лимиты, способы пополнения. Проверено редакцией." },
       { property: "og:image", content: OG_IMAGE_URL },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { property: "og:image:type", content: "image/jpeg" },
+      { property: "og:image:type", content: "image/png" },
       { name: "twitter:image", content: OG_IMAGE_URL },
     ],
     links: [
