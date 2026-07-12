@@ -216,7 +216,7 @@ function CardPage() {
       <main>
         {/* HERO */}
         <section className="border-b border-border bg-surface">
-          <div className="mx-auto max-w-[1160px] px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1040px] px-4 py-12 sm:px-6 lg:px-8">
             <nav aria-label="Хлебные крошки" className="mb-6 flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
               <Link to="/" className="hover:text-primary">Главная</Link>
               <ChevronRight className="h-3 w-3" aria-hidden />
@@ -340,7 +340,7 @@ function CardPage() {
 
         {/* PARAMETERS — grouped tiles */}
         <section className="border-b border-border bg-background">
-          <div className="mx-auto max-w-[1160px] px-4 py-14 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1040px] px-4 py-14 sm:px-6 lg:px-8">
             <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">
               Тарифы и условия
             </h2>
@@ -399,7 +399,7 @@ function CardPage() {
 
         {/* HOW TO ISSUE */}
         <section className="border-b border-border bg-surface">
-          <div className="mx-auto max-w-[1160px] px-4 py-14 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1040px] px-4 py-14 sm:px-6 lg:px-8">
             <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">
               Как оформить {card.name}
             </h2>
@@ -417,7 +417,7 @@ function CardPage() {
 
         {/* HOW TO TOP UP */}
         <section className="border-b border-border bg-background">
-          <div className="mx-auto max-w-[820px] px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[760px] px-4 py-12 sm:px-6 lg:px-8">
             <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">
               Как пополнить {card.name}
             </h2>
@@ -432,7 +432,7 @@ function CardPage() {
         {/* SUPPORTED SERVICES */}
         {servicesTotal > 0 && (
           <section className="border-b border-border bg-surface">
-            <div className="mx-auto max-w-[1160px] px-4 py-12 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[1040px] px-4 py-12 sm:px-6 lg:px-8">
               <div className="flex flex-wrap items-baseline justify-between gap-3">
                 <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">
                   Поддерживаемые сервисы
@@ -477,7 +477,7 @@ function CardPage() {
         {/* RELATED CARDS */}
         {related.length > 0 && (
           <section className="border-t border-border bg-surface">
-            <div className="mx-auto max-w-[1160px] px-4 py-14 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[1040px] px-4 py-14 sm:px-6 lg:px-8">
               <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">
                 Похожие карты
               </h2>
@@ -515,7 +515,7 @@ function CardPage() {
         )}
 
         <section className="bg-background">
-          <div className="mx-auto max-w-[1160px] px-4 py-8 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1040px] px-4 py-8 sm:px-6 lg:px-8">
             <p className="flex items-center gap-2 text-xs text-muted-foreground">
               <ArrowLeft className="h-3.5 w-3.5" />
               <Link to="/" className="hover:text-primary">Вернуться к рейтингу</Link>

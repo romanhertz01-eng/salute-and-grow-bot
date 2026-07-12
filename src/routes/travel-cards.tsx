@@ -207,7 +207,7 @@ function TravelCardsPage() {
         </section>
 
         <section className="border-b border-border bg-surface">
-          <div className="mx-auto max-w-[820px] px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[760px] px-4 py-12 sm:px-6 lg:px-8">
             <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">Частые вопросы про тревел-карты</h2>
             <div className="mt-6 divide-y divide-border rounded-lg border border-border bg-background shadow-sm">
               {faq.map((f) => (

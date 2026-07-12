@@ -275,7 +275,7 @@ function BankArticlePage() {
 
         {others.length > 0 && (
           <section className="border-t border-border bg-surface">
-            <div className="mx-auto max-w-[1120px] px-4 py-12 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[1040px] px-4 py-12 sm:px-6 lg:px-8">
               <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">
                 Смотрите также
               </h2>

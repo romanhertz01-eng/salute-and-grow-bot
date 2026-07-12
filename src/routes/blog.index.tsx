@@ -71,7 +71,7 @@ function BlogListPage() {
       <SiteHeader />
       <main>
         <section className="border-b border-border bg-surface">
-          <div className="mx-auto max-w-[1120px] px-4 py-14 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1040px] px-4 py-14 sm:px-6 lg:px-8">
             <div className="text-xs font-semibold uppercase tracking-wider text-accent">
               Блог · Экспертиза EraPay
             </div>
@@ -87,7 +87,7 @@ function BlogListPage() {
         </section>
 
         <section className="bg-background">
-          <div className="mx-auto max-w-[1120px] px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1040px] px-4 py-12 sm:px-6 lg:px-8">
             <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {posts.map((p) => (
                 <li key={p.id}>
