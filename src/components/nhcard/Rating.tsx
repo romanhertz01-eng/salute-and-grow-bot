@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Apple, Smartphone, Zap, ArrowUpRight, ShieldCheck, Search, X, ChevronsUpDown } from "lucide-react";
 import type { Card } from "@/lib/cards";
-import { initials } from "@/lib/cards";
+import { CardLogo } from "./CardLogo";
 import { noWrapMoney } from "@/lib/format";
 import {
   getCardServiceSlugs,
