@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, ShieldCheck, RefreshCcw, Apple, Smartphone, Zap 
 import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
 import { cardsQueryOptions, initials, type Card } from "@/lib/cards";
+import { noWrapMoney } from "@/lib/format";
 
 export const Route = createFileRoute("/podbor")({
   head: () => ({
@@ -483,11 +484,11 @@ function BigCard({ card }: { card: Card }) {
       </div>
 
       <dl className="mt-6 grid gap-x-6 gap-y-3 border-t border-border pt-5 text-sm sm:grid-cols-3">
-        <Metric label="Выпуск" value={card.issue_cost} />
-        <Metric label="Обслуживание" value={card.service_cost} />
-        <Metric label="Пополнение" value={card.topup_fee} />
-        <Metric label="Лимит/мес" value={card.monthly_limit} />
-        <Metric label="Скорость" value={card.issue_speed} />
+        <Metric label="Выпуск" value={card.issue_cost} nowrap />
+        <Metric label="Обслуживание" value={card.service_cost} nowrap />
+        <Metric label="Пополнение" value={card.topup_fee} nowrap />
+        <Metric label="Лимит/мес" value={card.monthly_limit} nowrap />
+        <Metric label="Скорость" value={card.issue_speed} nowrap />
         <Metric label="BIN" value={card.bin_country} mono />
       </dl>
 
@@ -532,8 +533,8 @@ function SmallCard({ card }: { card: Card }) {
         </div>
       </div>
       <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
-        <Metric small label="Выпуск" value={card.issue_cost} />
-        <Metric small label="Пополнение" value={card.topup_fee} />
+        <Metric small nowrap label="Выпуск" value={card.issue_cost} />
+        <Metric small nowrap label="Пополнение" value={card.topup_fee} />
       </dl>
       <div className="mt-4 flex gap-2">
         <Link
@@ -561,21 +562,24 @@ function Metric({
   value,
   mono,
   small,
+  nowrap,
 }: {
   label: string;
   value: string | null;
   mono?: boolean;
   small?: boolean;
+  nowrap?: boolean;
 }) {
+  const display = nowrap && value ? noWrapMoney(value) : value;
   return (
     <div className={small ? "flex items-baseline justify-between gap-2" : ""}>
       <dt className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</dt>
       <dd
         className={`${small ? "text-right text-xs" : "mt-0.5 text-sm"} font-medium text-foreground ${
-          mono ? "font-mono" : ""
-        }`}
+          mono ? "font-mono " : ""
+        }${nowrap ? "whitespace-nowrap tabular-nums" : ""}`}
       >
-        {value ?? "—"}
+        {display ?? "—"}
       </dd>
     </div>
   );

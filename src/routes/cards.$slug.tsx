@@ -21,6 +21,7 @@ import { cardBySlugQueryOptions, cardsQueryOptions, formatDate, initials } from 
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { getCardServiceSlugs } from "@/lib/services";
+import { noWrapMoney } from "@/lib/format";
 import { PUBLIC_ROBOTS } from "@/lib/config";
 
 type ReviewRow = Database["public"]["Tables"]["reviews"]["Row"];
@@ -78,13 +79,14 @@ function Chip({ icon: Icon, label }: { icon: React.ComponentType<{ className?: s
   );
 }
 
-function Tile({ label, value }: { label: string; value: string | null | undefined }) {
+function Tile({ label, value, nowrap }: { label: string; value: string | null | undefined; nowrap?: boolean }) {
+  const display = nowrap && value ? noWrapMoney(value) : value;
   return (
     <div className="rounded-lg border border-border bg-background p-4 shadow-sm">
       <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
         {label}
       </div>
-      <div className="mt-1.5 font-serif text-lg font-bold text-primary">{value || "—"}</div>
+      <div className={`mt-1.5 font-serif text-lg font-bold text-primary${nowrap ? " whitespace-nowrap tabular-nums" : ""}`}>{display || "—"}</div>
     </div>
   );
 }
@@ -349,9 +351,9 @@ function CardPage() {
                   Стоимость
                 </h3>
                 <div className="mt-3 grid gap-3 sm:grid-cols-3">
-                  <Tile label="Выпуск" value={card.issue_cost} />
-                  <Tile label="Обслуживание" value={card.service_cost} />
-                  <Tile label="Комиссия пополнения" value={card.topup_fee} />
+                  <Tile label="Выпуск" value={card.issue_cost} nowrap />
+                  <Tile label="Обслуживание" value={card.service_cost} nowrap />
+                  <Tile label="Комиссия пополнения" value={card.topup_fee} nowrap />
                 </div>
               </div>
 
@@ -360,8 +362,8 @@ function CardPage() {
                   Условия
                 </h3>
                 <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                  <Tile label="Лимит в месяц" value={card.monthly_limit} />
-                  <Tile label="Скорость выпуска" value={card.issue_speed} />
+                  <Tile label="Лимит в месяц" value={card.monthly_limit} nowrap />
+                  <Tile label="Скорость выпуска" value={card.issue_speed} nowrap />
                   <Tile label="KYC" value={card.kyc ? "требуется" : "не требуется"} />
                   <Tile
                     label="Способы пополнения"
