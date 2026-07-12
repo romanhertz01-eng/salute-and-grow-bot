@@ -21,12 +21,14 @@ import { Route as CardsForSubscriptionsRouteImport } from './routes/cards-for-su
 import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as NetworkIndexRouteImport } from './routes/network.index'
 import { Route as CryptoIndexRouteImport } from './routes/crypto.index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BanksIndexRouteImport } from './routes/banks.index'
 import { Route as AiIndexRouteImport } from './routes/ai.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ServiceSlugRouteImport } from './routes/service.$slug'
+import { Route as NetworkSlugRouteImport } from './routes/network.$slug'
 import { Route as LegalTermsRouteImport } from './routes/legal.terms'
 import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
@@ -44,6 +46,7 @@ import { Route as AdminCardsRouteImport } from './routes/admin.cards'
 import { Route as AdminBlogRouteImport } from './routes/admin.blog'
 import { Route as AdminBanksRouteImport } from './routes/admin.banks'
 import { Route as AdminAiRouteImport } from './routes/admin.ai'
+import { Route as CardsSlugReviewsRouteImport } from './routes/cards.$slug_.reviews'
 
 const TravelCardsRoute = TravelCardsRouteImport.update({
   id: '/travel-cards',
@@ -105,6 +108,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NetworkIndexRoute = NetworkIndexRouteImport.update({
+  id: '/network/',
+  path: '/network/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CryptoIndexRoute = CryptoIndexRouteImport.update({
   id: '/crypto/',
   path: '/crypto/',
@@ -133,6 +141,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const ServiceSlugRoute = ServiceSlugRouteImport.update({
   id: '/service/$slug',
   path: '/service/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NetworkSlugRoute = NetworkSlugRouteImport.update({
+  id: '/network/$slug',
+  path: '/network/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalTermsRoute = LegalTermsRouteImport.update({
@@ -220,6 +233,11 @@ const AdminAiRoute = AdminAiRouteImport.update({
   path: '/admin/ai',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CardsSlugReviewsRoute = CardsSlugReviewsRouteImport.update({
+  id: '/cards/$slug_/reviews',
+  path: '/cards/$slug/reviews',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -251,12 +269,15 @@ export interface FileRoutesByFullPath {
   '/guides/$slug': typeof GuidesSlugRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/network/$slug': typeof NetworkSlugRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/ai/': typeof AiIndexRoute
   '/banks/': typeof BanksIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/crypto/': typeof CryptoIndexRoute
+  '/network/': typeof NetworkIndexRoute
+  '/cards/$slug/reviews': typeof CardsSlugReviewsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -288,12 +309,15 @@ export interface FileRoutesByTo {
   '/guides/$slug': typeof GuidesSlugRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/network/$slug': typeof NetworkSlugRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin': typeof AdminIndexRoute
   '/ai': typeof AiIndexRoute
   '/banks': typeof BanksIndexRoute
   '/blog': typeof BlogIndexRoute
   '/crypto': typeof CryptoIndexRoute
+  '/network': typeof NetworkIndexRoute
+  '/cards/$slug/reviews': typeof CardsSlugReviewsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -326,12 +350,15 @@ export interface FileRoutesById {
   '/guides/$slug': typeof GuidesSlugRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/network/$slug': typeof NetworkSlugRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/ai/': typeof AiIndexRoute
   '/banks/': typeof BanksIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/crypto/': typeof CryptoIndexRoute
+  '/network/': typeof NetworkIndexRoute
+  '/cards/$slug_/reviews': typeof CardsSlugReviewsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -365,12 +392,15 @@ export interface FileRouteTypes {
     | '/guides/$slug'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/network/$slug'
     | '/service/$slug'
     | '/admin/'
     | '/ai/'
     | '/banks/'
     | '/blog/'
     | '/crypto/'
+    | '/network/'
+    | '/cards/$slug/reviews'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -402,12 +432,15 @@ export interface FileRouteTypes {
     | '/guides/$slug'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/network/$slug'
     | '/service/$slug'
     | '/admin'
     | '/ai'
     | '/banks'
     | '/blog'
     | '/crypto'
+    | '/network'
+    | '/cards/$slug/reviews'
   id:
     | '__root__'
     | '/'
@@ -439,12 +472,15 @@ export interface FileRouteTypes {
     | '/guides/$slug'
     | '/legal/privacy'
     | '/legal/terms'
+    | '/network/$slug'
     | '/service/$slug'
     | '/admin/'
     | '/ai/'
     | '/banks/'
     | '/blog/'
     | '/crypto/'
+    | '/network/'
+    | '/cards/$slug_/reviews'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -477,12 +513,15 @@ export interface RootRouteChildren {
   GuidesSlugRoute: typeof GuidesSlugRoute
   LegalPrivacyRoute: typeof LegalPrivacyRoute
   LegalTermsRoute: typeof LegalTermsRoute
+  NetworkSlugRoute: typeof NetworkSlugRoute
   ServiceSlugRoute: typeof ServiceSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AiIndexRoute: typeof AiIndexRoute
   BanksIndexRoute: typeof BanksIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
   CryptoIndexRoute: typeof CryptoIndexRoute
+  NetworkIndexRoute: typeof NetworkIndexRoute
+  CardsSlugReviewsRoute: typeof CardsSlugReviewsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -571,6 +610,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/network/': {
+      id: '/network/'
+      path: '/network'
+      fullPath: '/network/'
+      preLoaderRoute: typeof NetworkIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/crypto/': {
       id: '/crypto/'
       path: '/crypto'
@@ -611,6 +657,13 @@ declare module '@tanstack/react-router' {
       path: '/service/$slug'
       fullPath: '/service/$slug'
       preLoaderRoute: typeof ServiceSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/network/$slug': {
+      id: '/network/$slug'
+      path: '/network/$slug'
+      fullPath: '/network/$slug'
+      preLoaderRoute: typeof NetworkSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal/terms': {
@@ -732,6 +785,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cards/$slug_/reviews': {
+      id: '/cards/$slug_/reviews'
+      path: '/cards/$slug/reviews'
+      fullPath: '/cards/$slug/reviews'
+      preLoaderRoute: typeof CardsSlugReviewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -765,12 +825,15 @@ const rootRouteChildren: RootRouteChildren = {
   GuidesSlugRoute: GuidesSlugRoute,
   LegalPrivacyRoute: LegalPrivacyRoute,
   LegalTermsRoute: LegalTermsRoute,
+  NetworkSlugRoute: NetworkSlugRoute,
   ServiceSlugRoute: ServiceSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
   AiIndexRoute: AiIndexRoute,
   BanksIndexRoute: BanksIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
   CryptoIndexRoute: CryptoIndexRoute,
+  NetworkIndexRoute: NetworkIndexRoute,
+  CardsSlugReviewsRoute: CardsSlugReviewsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

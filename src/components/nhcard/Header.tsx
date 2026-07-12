@@ -33,6 +33,8 @@ const nav: NavItem[] = [
       { label: "Зарубежные виртуальные карты", kind: "route", to: "/foreign-virtual-cards" },
       { label: "Карты для подписок", kind: "route", to: "/cards-for-subscriptions" },
       { label: "Карты для путешествий", kind: "route", to: "/travel-cards" },
+      { label: "Visa", kind: "route", to: "/network/visa" },
+      { label: "Mastercard", kind: "route", to: "/network/mastercard" },
     ],
   },
   { label: "Подбор", kind: "route", to: "/podbor" },
