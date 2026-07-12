@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { Card } from "@/lib/cards";
 
 type CountryRow = {
   slug: string;
@@ -25,24 +24,9 @@ export const homeCountriesQueryOptions = queryOptions({
   },
 });
 
-function plural(n: number) {
-  const mod10 = n % 10;
-  const mod100 = n % 100;
-  if (mod10 === 1 && mod100 !== 11) return "карта";
-  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return "карты";
-  return "карт";
-}
-
-export function CountriesSection({ cards }: { cards: Card[] }) {
+export function CountriesSection() {
   const { data: rows } = useSuspenseQuery(homeCountriesQueryOptions);
-  const counts = new Map<string, number>();
-  for (const card of cards) {
-    if (!card.issuer_country) continue;
-    counts.set(card.issuer_country, (counts.get(card.issuer_country) ?? 0) + 1);
-  }
-  const items = rows
-    .map((r) => ({ ...r, count: counts.get(r.name_ru) ?? 0 }))
-    .slice(0, 8);
+  const items = rows.slice(0, 8);
   if (items.length === 0) return null;
 
   return (
@@ -74,7 +58,7 @@ export function CountriesSection({ cards }: { cards: Card[] }) {
                 {c.name_ru}
               </h3>
               <p className="mt-1 text-xs text-muted-foreground">
-                {c.count > 0 ? `${c.count} ${plural(c.count)} · ${c.currency}` : c.currency}
+                Оплата в {c.currency}
               </p>
             </Link>
           ))}
