@@ -4,7 +4,8 @@ import { ChevronRight, ShieldCheck } from "lucide-react";
 
 import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
-import { cardsQueryOptions, initials, type Card } from "@/lib/cards";
+import { cardsQueryOptions, type Card } from "@/lib/cards";
+import { CardLogo } from "@/components/nhcard/CardLogo";
 import { PUBLIC_ROBOTS } from "@/lib/config";
 
 type NetSlug = "visa" | "mastercard";
@@ -200,9 +201,7 @@ function NetworkPage() {
                       className="block h-full rounded-lg border border-border bg-background p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-md border border-border bg-surface font-serif text-sm font-bold text-primary">
-                          {initials(c.name)}
-                        </div>
+                        <CardLogo name={c.name} logoUrl={c.logo_url} logoDomain={c.logo_domain} size={40} />
                         <div className="font-serif text-lg font-bold text-primary">
                           {Number(c.editorial_score).toFixed(1)}
                         </div>
