@@ -14,9 +14,14 @@ type Props = {
 
 type Stage = "url" | "favicon" | "plate";
 
+const BLOCKED_LOGO_DOMAINS = new Set(["t.me", "telegram.org", "google.com", "vk.com"]);
+
+function normalizeDomain(domain: string): string {
+  return domain.trim().toLowerCase().replace(/^https?:\/\//i, "").replace(/^www\./i, "").replace(/\/.*$/, "");
+}
+
 function faviconUrl(domain: string): string {
-  const clean = domain.trim().replace(/^https?:\/\//i, "").replace(/^www\./i, "").replace(/\/.*$/, "");
-  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(clean)}&sz=64`;
+  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(normalizeDomain(domain))}&sz=64`;
 }
 
 /**
@@ -31,11 +36,13 @@ export function CardLogo({
   plateClassName = "rounded-md border border-border bg-surface text-primary",
   plateFontClassName = "font-serif",
 }: Props) {
-  const initial: Stage = logoUrl ? "url" : logoDomain ? "favicon" : "plate";
+  const domainBlocked = logoDomain ? BLOCKED_LOGO_DOMAINS.has(normalizeDomain(logoDomain)) : false;
+  const usableDomain = logoDomain && !domainBlocked ? logoDomain : null;
+  const initial: Stage = logoUrl ? "url" : usableDomain ? "favicon" : "plate";
   const [stage, setStage] = useState<Stage>(initial);
 
   const advance = () => {
-    setStage((s) => (s === "url" ? (logoDomain ? "favicon" : "plate") : "plate"));
+    setStage((s) => (s === "url" ? (usableDomain ? "favicon" : "plate") : "plate"));
   };
   const handleLoad = (e: SyntheticEvent<HTMLImageElement>) => {
     if (e.currentTarget.naturalWidth === 0) advance();
@@ -55,7 +62,7 @@ export function CardLogo({
     );
   }
 
-  const src = stage === "url" ? (logoUrl as string) : faviconUrl(logoDomain as string);
+  const src = stage === "url" ? (logoUrl as string) : faviconUrl(usableDomain as string);
 
   return (
     <img
