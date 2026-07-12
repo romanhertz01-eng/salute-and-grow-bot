@@ -5,12 +5,12 @@ import {
   CATEGORY_LABEL,
   CATEGORY_ORDER,
   SERVICES_BY_SLUG,
-  simpleIconUrl,
+  iconUrl,
   type Service,
   type ServiceCategory,
 } from "@/lib/services";
 
-export function ServiceLogo({ service, size = 28 }: { service: Service; size?: number }) {
+export function ServiceIcon({ service, size = 28 }: { service: Service; size?: number }) {
   const [failed, setFailed] = useState(false);
   const showPlate = service.plate || failed;
   const initials =
@@ -43,8 +43,9 @@ export function ServiceLogo({ service, size = 28 }: { service: Service; size?: n
 
   return (
     <img
-      src={simpleIconUrl(service.slug)}
+      src={iconUrl(service)}
       alt=""
+      aria-hidden
       width={size}
       height={size}
       loading="lazy"
@@ -57,6 +58,9 @@ export function ServiceLogo({ service, size = 28 }: { service: Service; size?: n
     />
   );
 }
+
+// Back-compat alias for existing imports.
+export const ServiceLogo = ServiceIcon;
 
 export function ServicePreview({
   slugs,
@@ -87,7 +91,7 @@ export function ServicePreview({
               title={s.name}
               className="flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background p-0.5"
             >
-              <ServiceLogo service={s} size={20} />
+              <ServiceIcon service={s} size={20} />
             </div>
           );
         })}
@@ -201,7 +205,7 @@ export function ServicesModal({
                       className="flex items-center gap-3 rounded-lg border border-border bg-background px-3 py-2.5 transition-colors hover:border-primary/30"
                     >
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-border bg-background p-1">
-                        <ServiceLogo service={s} size={24} />
+                        <ServiceIcon service={s} size={24} />
                       </div>
                       <span className="truncate text-sm font-medium text-primary">{s.name}</span>
                     </div>
