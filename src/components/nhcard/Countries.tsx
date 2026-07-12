@@ -1,20 +1,28 @@
+import { Link } from "@tanstack/react-router";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import type { Card } from "@/lib/cards";
 
-type CountryDef = {
-  name: string;
-  flag: string;
+type CountryRow = {
+  slug: string;
+  name_ru: string;
+  flag_emoji: string;
   currency: string;
-  filterId: "am" | "kz" | "tr" | "kg" | "cy" | "hk";
+  priority: number;
 };
 
-const COUNTRIES: CountryDef[] = [
-  { name: "Армения", flag: "🇦🇲", currency: "AMD, USD", filterId: "am" },
-  { name: "Казахстан", flag: "🇰🇿", currency: "KZT, USD", filterId: "kz" },
-  { name: "Турция", flag: "🇹🇷", currency: "TRY, USD", filterId: "tr" },
-  { name: "Киргизия", flag: "🇰🇬", currency: "KGS, USD", filterId: "kg" },
-  { name: "Кипр", flag: "🇨🇾", currency: "EUR", filterId: "cy" },
-  { name: "Гонконг", flag: "🇭🇰", currency: "HKD, USD", filterId: "hk" },
-];
+export const homeCountriesQueryOptions = queryOptions({
+  queryKey: ["country_pages", "home"],
+  queryFn: async (): Promise<CountryRow[]> => {
+    const { data, error } = await supabase
+      .from("country_pages" as never)
+      .select("slug,name_ru,flag_emoji,currency,priority")
+      .eq("published", true)
+      .order("priority", { ascending: false });
+    if (error) throw error;
+    return (data as CountryRow[] | null) ?? [];
+  },
+});
 
 function plural(n: number) {
   const mod10 = n % 10;
@@ -25,18 +33,18 @@ function plural(n: number) {
 }
 
 export function CountriesSection({ cards }: { cards: Card[] }) {
-  const items = COUNTRIES.map((c) => ({
-    ...c,
-    count: cards.filter((card) => card.issuer_country === c.name).length,
-  })).filter((c) => c.count > 0);
-
+  const { data: rows } = useSuspenseQuery(homeCountriesQueryOptions);
+  const counts = new Map<string, number>();
+  for (const card of cards) {
+    if (!card.issuer_country) continue;
+    counts.set(card.issuer_country, (counts.get(card.issuer_country) ?? 0) + 1);
+  }
+  // Prefer countries that have cards; fill remaining slots with published-but-empty ones.
+  const withCards = rows
+    .map((r) => ({ ...r, count: counts.get(r.name_ru) ?? 0 }))
+    .sort((a, b) => (b.count - a.count) || (b.priority - a.priority));
+  const items = withCards.slice(0, 8);
   if (items.length === 0) return null;
-
-  const handleClick = (filterId: CountryDef["filterId"]) => {
-    window.dispatchEvent(
-      new CustomEvent("erapay:apply-filter", { detail: { filter: filterId, query: "" } }),
-    );
-  };
 
   return (
     <section id="countries" className="scroll-mt-20 border-b border-border bg-surface/40">
@@ -53,22 +61,22 @@ export function CountriesSection({ cards }: { cards: Card[] }) {
 
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {items.map((c) => (
-            <button
-              key={c.name}
-              type="button"
-              onClick={() => handleClick(c.filterId)}
-              className="group flex cursor-pointer flex-col rounded-xl border border-border bg-background p-5 text-left transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+            <Link
+              key={c.slug}
+              to="/country/$slug"
+              params={{ slug: c.slug }}
+              className="group flex flex-col rounded-xl border border-border bg-background p-5 text-left transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
             >
               <span aria-hidden="true" className="text-3xl leading-none">
-                {c.flag}
+                {c.flag_emoji}
               </span>
               <h3 className="mt-4 font-serif text-lg font-semibold text-primary">
-                {c.name}
+                {c.name_ru}
               </h3>
               <p className="mt-1 text-xs text-muted-foreground">
-                {c.count} {plural(c.count)} · {c.currency}
+                {c.count > 0 ? `${c.count} ${plural(c.count)} · ${c.currency}` : c.currency}
               </p>
-            </button>
+            </Link>
           ))}
         </div>
       </div>

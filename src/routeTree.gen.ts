@@ -9,16 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WorkCardsRouteImport } from './routes/work-cards'
 import { Route as TravelCardsRouteImport } from './routes/travel-cards'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ShoppingCardsRouteImport } from './routes/shopping-cards'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as PodborRouteImport } from './routes/podbor'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as MethodologyRouteImport } from './routes/methodology'
+import { Route as GamingCardsRouteImport } from './routes/gaming-cards'
 import { Route as ForeignVirtualCardsRouteImport } from './routes/foreign-virtual-cards'
 import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
 import { Route as CardsForSubscriptionsRouteImport } from './routes/cards-for-subscriptions'
 import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
+import { Route as AdsCardsRouteImport } from './routes/ads-cards'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as NetworkIndexRouteImport } from './routes/network.index'
@@ -48,6 +52,11 @@ import { Route as AdminBanksRouteImport } from './routes/admin.banks'
 import { Route as AdminAiRouteImport } from './routes/admin.ai'
 import { Route as CardsSlugReviewsRouteImport } from './routes/cards.$slug_.reviews'
 
+const WorkCardsRoute = WorkCardsRouteImport.update({
+  id: '/work-cards',
+  path: '/work-cards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TravelCardsRoute = TravelCardsRouteImport.update({
   id: '/travel-cards',
   path: '/travel-cards',
@@ -56,6 +65,11 @@ const TravelCardsRoute = TravelCardsRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShoppingCardsRoute = ShoppingCardsRouteImport.update({
+  id: '/shopping-cards',
+  path: '/shopping-cards',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
@@ -78,6 +92,11 @@ const MethodologyRoute = MethodologyRouteImport.update({
   path: '/methodology',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GamingCardsRoute = GamingCardsRouteImport.update({
+  id: '/gaming-cards',
+  path: '/gaming-cards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ForeignVirtualCardsRoute = ForeignVirtualCardsRouteImport.update({
   id: '/foreign-virtual-cards',
   path: '/foreign-virtual-cards',
@@ -96,6 +115,11 @@ const CardsForSubscriptionsRoute = CardsForSubscriptionsRouteImport.update({
 const AffiliateDisclosureRoute = AffiliateDisclosureRouteImport.update({
   id: '/affiliate-disclosure',
   path: '/affiliate-disclosure',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdsCardsRoute = AdsCardsRouteImport.update({
+  id: '/ads-cards',
+  path: '/ads-cards',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -242,16 +266,20 @@ const CardsSlugReviewsRoute = CardsSlugReviewsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ads-cards': typeof AdsCardsRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/cards-for-subscriptions': typeof CardsForSubscriptionsRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/foreign-virtual-cards': typeof ForeignVirtualCardsRoute
+  '/gaming-cards': typeof GamingCardsRoute
   '/methodology': typeof MethodologyRoute
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/shopping-cards': typeof ShoppingCardsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
+  '/work-cards': typeof WorkCardsRoute
   '/admin/ai': typeof AdminAiRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
@@ -282,16 +310,20 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ads-cards': typeof AdsCardsRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/cards-for-subscriptions': typeof CardsForSubscriptionsRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/foreign-virtual-cards': typeof ForeignVirtualCardsRoute
+  '/gaming-cards': typeof GamingCardsRoute
   '/methodology': typeof MethodologyRoute
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/shopping-cards': typeof ShoppingCardsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
+  '/work-cards': typeof WorkCardsRoute
   '/admin/ai': typeof AdminAiRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
@@ -323,16 +355,20 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ads-cards': typeof AdsCardsRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/cards-for-subscriptions': typeof CardsForSubscriptionsRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/foreign-virtual-cards': typeof ForeignVirtualCardsRoute
+  '/gaming-cards': typeof GamingCardsRoute
   '/methodology': typeof MethodologyRoute
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/shopping-cards': typeof ShoppingCardsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
+  '/work-cards': typeof WorkCardsRoute
   '/admin/ai': typeof AdminAiRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
@@ -365,16 +401,20 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/ads-cards'
     | '/affiliate-disclosure'
     | '/cards-for-subscriptions'
     | '/editorial-policy'
     | '/foreign-virtual-cards'
+    | '/gaming-cards'
     | '/methodology'
     | '/partners'
     | '/podbor'
     | '/robots.txt'
+    | '/shopping-cards'
     | '/sitemap.xml'
     | '/travel-cards'
+    | '/work-cards'
     | '/admin/ai'
     | '/admin/banks'
     | '/admin/blog'
@@ -405,16 +445,20 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/ads-cards'
     | '/affiliate-disclosure'
     | '/cards-for-subscriptions'
     | '/editorial-policy'
     | '/foreign-virtual-cards'
+    | '/gaming-cards'
     | '/methodology'
     | '/partners'
     | '/podbor'
     | '/robots.txt'
+    | '/shopping-cards'
     | '/sitemap.xml'
     | '/travel-cards'
+    | '/work-cards'
     | '/admin/ai'
     | '/admin/banks'
     | '/admin/blog'
@@ -445,16 +489,20 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/ads-cards'
     | '/affiliate-disclosure'
     | '/cards-for-subscriptions'
     | '/editorial-policy'
     | '/foreign-virtual-cards'
+    | '/gaming-cards'
     | '/methodology'
     | '/partners'
     | '/podbor'
     | '/robots.txt'
+    | '/shopping-cards'
     | '/sitemap.xml'
     | '/travel-cards'
+    | '/work-cards'
     | '/admin/ai'
     | '/admin/banks'
     | '/admin/blog'
@@ -486,16 +534,20 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdsCardsRoute: typeof AdsCardsRoute
   AffiliateDisclosureRoute: typeof AffiliateDisclosureRoute
   CardsForSubscriptionsRoute: typeof CardsForSubscriptionsRoute
   EditorialPolicyRoute: typeof EditorialPolicyRoute
   ForeignVirtualCardsRoute: typeof ForeignVirtualCardsRoute
+  GamingCardsRoute: typeof GamingCardsRoute
   MethodologyRoute: typeof MethodologyRoute
   PartnersRoute: typeof PartnersRoute
   PodborRoute: typeof PodborRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
+  ShoppingCardsRoute: typeof ShoppingCardsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TravelCardsRoute: typeof TravelCardsRoute
+  WorkCardsRoute: typeof WorkCardsRoute
   AdminAiRoute: typeof AdminAiRoute
   AdminBanksRoute: typeof AdminBanksRoute
   AdminBlogRoute: typeof AdminBlogRoute
@@ -526,6 +578,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/work-cards': {
+      id: '/work-cards'
+      path: '/work-cards'
+      fullPath: '/work-cards'
+      preLoaderRoute: typeof WorkCardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/travel-cards': {
       id: '/travel-cards'
       path: '/travel-cards'
@@ -538,6 +597,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shopping-cards': {
+      id: '/shopping-cards'
+      path: '/shopping-cards'
+      fullPath: '/shopping-cards'
+      preLoaderRoute: typeof ShoppingCardsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/robots.txt': {
@@ -568,6 +634,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MethodologyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gaming-cards': {
+      id: '/gaming-cards'
+      path: '/gaming-cards'
+      fullPath: '/gaming-cards'
+      preLoaderRoute: typeof GamingCardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/foreign-virtual-cards': {
       id: '/foreign-virtual-cards'
       path: '/foreign-virtual-cards'
@@ -594,6 +667,13 @@ declare module '@tanstack/react-router' {
       path: '/affiliate-disclosure'
       fullPath: '/affiliate-disclosure'
       preLoaderRoute: typeof AffiliateDisclosureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ads-cards': {
+      id: '/ads-cards'
+      path: '/ads-cards'
+      fullPath: '/ads-cards'
+      preLoaderRoute: typeof AdsCardsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -798,16 +878,20 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdsCardsRoute: AdsCardsRoute,
   AffiliateDisclosureRoute: AffiliateDisclosureRoute,
   CardsForSubscriptionsRoute: CardsForSubscriptionsRoute,
   EditorialPolicyRoute: EditorialPolicyRoute,
   ForeignVirtualCardsRoute: ForeignVirtualCardsRoute,
+  GamingCardsRoute: GamingCardsRoute,
   MethodologyRoute: MethodologyRoute,
   PartnersRoute: PartnersRoute,
   PodborRoute: PodborRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
+  ShoppingCardsRoute: ShoppingCardsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TravelCardsRoute: TravelCardsRoute,
+  WorkCardsRoute: WorkCardsRoute,
   AdminAiRoute: AdminAiRoute,
   AdminBanksRoute: AdminBanksRoute,
   AdminBlogRoute: AdminBlogRoute,

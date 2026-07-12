@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Sparkles, ShoppingBag, Megaphone, Plane, Gamepad2, Briefcase, ArrowRight, type LucideIcon } from "lucide-react";
 
 type TaskCard = {
@@ -5,22 +6,25 @@ type TaskCard = {
   title: string;
   icon: LucideIcon;
   examples: string;
+  to:
+    | "/cards-for-subscriptions"
+    | "/shopping-cards"
+    | "/ads-cards"
+    | "/travel-cards"
+    | "/gaming-cards"
+    | "/work-cards";
 };
 
 const TASKS: TaskCard[] = [
-  { id: "subs", title: "Подписки и нейросети", icon: Sparkles, examples: "ChatGPT, Claude, Netflix, Spotify, Midjourney" },
-  { id: "shops", title: "Покупки в магазинах", icon: ShoppingBag, examples: "Amazon, eBay, AliExpress, iHerb" },
-  { id: "ads", title: "Реклама и маркетинг", icon: Megaphone, examples: "Google Ads, TikTok Ads, Meta Ads" },
-  { id: "travel", title: "Путешествия", icon: Plane, examples: "Booking, Airbnb, Agoda, авиабилеты" },
-  { id: "games", title: "Игры и сторы", icon: Gamepad2, examples: "Steam, PlayStation, Epic Games, App Store" },
-  { id: "work", title: "Работа и SaaS", icon: Briefcase, examples: "Adobe, Figma, Notion, GitHub, JetBrains" },
+  { id: "subs", title: "Подписки и нейросети", icon: Sparkles, examples: "ChatGPT, Claude, Netflix, Spotify, Midjourney", to: "/cards-for-subscriptions" },
+  { id: "shops", title: "Покупки в магазинах", icon: ShoppingBag, examples: "Amazon, eBay, AliExpress, iHerb", to: "/shopping-cards" },
+  { id: "ads", title: "Реклама и маркетинг", icon: Megaphone, examples: "Google Ads, TikTok Ads", to: "/ads-cards" },
+  { id: "travel", title: "Путешествия", icon: Plane, examples: "Booking, Airbnb, Agoda, авиабилеты", to: "/travel-cards" },
+  { id: "games", title: "Игры и сторы", icon: Gamepad2, examples: "Steam, PlayStation, Xbox", to: "/gaming-cards" },
+  { id: "work", title: "Работа и SaaS", icon: Briefcase, examples: "Adobe, Figma, Notion, GitHub, JetBrains", to: "/work-cards" },
 ];
 
 export function TasksSection() {
-  const handleClick = () => {
-    const el = document.getElementById("rating");
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
   return (
     <section id="task" className="scroll-mt-20 border-b border-border bg-background">
       <div className="mx-auto max-w-[1240px] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
@@ -38,11 +42,10 @@ export function TasksSection() {
           {TASKS.map((t) => {
             const Icon = t.icon;
             return (
-              <button
+              <Link
                 key={t.id}
-                type="button"
-                onClick={handleClick}
-                className="group flex cursor-pointer flex-col rounded-xl border border-border bg-surface/40 p-6 text-left transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                to={t.to}
+                className="group flex flex-col rounded-xl border border-border bg-surface/40 p-6 text-left transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
               >
                 <div className="inline-flex w-fit rounded-lg bg-primary/5 p-2.5 text-primary">
                   <Icon className="h-5 w-5" />
@@ -57,7 +60,7 @@ export function TasksSection() {
                   Смотреть карты
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </span>
-              </button>
+              </Link>
             );
           })}
         </div>
