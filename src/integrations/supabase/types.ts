@@ -186,6 +186,8 @@ export type Database = {
           issuer_country: string | null
           kyc: boolean
           last_checked: string
+          logo_domain: string | null
+          logo_url: string | null
           monthly_limit: string | null
           name: string
           payment_system: string | null
@@ -219,6 +221,8 @@ export type Database = {
           issuer_country?: string | null
           kyc?: boolean
           last_checked?: string
+          logo_domain?: string | null
+          logo_url?: string | null
           monthly_limit?: string | null
           name: string
           payment_system?: string | null
@@ -252,6 +256,8 @@ export type Database = {
           issuer_country?: string | null
           kyc?: boolean
           last_checked?: string
+          logo_domain?: string | null
+          logo_url?: string | null
           monthly_limit?: string | null
           name?: string
           payment_system?: string | null
