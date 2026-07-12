@@ -1,11 +1,29 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Apple, Smartphone, Zap, ArrowUpRight, ShieldCheck } from "lucide-react";
+import { Apple, Smartphone, Zap, ArrowUpRight, ShieldCheck, Search, X, ChevronsUpDown } from "lucide-react";
 import type { Card } from "@/lib/cards";
 import { initials } from "@/lib/cards";
 import { noWrapMoney } from "@/lib/format";
-import { getCardServiceSlugs, getTableServiceSlugs } from "@/lib/services";
-import { ServicePreview, ServicesModal } from "./ServicesModal";
+import {
+  getCardServiceSlugs,
+  getTableServiceSlugs,
+  SERVICES,
+  SERVICES_BY_SLUG,
+  CATEGORY_LABEL,
+  CATEGORY_ORDER,
+} from "@/lib/services";
+import { ServiceIcon, ServicePreview, ServicesModal } from "./ServicesModal";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+
+const QUICK_SERVICE_SLUGS = ["openai", "netflix", "spotify", "steam", "googleads", "bookingdotcom"];
 
 type SortKey = "rank" | "price" | "speed";
 
