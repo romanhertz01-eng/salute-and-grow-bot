@@ -38,6 +38,8 @@ type CardRow = {
   issue_cost_rub: number | null;
   issue_speed_minutes: number | null;
   kyc: boolean;
+  service_cost_rub_year: number | null;
+  topup_fee_percent: number | null;
 };
 
 const EMPTY: Omit<CardRow, "id"> = {
@@ -58,6 +60,8 @@ const EMPTY: Omit<CardRow, "id"> = {
   issue_cost_rub: null,
   issue_speed_minutes: null,
   kyc: false,
+  service_cost_rub_year: null,
+  topup_fee_percent: null,
 };
 
 function CardsPanel() {
@@ -69,7 +73,7 @@ function CardsPanel() {
     const { data } = await supabase
       .from("cards")
       .select(
-        "id, slug, name, bank, rank, editorial_score, verified, is_ad, affiliate_url, issue_cost, service_cost, topup_fee, payment_system, monthly_limit, issue_speed, issue_cost_rub, issue_speed_minutes, kyc"
+        "id, slug, name, bank, rank, editorial_score, verified, is_ad, affiliate_url, issue_cost, service_cost, topup_fee, payment_system, monthly_limit, issue_speed, issue_cost_rub, issue_speed_minutes, kyc, service_cost_rub_year, topup_fee_percent"
       )
       .order("rank");
     setItems((data as CardRow[] | null) ?? []);
@@ -245,6 +249,17 @@ function CardDialog({
             label="Скорость, минут (для сортировки)"
             value={form.issue_speed_minutes ?? 0}
             onChange={(v) => set("issue_speed_minutes", Number.isFinite(v) ? v : null)}
+          />
+          <NumField
+            label="Обслуживание за год, ₽ (для калькулятора)"
+            value={form.service_cost_rub_year ?? 0}
+            onChange={(v) => set("service_cost_rub_year", Number.isFinite(v) ? v : null)}
+          />
+          <NumField
+            label="Комиссия пополнения, % (для калькулятора)"
+            value={form.topup_fee_percent ?? 0}
+            step={0.1}
+            onChange={(v) => set("topup_fee_percent", Number.isFinite(v) ? v : null)}
           />
           <Field label="Affiliate URL" value={form.affiliate_url ?? ""} onChange={(v) => set("affiliate_url", v)} />
           <BoolField label="Verified" value={form.verified} onChange={(v) => set("verified", v)} />
