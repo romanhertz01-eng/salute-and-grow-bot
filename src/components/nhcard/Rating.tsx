@@ -1,11 +1,29 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Apple, Smartphone, Zap, ArrowUpRight, ShieldCheck } from "lucide-react";
+import { Apple, Smartphone, Zap, ArrowUpRight, ShieldCheck, Search, X, ChevronsUpDown } from "lucide-react";
 import type { Card } from "@/lib/cards";
 import { initials } from "@/lib/cards";
 import { noWrapMoney } from "@/lib/format";
-import { getCardServiceSlugs, getTableServiceSlugs } from "@/lib/services";
-import { ServicePreview, ServicesModal } from "./ServicesModal";
+import {
+  getCardServiceSlugs,
+  getTableServiceSlugs,
+  SERVICES,
+  SERVICES_BY_SLUG,
+  CATEGORY_LABEL,
+  CATEGORY_ORDER,
+} from "@/lib/services";
+import { ServiceIcon, ServicePreview, ServicesModal } from "./ServicesModal";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+
+const QUICK_SERVICE_SLUGS = ["openai", "netflix", "spotify", "steam", "googleads", "bookingdotcom"];
 
 type SortKey = "rank" | "price" | "speed";
 
@@ -68,9 +86,32 @@ function buildChips(cards: Card[]): Chip[] {
 export function RatingSection({ cards, withControls = false }: { cards: Card[]; withControls?: boolean }) {
   const [activeChip, setActiveChip] = useState<ChipId | null>(null);
   const [sort, setSort] = useState<SortKey>("rank");
+  const [search, setSearch] = useState("");
+  const [serviceSlug, setServiceSlug] = useState<string | null>(null);
+  const [servicePickerOpen, setServicePickerOpen] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
 
   const chips = useMemo(() => (withControls ? buildChips(cards) : []), [cards, withControls]);
+
+  const cardServiceMap = useMemo(() => {
+    const m = new Map<string, string[]>();
+    for (const c of cards) m.set(c.slug, getCardServiceSlugs(c.slug, c.top_services ?? null));
+    return m;
+  }, [cards]);
+
+  const selectedService = serviceSlug ? SERVICES_BY_SLUG[serviceSlug] ?? null : null;
+
+  const servicesGrouped = useMemo(() => {
+    const map = new Map<string, typeof SERVICES>();
+    for (const s of SERVICES) {
+      const arr = map.get(s.category) ?? [];
+      arr.push(s);
+      map.set(s.category, arr);
+    }
+    return CATEGORY_ORDER
+      .map((cat) => ({ cat, items: map.get(cat) ?? [] }))
+      .filter((g) => g.items.length > 0);
+  }, []);
 
   useEffect(() => {
     if (!withControls) return;
@@ -89,7 +130,16 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
   const filtered = useMemo(() => {
     if (!withControls) return cards;
     const chip = chips.find((f) => f.id === activeChip);
-    const list = chip ? cards.filter(chip.test) : cards;
+    const q = search.trim().toLowerCase();
+    const list = cards.filter((c) => {
+      if (chip && !chip.test(c)) return false;
+      if (q && !c.name.toLowerCase().includes(q)) return false;
+      if (serviceSlug) {
+        const list = cardServiceMap.get(c.slug) ?? [];
+        if (!list.includes(serviceSlug)) return false;
+      }
+      return true;
+    });
     const sorted = [...list].sort((a, b) => {
       if (sort === "price") {
         const av = a.issue_cost_rub ?? Number.POSITIVE_INFINITY;
@@ -106,7 +156,23 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
       return a.rank - b.rank;
     });
     return sorted;
-  }, [cards, chips, activeChip, sort, withControls]);
+  }, [cards, chips, activeChip, sort, withControls, search, serviceSlug, cardServiceMap]);
+
+  const excludedForService = useMemo(() => {
+    if (!serviceSlug) return 0;
+    let n = 0;
+    for (const c of cards) if ((cardServiceMap.get(c.slug) ?? []).length === 0) n += 1;
+    return n;
+  }, [cards, cardServiceMap, serviceSlug]);
+
+  const hasAnyFilter =
+    activeChip !== null || serviceSlug !== null || search.trim().length > 0;
+
+  const resetAll = () => {
+    setActiveChip(null);
+    setServiceSlug(null);
+    setSearch("");
+  };
 
   const activeChipObj = chips.find((c) => c.id === activeChip) ?? null;
 
@@ -122,6 +188,106 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
 
         {withControls && (
           <>
+            <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="relative flex-1">
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
+                <input
+                  type="search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Поиск по названию карты"
+                  aria-label="Поиск по названию карты"
+                  className="h-9 w-full rounded-md border border-border bg-background pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground/70 focus:border-primary focus:outline-none"
+                />
+              </div>
+              <Popover open={servicePickerOpen} onOpenChange={setServicePickerOpen}>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    aria-label="Что оплачивать"
+                    className="inline-flex h-9 min-w-[220px] items-center justify-between gap-2 rounded-md border border-border bg-background px-3 text-sm text-foreground hover:border-primary/40"
+                  >
+                    {selectedService ? (
+                      <span className="flex items-center gap-2 truncate">
+                        <ServiceIcon service={selectedService} size={18} />
+                        <span className="truncate">{selectedService.name}</span>
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground">Что оплачивать</span>
+                    )}
+                    <ChevronsUpDown className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent align="start" className="w-[320px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Найти сервис…" />
+                    <CommandList>
+                      <CommandEmpty>Ничего не найдено</CommandEmpty>
+                      {servicesGrouped.map(({ cat, items }) => (
+                        <CommandGroup key={cat} heading={CATEGORY_LABEL[cat]}>
+                          {items.map((s) => (
+                            <CommandItem
+                              key={s.slug}
+                              value={`${s.name} ${s.slug}`}
+                              onSelect={() => {
+                                setServiceSlug(s.slug);
+                                setServicePickerOpen(false);
+                              }}
+                              className="flex items-center gap-2"
+                            >
+                              <ServiceIcon service={s} size={18} />
+                              <span className="truncate">{s.name}</span>
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      ))}
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </div>
+            {selectedService && (
+              <div className="mb-3 flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-md border border-primary bg-primary px-2.5 py-1 text-xs font-medium text-primary-foreground">
+                  <ServiceIcon service={selectedService} size={14} />
+                  {selectedService.name}
+                  <button
+                    type="button"
+                    onClick={() => setServiceSlug(null)}
+                    aria-label="Убрать фильтр сервиса"
+                    className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full hover:bg-primary-foreground/20"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </span>
+              </div>
+            )}
+            <div className="mb-3 -mx-4 overflow-x-auto px-4 sm:mx-0 sm:overflow-visible sm:px-0">
+              <div className="flex min-w-max items-center gap-2">
+                <span className="text-xs text-muted-foreground">Популярные:</span>
+                {QUICK_SERVICE_SLUGS.map((slug) => {
+                  const s = SERVICES_BY_SLUG[slug];
+                  if (!s) return null;
+                  const active = serviceSlug === slug;
+                  return (
+                    <button
+                      key={slug}
+                      type="button"
+                      onClick={() => setServiceSlug(active ? null : slug)}
+                      aria-pressed={active}
+                      className={`inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md border px-2.5 text-xs font-medium transition-colors ${
+                        active
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-border bg-background text-foreground/75 hover:border-primary/40 hover:text-primary"
+                      }`}
+                    >
+                      <ServiceIcon service={s} size={14} />
+                      {s.name}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
             <div className="mb-3 flex flex-wrap items-center gap-3">
               <div className="-mx-4 flex-1 overflow-x-auto px-4 sm:mx-0 sm:overflow-visible sm:px-0">
                 <div className="flex min-w-max items-center gap-2">
@@ -173,9 +339,18 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
                 </select>
               </div>
             </div>
-            {activeChipObj && (
-              <div className="mb-4 text-xs text-muted-foreground">
-                Показано {filtered.length} из {cards.length}
+            {hasAnyFilter && (
+              <div className="mb-4 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                <span>
+                  Показано {filtered.length} из {cards.length}
+                </span>
+                <button
+                  type="button"
+                  onClick={resetAll}
+                  className="text-xs font-semibold text-primary hover:underline"
+                >
+                  Сбросить всё
+                </button>
               </div>
             )}
           </>
@@ -183,10 +358,10 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
 
         {filtered.length === 0 ? (
           <div className="rounded-lg border border-border bg-surface/40 p-8 text-center">
-            <p className="mb-4 text-sm text-muted-foreground">Под этот фильтр карт нет</p>
+            <p className="mb-4 text-sm text-muted-foreground">Под эти условия карт нет</p>
             <button
               type="button"
-              onClick={() => setActiveChip(null)}
+              onClick={resetAll}
               className="inline-flex h-9 items-center rounded-md border border-border bg-background px-4 text-xs font-semibold text-primary hover:border-primary/40"
             >
               Сбросить фильтр
@@ -225,6 +400,11 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
             <MobileCard key={c.id} card={c} first={i === 0 && sort === "rank" && activeChip === null} />
           ))}
         </div>
+        {serviceSlug && excludedForService > 0 && (
+          <p className="mt-3 text-xs text-muted-foreground">
+            {excludedForService} карт не участвуют в фильтре — их список сервисов уточняется.
+          </p>
+        )}
           </>
         )}
       </div>
@@ -235,8 +415,8 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
 function TableRow({ card, first }: { card: Card; first: boolean }) {
   const [modalOpen, setModalOpen] = useState(false);
   const serviceSlugs = useMemo(
-    () => getCardServiceSlugs(card.slug, card.supported_services_count ?? 0),
-    [card.slug, card.supported_services_count],
+    () => getCardServiceSlugs(card.slug, card.top_services ?? null),
+    [card.slug, card.top_services],
   );
   const tableSlugs = useMemo(
     () => getTableServiceSlugs(card.slug, serviceSlugs, 3),
@@ -346,6 +526,7 @@ function TableRow({ card, first }: { card: Card; first: boolean }) {
         onClose={() => setModalOpen(false)}
         cardName={card.name}
         slugs={serviceSlugs}
+        supportedCount={card.supported_services_count ?? null}
       />
     </tr>
   );
@@ -354,8 +535,8 @@ function TableRow({ card, first }: { card: Card; first: boolean }) {
 function MobileCard({ card, first }: { card: Card; first: boolean }) {
   const [modalOpen, setModalOpen] = useState(false);
   const serviceSlugs = useMemo(
-    () => getCardServiceSlugs(card.slug, card.supported_services_count ?? 0),
-    [card.slug, card.supported_services_count],
+    () => getCardServiceSlugs(card.slug, card.top_services ?? null),
+    [card.slug, card.top_services],
   );
   const tableSlugs = useMemo(
     () => getTableServiceSlugs(card.slug, serviceSlugs, 4),
@@ -443,6 +624,7 @@ function MobileCard({ card, first }: { card: Card; first: boolean }) {
         onClose={() => setModalOpen(false)}
         cardName={card.name}
         slugs={serviceSlugs}
+        supportedCount={card.supported_services_count ?? null}
       />
     </article>
   );

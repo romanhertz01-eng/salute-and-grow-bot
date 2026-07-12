@@ -110,11 +110,13 @@ export function ServicesModal({
   onClose,
   cardName,
   slugs,
+  supportedCount,
 }: {
   open: boolean;
   onClose: () => void;
   cardName: string;
   slugs: string[];
+  supportedCount?: number | null;
 }) {
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -148,6 +150,9 @@ export function ServicesModal({
   }, [open, onClose]);
 
   if (!open || typeof document === "undefined") return null;
+
+  const showIncompleteNote =
+    typeof supportedCount === "number" && supportedCount > slugs.length;
 
   return createPortal(
     <div
@@ -213,6 +218,11 @@ export function ServicesModal({
                 </div>
               </section>
             ))}
+            {showIncompleteNote && (
+              <p className="pt-2 text-xs text-muted-foreground">
+                Полный список уточняется — показаны подтверждённые сервисы.
+              </p>
+            )}
           </div>
         </div>
       </div>
