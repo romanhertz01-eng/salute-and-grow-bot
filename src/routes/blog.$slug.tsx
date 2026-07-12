@@ -87,6 +87,10 @@ export const Route = createFileRoute("/blog/$slug")({
         { property: "og:type", content: "article" },
         { property: "og:url", content: url },
         { name: "robots", content: PUBLIC_ROBOTS },
+        { property: "article:published_time", content: post.published_at },
+        ...(post.updated_at && post.updated_at !== post.published_at
+          ? [{ property: "article:modified_time", content: post.updated_at }]
+          : []),
       ],
       links: [{ rel: "canonical", href: url }],
       scripts: [
