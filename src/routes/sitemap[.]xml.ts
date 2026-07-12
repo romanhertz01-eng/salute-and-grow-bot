@@ -173,6 +173,20 @@ export const Route = createFileRoute("/sitemap.xml")({
           });
         }
 
+        entries.push({ path: "/network", lastmod: STATIC_DATE, changefreq: "weekly", priority: "0.6" });
+        entries.push({ path: "/network/visa", lastmod: STATIC_DATE, changefreq: "weekly", priority: "0.7" });
+        entries.push({ path: "/network/mastercard", lastmod: STATIC_DATE, changefreq: "weekly", priority: "0.7" });
+
+        for (const row of (cardsRes.data ?? []) as { slug: string | null; last_checked: string | null }[]) {
+          if (!row.slug) continue;
+          entries.push({
+            path: `/cards/${row.slug}/reviews`,
+            lastmod: clip(row.last_checked),
+            changefreq: "weekly",
+            priority: "0.5",
+          });
+        }
+
         const urls = entries
           .map((e) =>
             [
