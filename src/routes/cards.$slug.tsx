@@ -349,9 +349,9 @@ function CardPage() {
                   Стоимость
                 </h3>
                 <div className="mt-3 grid gap-3 sm:grid-cols-3">
-                  <Tile label="Выпуск" value={card.issue_cost} />
-                  <Tile label="Обслуживание" value={card.service_cost} />
-                  <Tile label="Комиссия пополнения" value={card.topup_fee} />
+                  <Tile label="Выпуск" value={card.issue_cost} nowrap />
+                  <Tile label="Обслуживание" value={card.service_cost} nowrap />
+                  <Tile label="Комиссия пополнения" value={card.topup_fee} nowrap />
                 </div>
               </div>
 
@@ -360,8 +360,8 @@ function CardPage() {
                   Условия
                 </h3>
                 <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                  <Tile label="Лимит в месяц" value={card.monthly_limit} />
-                  <Tile label="Скорость выпуска" value={card.issue_speed} />
+                  <Tile label="Лимит в месяц" value={card.monthly_limit} nowrap />
+                  <Tile label="Скорость выпуска" value={card.issue_speed} nowrap />
                   <Tile label="KYC" value={card.kyc ? "требуется" : "не требуется"} />
                   <Tile
                     label="Способы пополнения"
