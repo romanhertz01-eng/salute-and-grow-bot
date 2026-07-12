@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+
 const STATS: { value: string; label: string }[] = [
   { value: "41", label: "сервис проанализировали" },
   { value: "15", label: "прошли в рейтинг" },
