@@ -278,9 +278,11 @@ function CardPage() {
                   >
                     Сравнить карты
                   </Link>
-                  <span className="inline-flex h-11 items-center rounded-md border border-transparent px-1 text-xs text-muted-foreground">
-                    Проверено {formatDate(card.last_checked)}
-                  </span>
+                  {card.last_checked ? (
+                    <span className="inline-flex h-11 items-center rounded-md border border-transparent px-1 text-xs text-muted-foreground">
+                      Проверено {formatDate(card.last_checked)}
+                    </span>
+                  ) : null}
                 </div>
               </div>
 
