@@ -5,7 +5,7 @@ import { ChevronRight } from "lucide-react";
 import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
 import { supabase } from "@/integrations/supabase/client";
-import { cardsQueryOptions, formatToday } from "@/lib/cards";
+import { cardsQueryOptions, formatDate } from "@/lib/cards";
 import { PUBLIC_ROBOTS } from "@/lib/config";
 
 type GuidePage = {
@@ -20,6 +20,7 @@ type GuidePage = {
   priority: number;
   published: boolean;
   related_slug: string;
+  updated_at?: string | null;
 };
 
 const guideBySlugQueryOptions = (slug: string) =>
@@ -281,7 +282,8 @@ function GuidePageView() {
               {page.h1}
             </h1>
             <p className="mt-4 text-sm text-muted-foreground">
-              Обновлено {formatToday()} · Автор — Дмитрий Соколовский, редактор EraPay
+              {page.updated_at ? `Обновлено ${formatDate(page.updated_at)} · ` : ""}
+              Автор — Дмитрий Соколовский, редактор EraPay
             </p>
             <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {page.meta_description}
