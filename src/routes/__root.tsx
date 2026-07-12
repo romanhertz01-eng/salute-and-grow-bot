@@ -12,7 +12,6 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { DEMO_MODE, PUBLIC_ROBOTS } from "@/lib/config";
-import { DemoBanner } from "@/components/nhcard/DemoBanner";
 
 function NotFoundComponent() {
   return (
