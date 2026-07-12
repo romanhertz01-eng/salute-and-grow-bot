@@ -16,6 +16,7 @@ import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as PodborRouteImport } from './routes/podbor'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as MethodologyRouteImport } from './routes/methodology'
+import { Route as GamingCardsRouteImport } from './routes/gaming-cards'
 import { Route as ForeignVirtualCardsRouteImport } from './routes/foreign-virtual-cards'
 import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
 import { Route as CardsForSubscriptionsRouteImport } from './routes/cards-for-subscriptions'
@@ -83,6 +84,11 @@ const PartnersRoute = PartnersRouteImport.update({
 const MethodologyRoute = MethodologyRouteImport.update({
   id: '/methodology',
   path: '/methodology',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamingCardsRoute = GamingCardsRouteImport.update({
+  id: '/gaming-cards',
+  path: '/gaming-cards',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForeignVirtualCardsRoute = ForeignVirtualCardsRouteImport.update({
@@ -259,6 +265,7 @@ export interface FileRoutesByFullPath {
   '/cards-for-subscriptions': typeof CardsForSubscriptionsRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/foreign-virtual-cards': typeof ForeignVirtualCardsRoute
+  '/gaming-cards': typeof GamingCardsRoute
   '/methodology': typeof MethodologyRoute
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
@@ -301,6 +308,7 @@ export interface FileRoutesByTo {
   '/cards-for-subscriptions': typeof CardsForSubscriptionsRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/foreign-virtual-cards': typeof ForeignVirtualCardsRoute
+  '/gaming-cards': typeof GamingCardsRoute
   '/methodology': typeof MethodologyRoute
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
@@ -344,6 +352,7 @@ export interface FileRoutesById {
   '/cards-for-subscriptions': typeof CardsForSubscriptionsRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/foreign-virtual-cards': typeof ForeignVirtualCardsRoute
+  '/gaming-cards': typeof GamingCardsRoute
   '/methodology': typeof MethodologyRoute
   '/partners': typeof PartnersRoute
   '/podbor': typeof PodborRoute
@@ -388,6 +397,7 @@ export interface FileRouteTypes {
     | '/cards-for-subscriptions'
     | '/editorial-policy'
     | '/foreign-virtual-cards'
+    | '/gaming-cards'
     | '/methodology'
     | '/partners'
     | '/podbor'
@@ -430,6 +440,7 @@ export interface FileRouteTypes {
     | '/cards-for-subscriptions'
     | '/editorial-policy'
     | '/foreign-virtual-cards'
+    | '/gaming-cards'
     | '/methodology'
     | '/partners'
     | '/podbor'
@@ -472,6 +483,7 @@ export interface FileRouteTypes {
     | '/cards-for-subscriptions'
     | '/editorial-policy'
     | '/foreign-virtual-cards'
+    | '/gaming-cards'
     | '/methodology'
     | '/partners'
     | '/podbor'
@@ -515,6 +527,7 @@ export interface RootRouteChildren {
   CardsForSubscriptionsRoute: typeof CardsForSubscriptionsRoute
   EditorialPolicyRoute: typeof EditorialPolicyRoute
   ForeignVirtualCardsRoute: typeof ForeignVirtualCardsRoute
+  GamingCardsRoute: typeof GamingCardsRoute
   MethodologyRoute: typeof MethodologyRoute
   PartnersRoute: typeof PartnersRoute
   PodborRoute: typeof PodborRoute
@@ -599,6 +612,13 @@ declare module '@tanstack/react-router' {
       path: '/methodology'
       fullPath: '/methodology'
       preLoaderRoute: typeof MethodologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gaming-cards': {
+      id: '/gaming-cards'
+      path: '/gaming-cards'
+      fullPath: '/gaming-cards'
+      preLoaderRoute: typeof GamingCardsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/foreign-virtual-cards': {
@@ -843,6 +863,7 @@ const rootRouteChildren: RootRouteChildren = {
   CardsForSubscriptionsRoute: CardsForSubscriptionsRoute,
   EditorialPolicyRoute: EditorialPolicyRoute,
   ForeignVirtualCardsRoute: ForeignVirtualCardsRoute,
+  GamingCardsRoute: GamingCardsRoute,
   MethodologyRoute: MethodologyRoute,
   PartnersRoute: PartnersRoute,
   PodborRoute: PodborRoute,
