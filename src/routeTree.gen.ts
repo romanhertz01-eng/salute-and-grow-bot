@@ -23,6 +23,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CryptoIndexRouteImport } from './routes/crypto.index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BanksIndexRouteImport } from './routes/banks.index'
+import { Route as AiIndexRouteImport } from './routes/ai.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ServiceSlugRouteImport } from './routes/service.$slug'
 import { Route as LegalTermsRouteImport } from './routes/legal.terms'
@@ -108,6 +109,11 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
 const BanksIndexRoute = BanksIndexRouteImport.update({
   id: '/banks/',
   path: '/banks/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiIndexRoute = AiIndexRouteImport.update({
+  id: '/ai/',
+  path: '/ai/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -219,6 +225,7 @@ export interface FileRoutesByFullPath {
   '/legal/terms': typeof LegalTermsRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/ai/': typeof AiIndexRoute
   '/banks/': typeof BanksIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/crypto/': typeof CryptoIndexRoute
@@ -251,6 +258,7 @@ export interface FileRoutesByTo {
   '/legal/terms': typeof LegalTermsRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin': typeof AdminIndexRoute
+  '/ai': typeof AiIndexRoute
   '/banks': typeof BanksIndexRoute
   '/blog': typeof BlogIndexRoute
   '/crypto': typeof CryptoIndexRoute
@@ -284,6 +292,7 @@ export interface FileRoutesById {
   '/legal/terms': typeof LegalTermsRoute
   '/service/$slug': typeof ServiceSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/ai/': typeof AiIndexRoute
   '/banks/': typeof BanksIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/crypto/': typeof CryptoIndexRoute
@@ -318,6 +327,7 @@ export interface FileRouteTypes {
     | '/legal/terms'
     | '/service/$slug'
     | '/admin/'
+    | '/ai/'
     | '/banks/'
     | '/blog/'
     | '/crypto/'
@@ -350,6 +360,7 @@ export interface FileRouteTypes {
     | '/legal/terms'
     | '/service/$slug'
     | '/admin'
+    | '/ai'
     | '/banks'
     | '/blog'
     | '/crypto'
@@ -382,6 +393,7 @@ export interface FileRouteTypes {
     | '/legal/terms'
     | '/service/$slug'
     | '/admin/'
+    | '/ai/'
     | '/banks/'
     | '/blog/'
     | '/crypto/'
@@ -415,6 +427,7 @@ export interface RootRouteChildren {
   LegalTermsRoute: typeof LegalTermsRoute
   ServiceSlugRoute: typeof ServiceSlugRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AiIndexRoute: typeof AiIndexRoute
   BanksIndexRoute: typeof BanksIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
   CryptoIndexRoute: typeof CryptoIndexRoute
@@ -518,6 +531,13 @@ declare module '@tanstack/react-router' {
       path: '/banks'
       fullPath: '/banks/'
       preLoaderRoute: typeof BanksIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai/': {
+      id: '/ai/'
+      path: '/ai'
+      fullPath: '/ai/'
+      preLoaderRoute: typeof AiIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -663,6 +683,7 @@ const rootRouteChildren: RootRouteChildren = {
   LegalTermsRoute: LegalTermsRoute,
   ServiceSlugRoute: ServiceSlugRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AiIndexRoute: AiIndexRoute,
   BanksIndexRoute: BanksIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
   CryptoIndexRoute: CryptoIndexRoute,
