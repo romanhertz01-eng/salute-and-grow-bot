@@ -11,7 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { DEMO_MODE, PUBLIC_ROBOTS } from "@/lib/config";
+import { PUBLIC_ROBOTS } from "@/lib/config";
 
 function NotFoundComponent() {
   return (
@@ -137,7 +137,6 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {DEMO_MODE ? <DemoBanner /> : null}
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>
