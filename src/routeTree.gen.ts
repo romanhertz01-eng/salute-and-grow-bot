@@ -21,6 +21,7 @@ import { Route as CardsForSubscriptionsRouteImport } from './routes/cards-for-su
 import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as NetworkIndexRouteImport } from './routes/network.index'
 import { Route as CryptoIndexRouteImport } from './routes/crypto.index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BanksIndexRouteImport } from './routes/banks.index'
@@ -105,6 +106,11 @@ const AboutRoute = AboutRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NetworkIndexRoute = NetworkIndexRouteImport.update({
+  id: '/network/',
+  path: '/network/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CryptoIndexRoute = CryptoIndexRouteImport.update({
@@ -270,6 +276,7 @@ export interface FileRoutesByFullPath {
   '/banks/': typeof BanksIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/crypto/': typeof CryptoIndexRoute
+  '/network/': typeof NetworkIndexRoute
   '/cards/$slug/reviews': typeof CardsSlugReviewsRoute
 }
 export interface FileRoutesByTo {
@@ -309,6 +316,7 @@ export interface FileRoutesByTo {
   '/banks': typeof BanksIndexRoute
   '/blog': typeof BlogIndexRoute
   '/crypto': typeof CryptoIndexRoute
+  '/network': typeof NetworkIndexRoute
   '/cards/$slug/reviews': typeof CardsSlugReviewsRoute
 }
 export interface FileRoutesById {
@@ -349,6 +357,7 @@ export interface FileRoutesById {
   '/banks/': typeof BanksIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/crypto/': typeof CryptoIndexRoute
+  '/network/': typeof NetworkIndexRoute
   '/cards/$slug_/reviews': typeof CardsSlugReviewsRoute
 }
 export interface FileRouteTypes {
@@ -390,6 +399,7 @@ export interface FileRouteTypes {
     | '/banks/'
     | '/blog/'
     | '/crypto/'
+    | '/network/'
     | '/cards/$slug/reviews'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -429,6 +439,7 @@ export interface FileRouteTypes {
     | '/banks'
     | '/blog'
     | '/crypto'
+    | '/network'
     | '/cards/$slug/reviews'
   id:
     | '__root__'
@@ -468,6 +479,7 @@ export interface FileRouteTypes {
     | '/banks/'
     | '/blog/'
     | '/crypto/'
+    | '/network/'
     | '/cards/$slug_/reviews'
   fileRoutesById: FileRoutesById
 }
@@ -508,6 +520,7 @@ export interface RootRouteChildren {
   BanksIndexRoute: typeof BanksIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
   CryptoIndexRoute: typeof CryptoIndexRoute
+  NetworkIndexRoute: typeof NetworkIndexRoute
   CardsSlugReviewsRoute: typeof CardsSlugReviewsRoute
 }
 
@@ -595,6 +608,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/network/': {
+      id: '/network/'
+      path: '/network'
+      fullPath: '/network/'
+      preLoaderRoute: typeof NetworkIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/crypto/': {
@@ -812,6 +832,7 @@ const rootRouteChildren: RootRouteChildren = {
   BanksIndexRoute: BanksIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
   CryptoIndexRoute: CryptoIndexRoute,
+  NetworkIndexRoute: NetworkIndexRoute,
   CardsSlugReviewsRoute: CardsSlugReviewsRoute,
 }
 export const routeTree = rootRouteImport
