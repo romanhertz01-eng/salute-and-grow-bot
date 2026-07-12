@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ChevronRight, ExternalLink } from "lucide-react";
 import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 export type TopicPageRow = {
   id: string;
@@ -75,7 +76,7 @@ export function TopicArticlePage({
           <div className="mx-auto max-w-[760px] px-4 py-12 sm:px-6 lg:px-8">
             <article
               className="blog-content text-base leading-relaxed text-foreground/90"
-              dangerouslySetInnerHTML={{ __html: page.content }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(page.content) }}
             />
 
             <div className="mt-10 rounded-xl border border-border bg-surface p-6 shadow-sm">
