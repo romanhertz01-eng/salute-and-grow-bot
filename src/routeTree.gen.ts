@@ -44,6 +44,7 @@ import { Route as AdminCardsRouteImport } from './routes/admin.cards'
 import { Route as AdminBlogRouteImport } from './routes/admin.blog'
 import { Route as AdminBanksRouteImport } from './routes/admin.banks'
 import { Route as AdminAiRouteImport } from './routes/admin.ai'
+import { Route as CardsSlugReviewsRouteImport } from './routes/cards.$slug.reviews'
 
 const TravelCardsRoute = TravelCardsRouteImport.update({
   id: '/travel-cards',
@@ -220,6 +221,11 @@ const AdminAiRoute = AdminAiRouteImport.update({
   path: '/admin/ai',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CardsSlugReviewsRoute = CardsSlugReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => CardsSlugRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -245,7 +251,7 @@ export interface FileRoutesByFullPath {
   '/ai/$slug': typeof AiSlugRoute
   '/banks/$slug': typeof BanksSlugRoute
   '/blog/$slug': typeof BlogSlugRoute
-  '/cards/$slug': typeof CardsSlugRoute
+  '/cards/$slug': typeof CardsSlugRouteWithChildren
   '/country/$slug': typeof CountrySlugRoute
   '/crypto/$slug': typeof CryptoSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
@@ -257,6 +263,7 @@ export interface FileRoutesByFullPath {
   '/banks/': typeof BanksIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/crypto/': typeof CryptoIndexRoute
+  '/cards/$slug/reviews': typeof CardsSlugReviewsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -282,7 +289,7 @@ export interface FileRoutesByTo {
   '/ai/$slug': typeof AiSlugRoute
   '/banks/$slug': typeof BanksSlugRoute
   '/blog/$slug': typeof BlogSlugRoute
-  '/cards/$slug': typeof CardsSlugRoute
+  '/cards/$slug': typeof CardsSlugRouteWithChildren
   '/country/$slug': typeof CountrySlugRoute
   '/crypto/$slug': typeof CryptoSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
@@ -294,6 +301,7 @@ export interface FileRoutesByTo {
   '/banks': typeof BanksIndexRoute
   '/blog': typeof BlogIndexRoute
   '/crypto': typeof CryptoIndexRoute
+  '/cards/$slug/reviews': typeof CardsSlugReviewsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -320,7 +328,7 @@ export interface FileRoutesById {
   '/ai/$slug': typeof AiSlugRoute
   '/banks/$slug': typeof BanksSlugRoute
   '/blog/$slug': typeof BlogSlugRoute
-  '/cards/$slug': typeof CardsSlugRoute
+  '/cards/$slug': typeof CardsSlugRouteWithChildren
   '/country/$slug': typeof CountrySlugRoute
   '/crypto/$slug': typeof CryptoSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
@@ -332,6 +340,7 @@ export interface FileRoutesById {
   '/banks/': typeof BanksIndexRoute
   '/blog/': typeof BlogIndexRoute
   '/crypto/': typeof CryptoIndexRoute
+  '/cards/$slug/reviews': typeof CardsSlugReviewsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -371,6 +380,7 @@ export interface FileRouteTypes {
     | '/banks/'
     | '/blog/'
     | '/crypto/'
+    | '/cards/$slug/reviews'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -408,6 +418,7 @@ export interface FileRouteTypes {
     | '/banks'
     | '/blog'
     | '/crypto'
+    | '/cards/$slug/reviews'
   id:
     | '__root__'
     | '/'
@@ -445,6 +456,7 @@ export interface FileRouteTypes {
     | '/banks/'
     | '/blog/'
     | '/crypto/'
+    | '/cards/$slug/reviews'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -471,7 +483,7 @@ export interface RootRouteChildren {
   AiSlugRoute: typeof AiSlugRoute
   BanksSlugRoute: typeof BanksSlugRoute
   BlogSlugRoute: typeof BlogSlugRoute
-  CardsSlugRoute: typeof CardsSlugRoute
+  CardsSlugRoute: typeof CardsSlugRouteWithChildren
   CountrySlugRoute: typeof CountrySlugRoute
   CryptoSlugRoute: typeof CryptoSlugRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
@@ -732,8 +744,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cards/$slug/reviews': {
+      id: '/cards/$slug/reviews'
+      path: '/reviews'
+      fullPath: '/cards/$slug/reviews'
+      preLoaderRoute: typeof CardsSlugReviewsRouteImport
+      parentRoute: typeof CardsSlugRoute
+    }
   }
 }
+
+interface CardsSlugRouteChildren {
+  CardsSlugReviewsRoute: typeof CardsSlugReviewsRoute
+}
+
+const CardsSlugRouteChildren: CardsSlugRouteChildren = {
+  CardsSlugReviewsRoute: CardsSlugReviewsRoute,
+}
+
+const CardsSlugRouteWithChildren = CardsSlugRoute._addFileChildren(
+  CardsSlugRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -759,7 +790,7 @@ const rootRouteChildren: RootRouteChildren = {
   AiSlugRoute: AiSlugRoute,
   BanksSlugRoute: BanksSlugRoute,
   BlogSlugRoute: BlogSlugRoute,
-  CardsSlugRoute: CardsSlugRoute,
+  CardsSlugRoute: CardsSlugRouteWithChildren,
   CountrySlugRoute: CountrySlugRoute,
   CryptoSlugRoute: CryptoSlugRoute,
   GuidesSlugRoute: GuidesSlugRoute,
