@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Apple, Smartphone, Zap, ArrowUpRight, ShieldCheck } from "lucide-react";
 import type { Card } from "@/lib/cards";
 import { initials } from "@/lib/cards";
+import { noWrapMoney } from "@/lib/format";
 import { getCardServiceSlugs, getTableServiceSlugs } from "@/lib/services";
 import { ServicePreview, ServicesModal } from "./ServicesModal";
 
