@@ -5,7 +5,7 @@ import { ChevronRight } from "lucide-react";
 import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
 import { supabase } from "@/integrations/supabase/client";
-import { cardsQueryOptions, formatToday } from "@/lib/cards";
+import { cardsQueryOptions, formatDate } from "@/lib/cards";
 import { PUBLIC_ROBOTS } from "@/lib/config";
 
 type GuidePage = {
@@ -20,6 +20,7 @@ type GuidePage = {
   priority: number;
   published: boolean;
   related_slug: string;
+  updated_at?: string | null;
 };
 
 const guideBySlugQueryOptions = (slug: string) =>
