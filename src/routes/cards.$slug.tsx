@@ -21,6 +21,7 @@ import { cardBySlugQueryOptions, cardsQueryOptions, formatDate, initials } from 
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { getCardServiceSlugs } from "@/lib/services";
+import { noWrapMoney } from "@/lib/format";
 import { PUBLIC_ROBOTS } from "@/lib/config";
 
 type ReviewRow = Database["public"]["Tables"]["reviews"]["Row"];
