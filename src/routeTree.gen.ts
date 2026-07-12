@@ -28,6 +28,7 @@ import { Route as ServiceSlugRouteImport } from './routes/service.$slug'
 import { Route as LegalTermsRouteImport } from './routes/legal.terms'
 import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
 import { Route as GuidesSlugRouteImport } from './routes/guides.$slug'
+import { Route as CryptoSlugRouteImport } from './routes/crypto.$slug'
 import { Route as CountrySlugRouteImport } from './routes/country.$slug'
 import { Route as CardsSlugRouteImport } from './routes/cards.$slug'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
@@ -134,6 +135,11 @@ const GuidesSlugRoute = GuidesSlugRouteImport.update({
   path: '/guides/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CryptoSlugRoute = CryptoSlugRouteImport.update({
+  id: '/crypto/$slug',
+  path: '/crypto/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CountrySlugRoute = CountrySlugRouteImport.update({
   id: '/country/$slug',
   path: '/country/$slug',
@@ -207,6 +213,7 @@ export interface FileRoutesByFullPath {
   '/blog/$slug': typeof BlogSlugRoute
   '/cards/$slug': typeof CardsSlugRoute
   '/country/$slug': typeof CountrySlugRoute
+  '/crypto/$slug': typeof CryptoSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
@@ -238,6 +245,7 @@ export interface FileRoutesByTo {
   '/blog/$slug': typeof BlogSlugRoute
   '/cards/$slug': typeof CardsSlugRoute
   '/country/$slug': typeof CountrySlugRoute
+  '/crypto/$slug': typeof CryptoSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
@@ -270,6 +278,7 @@ export interface FileRoutesById {
   '/blog/$slug': typeof BlogSlugRoute
   '/cards/$slug': typeof CardsSlugRoute
   '/country/$slug': typeof CountrySlugRoute
+  '/crypto/$slug': typeof CryptoSlugRoute
   '/guides/$slug': typeof GuidesSlugRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/terms': typeof LegalTermsRoute
@@ -303,6 +312,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/cards/$slug'
     | '/country/$slug'
+    | '/crypto/$slug'
     | '/guides/$slug'
     | '/legal/privacy'
     | '/legal/terms'
@@ -334,6 +344,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/cards/$slug'
     | '/country/$slug'
+    | '/crypto/$slug'
     | '/guides/$slug'
     | '/legal/privacy'
     | '/legal/terms'
@@ -365,6 +376,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/cards/$slug'
     | '/country/$slug'
+    | '/crypto/$slug'
     | '/guides/$slug'
     | '/legal/privacy'
     | '/legal/terms'
@@ -397,6 +409,7 @@ export interface RootRouteChildren {
   BlogSlugRoute: typeof BlogSlugRoute
   CardsSlugRoute: typeof CardsSlugRoute
   CountrySlugRoute: typeof CountrySlugRoute
+  CryptoSlugRoute: typeof CryptoSlugRoute
   GuidesSlugRoute: typeof GuidesSlugRoute
   LegalPrivacyRoute: typeof LegalPrivacyRoute
   LegalTermsRoute: typeof LegalTermsRoute
@@ -542,6 +555,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuidesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/crypto/$slug': {
+      id: '/crypto/$slug'
+      path: '/crypto/$slug'
+      fullPath: '/crypto/$slug'
+      preLoaderRoute: typeof CryptoSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/country/$slug': {
       id: '/country/$slug'
       path: '/country/$slug'
@@ -637,6 +657,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogSlugRoute: BlogSlugRoute,
   CardsSlugRoute: CardsSlugRoute,
   CountrySlugRoute: CountrySlugRoute,
+  CryptoSlugRoute: CryptoSlugRoute,
   GuidesSlugRoute: GuidesSlugRoute,
   LegalPrivacyRoute: LegalPrivacyRoute,
   LegalTermsRoute: LegalTermsRoute,
