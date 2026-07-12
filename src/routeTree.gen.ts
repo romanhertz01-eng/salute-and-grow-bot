@@ -20,6 +20,7 @@ import { Route as CardsForSubscriptionsRouteImport } from './routes/cards-for-su
 import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CryptoIndexRouteImport } from './routes/crypto.index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BanksIndexRouteImport } from './routes/banks.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -91,6 +92,11 @@ const AboutRoute = AboutRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CryptoIndexRoute = CryptoIndexRouteImport.update({
+  id: '/crypto/',
+  path: '/crypto/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
@@ -208,6 +214,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/banks/': typeof BanksIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/crypto/': typeof CryptoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -238,6 +245,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/banks': typeof BanksIndexRoute
   '/blog': typeof BlogIndexRoute
+  '/crypto': typeof CryptoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -269,6 +277,7 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/banks/': typeof BanksIndexRoute
   '/blog/': typeof BlogIndexRoute
+  '/crypto/': typeof CryptoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -301,6 +310,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/banks/'
     | '/blog/'
+    | '/crypto/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -331,6 +341,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/banks'
     | '/blog'
+    | '/crypto'
   id:
     | '__root__'
     | '/'
@@ -361,6 +372,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/banks/'
     | '/blog/'
+    | '/crypto/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -392,6 +404,7 @@ export interface RootRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   BanksIndexRoute: typeof BanksIndexRoute
   BlogIndexRoute: typeof BlogIndexRoute
+  CryptoIndexRoute: typeof CryptoIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -471,6 +484,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crypto/': {
+      id: '/crypto/'
+      path: '/crypto'
+      fullPath: '/crypto/'
+      preLoaderRoute: typeof CryptoIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/': {
@@ -624,6 +644,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   BanksIndexRoute: BanksIndexRoute,
   BlogIndexRoute: BlogIndexRoute,
+  CryptoIndexRoute: CryptoIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
