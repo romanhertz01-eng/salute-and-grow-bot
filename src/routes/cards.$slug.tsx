@@ -78,13 +78,14 @@ function Chip({ icon: Icon, label }: { icon: React.ComponentType<{ className?: s
   );
 }
 
-function Tile({ label, value }: { label: string; value: string | null | undefined }) {
+function Tile({ label, value, nowrap }: { label: string; value: string | null | undefined; nowrap?: boolean }) {
+  const display = nowrap && value ? noWrapMoney(value) : value;
   return (
     <div className="rounded-lg border border-border bg-background p-4 shadow-sm">
       <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
         {label}
       </div>
-      <div className="mt-1.5 font-serif text-lg font-bold text-primary">{value || "—"}</div>
+      <div className={`mt-1.5 font-serif text-lg font-bold text-primary${nowrap ? " whitespace-nowrap tabular-nums" : ""}`}>{display || "—"}</div>
     </div>
   );
 }
