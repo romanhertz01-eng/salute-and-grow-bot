@@ -416,7 +416,7 @@ function ServicePage() {
         </section>
 
         <section className="border-b border-border bg-background">
-          <div className="mx-auto max-w-[820px] px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[760px] px-4 py-12 sm:px-6 lg:px-8">
             <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">
               Частые вопросы про оплату {page.name}
             </h2>

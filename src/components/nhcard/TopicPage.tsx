@@ -136,7 +136,7 @@ export function TopicArticlePage({
 
         {related.length > 0 && (
           <section className="border-t border-border bg-surface">
-            <div className="mx-auto max-w-[1120px] px-4 py-12 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[1040px] px-4 py-12 sm:px-6 lg:px-8">
               <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">
                 Читайте также
               </h2>
@@ -196,7 +196,7 @@ export function TopicIndexPage({
       <SiteHeader />
       <main>
         <section className="border-b border-border bg-surface">
-          <div className="mx-auto max-w-[1120px] px-4 py-14 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1040px] px-4 py-14 sm:px-6 lg:px-8">
             <div className="text-xs font-semibold uppercase tracking-wider text-accent">
               {topic.eyebrow}
             </div>
@@ -210,7 +210,7 @@ export function TopicIndexPage({
         </section>
 
         <section className="bg-background">
-          <div className="mx-auto max-w-[1120px] px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1040px] px-4 py-12 sm:px-6 lg:px-8">
             <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {pages.map((p) => (
                 <li key={p.slug}>

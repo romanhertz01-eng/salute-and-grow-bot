@@ -261,7 +261,7 @@ function GuidePageView() {
       <SiteHeader />
       <main>
         <section className="border-b border-border bg-surface">
-          <div className="mx-auto max-w-[820px] px-4 py-10 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[760px] px-4 py-10 sm:px-6 lg:px-8">
             <nav
               aria-label="Хлебные крошки"
               className="mb-6 flex flex-wrap items-center gap-1 text-xs text-muted-foreground"
@@ -292,7 +292,7 @@ function GuidePageView() {
         </section>
 
         <section className="border-b border-border bg-background">
-          <div className="mx-auto max-w-[820px] px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[760px] px-4 py-12 sm:px-6 lg:px-8">
             <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">
               Пошаговая инструкция
             </h2>
@@ -319,7 +319,7 @@ function GuidePageView() {
 
         {topCards.length > 0 && (
           <section className="border-b border-border bg-surface">
-            <div className="mx-auto max-w-[820px] px-4 py-12 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[760px] px-4 py-12 sm:px-6 lg:px-8">
               <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">
                 Рекомендуем карту
               </h2>
@@ -364,7 +364,7 @@ function GuidePageView() {
         )}
 
         <section className="border-b border-border bg-background">
-          <div className="mx-auto max-w-[820px] px-4 py-10 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[760px] px-4 py-10 sm:px-6 lg:px-8">
             <div className="rounded-lg border border-border bg-surface p-5 shadow-sm">
               <div className="text-xs font-semibold uppercase tracking-wider text-accent">
                 Смотрите также
@@ -391,7 +391,7 @@ function GuidePageView() {
         </section>
 
         <section className="border-b border-border bg-surface">
-          <div className="mx-auto max-w-[820px] px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[760px] px-4 py-12 sm:px-6 lg:px-8">
             <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">
               Частые вопросы
             </h2>

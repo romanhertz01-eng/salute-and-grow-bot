@@ -4,6 +4,7 @@ import { ChevronRight } from "lucide-react";
 
 import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
+import { BlogCover } from "@/components/nhcard/BlogCover";
 import { supabase } from "@/integrations/supabase/client";
 import { PUBLIC_ROBOTS } from "@/lib/config";
 import { sanitizeHtml } from "@/lib/sanitize";
@@ -22,6 +23,7 @@ type BlogPost = {
   cover_emoji: string;
   published: boolean;
   published_at: string;
+  updated_at?: string | null;
 };
 
 const postBySlugQueryOptions = (slug: string) =>
@@ -44,7 +46,7 @@ const otherPostsQueryOptions = queryOptions({
   queryFn: async (): Promise<BlogPost[]> => {
     const { data, error } = await supabase
       .from("blog_posts" as never)
-      .select("id,slug,title,excerpt,category,author_name,cover_emoji,published_at,content,meta_title,meta_description,keyword,published")
+      .select("id,slug,title,excerpt,category,author_name,cover_emoji,published_at,updated_at,content,meta_title,meta_description,keyword,published")
       .eq("published", true)
       .order("published_at", { ascending: false })
       .limit(8);
@@ -58,6 +60,12 @@ function formatDate(iso: string): string {
   return d.toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" });
 }
 
+function readingMinutes(content: string): number {
+  const text = content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  const words = text ? text.split(" ").length : 0;
+  return Math.max(1, Math.round(words / 200));
+}
+
 export const Route = createFileRoute("/blog/$slug")({
   head: ({ loaderData, params }) => {
     const p = loaderData as { post?: BlogPost } | undefined;
@@ -68,6 +76,7 @@ export const Route = createFileRoute("/blog/$slug")({
     }
     const post = p.post;
     const url = `https://erapay.ru/blog/${params.slug}`;
+    const dateModified = post.updated_at && post.updated_at !== post.published_at ? post.updated_at : post.published_at;
     return {
       meta: [
         { title: post.meta_title || `${post.title} · Блог EraPay` },
@@ -90,6 +99,12 @@ export const Route = createFileRoute("/blog/$slug")({
             description: post.meta_description || post.excerpt,
             author: { "@type": "Person", name: post.author_name },
             datePublished: post.published_at,
+            dateModified,
+            publisher: {
+              "@type": "Organization",
+              name: "EraPay",
+              logo: { "@type": "ImageObject", url: "https://erapay.ru/apple-touch-icon.png" },
+            },
             mainEntityOfPage: url,
           }),
         },
@@ -168,19 +183,24 @@ function BlogArticlePage() {
               <span className="text-foreground">{post.title}</span>
             </nav>
 
-            <div className="text-5xl" aria-hidden>
-              {post.cover_emoji}
+            <div className="mt-4">
+              <BlogCover title={post.title} category={post.category} emoji={post.cover_emoji} size="lg" />
             </div>
-            {post.category && (
-              <div className="mt-4 text-xs font-semibold uppercase tracking-wider text-accent">
-                {post.category}
-              </div>
-            )}
-            <h1 className="mt-2 font-serif text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+            <h1 className="mt-6 font-serif text-3xl font-bold tracking-tight text-primary sm:text-4xl">
               {post.title}
             </h1>
-            <p className="mt-4 text-sm text-muted-foreground">
-              {post.author_name} · {formatDate(post.published_at)}
+            <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
+              <span>{post.author_name}</span>
+              <span aria-hidden>·</span>
+              <span>{formatDate(post.published_at)}</span>
+              <span aria-hidden>·</span>
+              <span>~{readingMinutes(post.content)} мин чтения</span>
+              {post.updated_at && post.updated_at !== post.published_at && (
+                <>
+                  <span aria-hidden>·</span>
+                  <span>Обновлено: {formatDate(post.updated_at)}</span>
+                </>
+              )}
             </p>
           </div>
         </section>
@@ -215,7 +235,7 @@ function BlogArticlePage() {
 
         {related.length > 0 && (
           <section className="border-t border-border bg-surface">
-            <div className="mx-auto max-w-[1120px] px-4 py-12 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[1040px] px-4 py-12 sm:px-6 lg:px-8">
               <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">
                 Читайте также
               </h2>
@@ -225,17 +245,17 @@ function BlogArticlePage() {
                     <Link
                       to="/blog/$slug"
                       params={{ slug: p.slug }}
-                      className="flex h-full flex-col rounded-xl border border-border bg-background p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
+                      className="flex h-full flex-col overflow-hidden rounded-xl border border-border bg-background shadow-sm transition-all hover:border-accent/40 hover:shadow-md motion-safe:hover:-translate-y-0.5"
                     >
-                      <div className="text-3xl" aria-hidden>
-                        {p.cover_emoji}
+                      <BlogCover title={p.title} category={p.category} emoji={p.cover_emoji} size="sm" />
+                      <div className="flex flex-1 flex-col p-5">
+                        <h3 className="font-serif text-lg font-bold leading-snug text-primary">
+                          {p.title}
+                        </h3>
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                          {p.excerpt}
+                        </p>
                       </div>
-                      <h3 className="mt-3 font-serif text-lg font-bold leading-snug text-primary">
-                        {p.title}
-                      </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                        {p.excerpt}
-                      </p>
                     </Link>
                   </li>
                 ))}

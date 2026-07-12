@@ -113,6 +113,11 @@ export const Route = createFileRoute("/crypto/$slug")({
             description: p.meta_description || p.intro_text,
             mainEntityOfPage: url,
             author: { "@type": "Organization", name: "EraPay" },
+            publisher: {
+              "@type": "Organization",
+              name: "EraPay",
+              logo: { "@type": "ImageObject", url: "https://erapay.ru/apple-touch-icon.png" },
+            },
           }),
         },
         {

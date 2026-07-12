@@ -157,7 +157,7 @@ function NetworkPage() {
 
       <main>
         <section className="border-b border-border bg-surface">
-          <div className="mx-auto max-w-[1160px] px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1040px] px-4 py-12 sm:px-6 lg:px-8">
             <nav aria-label="Хлебные крошки" className="mb-6 flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
               <Link to="/" className="hover:text-primary">Главная</Link>
               <ChevronRight className="h-3 w-3" aria-hidden />
@@ -176,7 +176,7 @@ function NetworkPage() {
         </section>
 
         <section className="border-b border-border bg-background">
-          <div className="mx-auto max-w-[1160px] px-4 py-14 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1040px] px-4 py-14 sm:px-6 lg:px-8">
             <div className="flex flex-wrap items-baseline justify-between gap-3">
               <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">
                 Топ карт {net.name}
@@ -226,7 +226,7 @@ function NetworkPage() {
         </section>
 
         <section className="border-b border-border bg-surface">
-          <div className="mx-auto max-w-[1160px] px-4 py-14 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1040px] px-4 py-14 sm:px-6 lg:px-8">
             <h2 className="font-serif text-2xl font-bold text-primary sm:text-3xl">
               Как выбрать карту {net.name}
             </h2>

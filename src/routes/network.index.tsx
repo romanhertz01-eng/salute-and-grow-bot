@@ -46,7 +46,7 @@ function NetworkIndex() {
       <SiteHeader />
       <main>
         <section className="border-b border-border bg-surface">
-          <div className="mx-auto max-w-[1160px] px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1040px] px-4 py-12 sm:px-6 lg:px-8">
             <nav aria-label="Хлебные крошки" className="mb-6 flex items-center gap-1 text-xs text-muted-foreground">
               <Link to="/" className="hover:text-primary">Главная</Link>
               <ChevronRight className="h-3 w-3" aria-hidden />
@@ -63,7 +63,7 @@ function NetworkIndex() {
         </section>
 
         <section className="bg-background">
-          <div className="mx-auto max-w-[1160px] px-4 py-14 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1040px] px-4 py-14 sm:px-6 lg:px-8">
             <ul className="grid gap-4 sm:grid-cols-2">
               {items.map((it) => (
                 <li key={it.slug}>

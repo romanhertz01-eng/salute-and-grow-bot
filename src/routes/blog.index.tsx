@@ -3,6 +3,7 @@ import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
+import { BlogCover } from "@/components/nhcard/BlogCover";
 
 type BlogPost = {
   id: string;
@@ -71,7 +72,7 @@ function BlogListPage() {
       <SiteHeader />
       <main>
         <section className="border-b border-border bg-surface">
-          <div className="mx-auto max-w-[1120px] px-4 py-14 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1040px] px-4 py-14 sm:px-6 lg:px-8">
             <div className="text-xs font-semibold uppercase tracking-wider text-accent">
               Блог · Экспертиза EraPay
             </div>
@@ -87,32 +88,27 @@ function BlogListPage() {
         </section>
 
         <section className="bg-background">
-          <div className="mx-auto max-w-[1120px] px-4 py-12 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1040px] px-4 py-12 sm:px-6 lg:px-8">
             <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {posts.map((p) => (
                 <li key={p.id}>
-                  <Link
+                   <Link
                     to="/blog/$slug"
                     params={{ slug: p.slug }}
-                    className="flex h-full flex-col rounded-xl border border-border bg-surface p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
+                    className="flex h-full flex-col overflow-hidden rounded-xl border border-border bg-background shadow-sm transition-all hover:border-accent/40 hover:shadow-md motion-safe:hover:-translate-y-0.5"
                   >
-                    <div className="text-4xl" aria-hidden>
-                      {p.cover_emoji}
-                    </div>
-                    {p.category && (
-                      <div className="mt-4 text-[11px] font-semibold uppercase tracking-wider text-accent">
-                        {p.category}
+                    <BlogCover title={p.title} category={p.category} emoji={p.cover_emoji} size="md" />
+                    <div className="flex flex-1 flex-col p-6">
+                      <h2 className="font-serif text-xl font-bold leading-snug text-primary">
+                        {p.title}
+                      </h2>
+                      <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+                        {p.excerpt}
+                      </p>
+                      <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
+                        <span>{p.author_name}</span>
+                        <span>{formatDate(p.published_at)}</span>
                       </div>
-                    )}
-                    <h2 className="mt-2 font-serif text-xl font-bold leading-snug text-primary">
-                      {p.title}
-                    </h2>
-                    <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-                      {p.excerpt}
-                    </p>
-                    <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
-                      <span>{p.author_name}</span>
-                      <span>{formatDate(p.published_at)}</span>
                     </div>
                   </Link>
                 </li>
