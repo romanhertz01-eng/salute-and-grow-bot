@@ -142,6 +142,33 @@ export const Route = createFileRoute("/sitemap.xml")({
           });
         }
 
+        const [cryptoRes, aiRes] = await Promise.all([
+          supabase.from("crypto_pages" as never).select("slug").eq("published", true),
+          supabase.from("ai_pages" as never).select("slug").eq("published", true),
+        ]);
+
+        entries.push({ path: "/crypto", lastmod: today, changefreq: "weekly", priority: "0.7" });
+        for (const row of (cryptoRes.data ?? []) as { slug: string | null }[]) {
+          if (!row.slug) continue;
+          entries.push({
+            path: `/crypto/${row.slug}`,
+            lastmod: today,
+            changefreq: "weekly",
+            priority: "0.6",
+          });
+        }
+
+        entries.push({ path: "/ai", lastmod: today, changefreq: "weekly", priority: "0.7" });
+        for (const row of (aiRes.data ?? []) as { slug: string | null }[]) {
+          if (!row.slug) continue;
+          entries.push({
+            path: `/ai/${row.slug}`,
+            lastmod: today,
+            changefreq: "weekly",
+            priority: "0.6",
+          });
+        }
+
         const urls = entries
           .map((e) =>
             [
