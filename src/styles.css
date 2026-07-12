@@ -165,6 +165,34 @@ html {
 .blog-content li { margin-top: 0.25rem; }
 .blog-content strong { font-weight: 600; color: var(--color-primary); }
 .blog-content a { color: var(--color-accent); text-decoration: underline; }
+.blog-content blockquote {
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--color-accent);
+  background: var(--color-surface, transparent);
+  color: var(--color-muted-foreground);
+  font-style: italic;
+  border-radius: 0 0.375rem 0.375rem 0;
+}
+.blog-content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.25rem;
+  background: var(--color-surface, rgba(0,0,0,0.05));
+  border: 1px solid var(--color-border);
+}
+.blog-content pre {
+  margin: 1rem 0;
+  padding: 0.875rem 1rem;
+  overflow-x: auto;
+  border-radius: 0.5rem;
+  background: var(--color-surface, rgba(0,0,0,0.05));
+  border: 1px solid var(--color-border);
+}
+.blog-content pre code {
+  padding: 0; border: 0; background: transparent;
+}
 
 @media (prefers-reduced-motion: reduce) {
   *,
