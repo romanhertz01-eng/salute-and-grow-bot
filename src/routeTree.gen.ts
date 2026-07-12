@@ -20,6 +20,7 @@ import { Route as ForeignVirtualCardsRouteImport } from './routes/foreign-virtua
 import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
 import { Route as CardsForSubscriptionsRouteImport } from './routes/cards-for-subscriptions'
 import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
+import { Route as AdsCardsRouteImport } from './routes/ads-cards'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as NetworkIndexRouteImport } from './routes/network.index'
@@ -102,6 +103,11 @@ const CardsForSubscriptionsRoute = CardsForSubscriptionsRouteImport.update({
 const AffiliateDisclosureRoute = AffiliateDisclosureRouteImport.update({
   id: '/affiliate-disclosure',
   path: '/affiliate-disclosure',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdsCardsRoute = AdsCardsRouteImport.update({
+  id: '/ads-cards',
+  path: '/ads-cards',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -248,6 +254,7 @@ const CardsSlugReviewsRoute = CardsSlugReviewsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ads-cards': typeof AdsCardsRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/cards-for-subscriptions': typeof CardsForSubscriptionsRoute
   '/editorial-policy': typeof EditorialPolicyRoute
@@ -289,6 +296,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ads-cards': typeof AdsCardsRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/cards-for-subscriptions': typeof CardsForSubscriptionsRoute
   '/editorial-policy': typeof EditorialPolicyRoute
@@ -331,6 +339,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ads-cards': typeof AdsCardsRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/cards-for-subscriptions': typeof CardsForSubscriptionsRoute
   '/editorial-policy': typeof EditorialPolicyRoute
@@ -374,6 +383,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/ads-cards'
     | '/affiliate-disclosure'
     | '/cards-for-subscriptions'
     | '/editorial-policy'
@@ -415,6 +425,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/ads-cards'
     | '/affiliate-disclosure'
     | '/cards-for-subscriptions'
     | '/editorial-policy'
@@ -456,6 +467,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/ads-cards'
     | '/affiliate-disclosure'
     | '/cards-for-subscriptions'
     | '/editorial-policy'
@@ -498,6 +510,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdsCardsRoute: typeof AdsCardsRoute
   AffiliateDisclosureRoute: typeof AffiliateDisclosureRoute
   CardsForSubscriptionsRoute: typeof CardsForSubscriptionsRoute
   EditorialPolicyRoute: typeof EditorialPolicyRoute
@@ -614,6 +627,13 @@ declare module '@tanstack/react-router' {
       path: '/affiliate-disclosure'
       fullPath: '/affiliate-disclosure'
       preLoaderRoute: typeof AffiliateDisclosureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ads-cards': {
+      id: '/ads-cards'
+      path: '/ads-cards'
+      fullPath: '/ads-cards'
+      preLoaderRoute: typeof AdsCardsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -818,6 +838,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdsCardsRoute: AdsCardsRoute,
   AffiliateDisclosureRoute: AffiliateDisclosureRoute,
   CardsForSubscriptionsRoute: CardsForSubscriptionsRoute,
   EditorialPolicyRoute: EditorialPolicyRoute,
