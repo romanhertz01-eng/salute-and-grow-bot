@@ -18,6 +18,7 @@ export const homeCountriesQueryOptions = queryOptions({
       .from("country_pages" as never)
       .select("slug,name_ru,flag_emoji,currency,priority")
       .eq("published", true)
+      .eq("priority", 1)
       .order("priority", { ascending: false });
     if (error) throw error;
     return (data as CountryRow[] | null) ?? [];
@@ -39,11 +40,9 @@ export function CountriesSection({ cards }: { cards: Card[] }) {
     if (!card.issuer_country) continue;
     counts.set(card.issuer_country, (counts.get(card.issuer_country) ?? 0) + 1);
   }
-  // Prefer countries that have cards; fill remaining slots with published-but-empty ones.
-  const withCards = rows
+  const items = rows
     .map((r) => ({ ...r, count: counts.get(r.name_ru) ?? 0 }))
-    .sort((a, b) => (b.count - a.count) || (b.priority - a.priority));
-  const items = withCards.slice(0, 8);
+    .slice(0, 8);
   if (items.length === 0) return null;
 
   return (
@@ -53,10 +52,11 @@ export function CountriesSection({ cards }: { cards: Card[] }) {
           По странам
         </div>
         <h2 className="mt-3 max-w-3xl font-serif text-3xl font-bold tracking-tight text-primary sm:text-4xl lg:text-[42px] lg:leading-[1.15]">
-          Карты по странам выпуска
+          Куда едете — чем платить
         </h2>
         <p className="mt-4 max-w-2xl text-sm text-muted-foreground sm:text-base">
-          У каждой страны свои правила KYC, валюта и принимаемые платёжные системы.
+          Подборки карт для оплаты в поездке: локальная валюта, приём Visa и
+          Mastercard, депозиты в отелях и Apple Pay в терминалах.
         </p>
 
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
