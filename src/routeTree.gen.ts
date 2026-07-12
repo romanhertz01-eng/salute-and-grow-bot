@@ -42,6 +42,7 @@ import { Route as AdminCryptoRouteImport } from './routes/admin.crypto'
 import { Route as AdminCardsRouteImport } from './routes/admin.cards'
 import { Route as AdminBlogRouteImport } from './routes/admin.blog'
 import { Route as AdminBanksRouteImport } from './routes/admin.banks'
+import { Route as AdminAiRouteImport } from './routes/admin.ai'
 
 const TravelCardsRoute = TravelCardsRouteImport.update({
   id: '/travel-cards',
@@ -208,6 +209,11 @@ const AdminBanksRoute = AdminBanksRouteImport.update({
   path: '/admin/banks',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminAiRoute = AdminAiRouteImport.update({
+  id: '/admin/ai',
+  path: '/admin/ai',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -221,6 +227,7 @@ export interface FileRoutesByFullPath {
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
+  '/admin/ai': typeof AdminAiRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
@@ -256,6 +263,7 @@ export interface FileRoutesByTo {
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
+  '/admin/ai': typeof AdminAiRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
@@ -292,6 +300,7 @@ export interface FileRoutesById {
   '/podbor': typeof PodborRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/travel-cards': typeof TravelCardsRoute
+  '/admin/ai': typeof AdminAiRoute
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
@@ -329,6 +338,7 @@ export interface FileRouteTypes {
     | '/podbor'
     | '/sitemap.xml'
     | '/travel-cards'
+    | '/admin/ai'
     | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
@@ -364,6 +374,7 @@ export interface FileRouteTypes {
     | '/podbor'
     | '/sitemap.xml'
     | '/travel-cards'
+    | '/admin/ai'
     | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
@@ -399,6 +410,7 @@ export interface FileRouteTypes {
     | '/podbor'
     | '/sitemap.xml'
     | '/travel-cards'
+    | '/admin/ai'
     | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
@@ -435,6 +447,7 @@ export interface RootRouteChildren {
   PodborRoute: typeof PodborRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TravelCardsRoute: typeof TravelCardsRoute
+  AdminAiRoute: typeof AdminAiRoute
   AdminBanksRoute: typeof AdminBanksRoute
   AdminBlogRoute: typeof AdminBlogRoute
   AdminCardsRoute: typeof AdminCardsRoute
@@ -692,6 +705,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBanksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/ai': {
+      id: '/admin/ai'
+      path: '/admin/ai'
+      fullPath: '/admin/ai'
+      preLoaderRoute: typeof AdminAiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -707,6 +727,7 @@ const rootRouteChildren: RootRouteChildren = {
   PodborRoute: PodborRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TravelCardsRoute: TravelCardsRoute,
+  AdminAiRoute: AdminAiRoute,
   AdminBanksRoute: AdminBanksRoute,
   AdminBlogRoute: AdminBlogRoute,
   AdminCardsRoute: AdminCardsRoute,
