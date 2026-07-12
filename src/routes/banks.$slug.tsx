@@ -128,6 +128,11 @@ export const Route = createFileRoute("/banks/$slug")({
             headline: page.h1,
             description: page.meta_description || page.intro_text,
             mainEntityOfPage: url,
+            publisher: {
+              "@type": "Organization",
+              name: "EraPay",
+              logo: { "@type": "ImageObject", url: "https://erapay.ru/apple-touch-icon.png" },
+            },
           }),
         },
         {
