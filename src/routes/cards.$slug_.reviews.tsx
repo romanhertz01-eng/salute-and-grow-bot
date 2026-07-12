@@ -9,7 +9,7 @@ import { cardBySlugQueryOptions, initials } from "@/lib/cards";
 import { supabase } from "@/integrations/supabase/client";
 import { PUBLIC_ROBOTS } from "@/lib/config";
 
-export const Route = createFileRoute("/cards/$slug/reviews")({
+export const Route = createFileRoute("/cards/$slug_/reviews")({
   head: ({ loaderData }) => {
     const data = loaderData as { name?: string; slug?: string } | undefined;
     const name = data?.name ?? "Карта";
