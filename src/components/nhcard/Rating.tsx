@@ -201,10 +201,10 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
               <tr className="border-b border-border bg-surface text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                 <th className="w-14 py-3 pl-4">№</th>
                 <th className="py-3 pr-4">Сервис</th>
-                <th className="px-3 py-3">Выпуск</th>
+                <th className="min-w-[110px] px-3 py-3">Выпуск</th>
                 <th className="px-3 py-3">Обслуж.</th>
                 <th className="px-3 py-3">Пополнение</th>
-                <th className="px-3 py-3">Лимит/мес</th>
+                <th className="min-w-[120px] px-3 py-3">Лимит/мес</th>
                 <th className="px-3 py-3">Скорость</th>
                 <th className="hidden px-3 py-3 xl:table-cell">Сервисы</th>
                 <th className="px-3 py-3">BIN</th>
@@ -287,19 +287,19 @@ function TableRow({ card, first }: { card: Card; first: boolean }) {
           </div>
         </div>
       </td>
-      <td className="px-3 py-4 align-top text-foreground">{card.issue_cost}</td>
-      <td className="px-3 py-4 align-top text-foreground">{card.service_cost}</td>
-      <td className="px-3 py-4 align-top text-foreground">{card.topup_fee}</td>
-      <td className="px-3 py-4 align-top">
+      <td className="whitespace-nowrap px-3 py-4 align-top text-foreground tabular-nums">{noWrapMoney(card.issue_cost)}</td>
+      <td className="whitespace-nowrap px-3 py-4 align-top text-foreground tabular-nums">{noWrapMoney(card.service_cost)}</td>
+      <td className="whitespace-nowrap px-3 py-4 align-top text-foreground tabular-nums">{noWrapMoney(card.topup_fee)}</td>
+      <td className="whitespace-nowrap px-3 py-4 align-top tabular-nums">
         {card.monthly_limit ? (
-          <span className="text-foreground">{card.monthly_limit}</span>
+          <span className="text-foreground">{noWrapMoney(card.monthly_limit)}</span>
         ) : (
           <span className="text-muted-foreground/70">нет данных</span>
         )}
       </td>
-      <td className="px-3 py-4 align-top">
+      <td className="whitespace-nowrap px-3 py-4 align-top tabular-nums">
         {card.issue_speed ? (
-          <span className="text-foreground">{card.issue_speed}</span>
+          <span className="text-foreground">{noWrapMoney(card.issue_speed)}</span>
         ) : (
           <span className="text-muted-foreground/70">нет данных</span>
         )}
@@ -402,11 +402,11 @@ function MobileCard({ card, first }: { card: Card; first: boolean }) {
       </div>
 
       <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-border pt-3 text-xs">
-        <Row label="Выпуск" value={card.issue_cost} />
-        <Row label="Обслуж." value={card.service_cost} />
-        <Row label="Пополнение" value={card.topup_fee} />
-        <Row label="Лимит" value={card.monthly_limit} />
-        <Row label="Скорость" value={card.issue_speed} />
+        <Row label="Выпуск" value={noWrapMoney(card.issue_cost)} nowrap />
+        <Row label="Обслуж." value={noWrapMoney(card.service_cost)} nowrap />
+        <Row label="Пополнение" value={noWrapMoney(card.topup_fee)} nowrap />
+        <Row label="Лимит" value={card.monthly_limit ? noWrapMoney(card.monthly_limit) : null} nowrap />
+        <Row label="Скорость" value={card.issue_speed ? noWrapMoney(card.issue_speed) : null} nowrap />
         <Row label="BIN" value={card.bin_country} mono />
       </dl>
       {serviceSlugs.length > 0 && (
@@ -447,12 +447,12 @@ function MobileCard({ card, first }: { card: Card; first: boolean }) {
   );
 }
 
-function Row({ label, value, mono }: { label: string; value: string | null; mono?: boolean }) {
+function Row({ label, value, mono, nowrap }: { label: string; value: string | null; mono?: boolean; nowrap?: boolean }) {
   return (
     <div className="flex items-baseline justify-between gap-3">
       <dt className="text-muted-foreground">{label}</dt>
       <dd
-        className={`text-right font-medium ${mono ? "font-mono " : ""}${
+        className={`text-right font-medium ${mono ? "font-mono " : ""}${nowrap ? "whitespace-nowrap tabular-nums " : ""}${
           value ? "text-foreground" : "text-muted-foreground/70"
         }`}
       >
