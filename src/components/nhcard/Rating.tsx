@@ -253,8 +253,8 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
 function TableRow({ card, first }: { card: Card; first: boolean }) {
   const [modalOpen, setModalOpen] = useState(false);
   const serviceSlugs = useMemo(
-    () => getCardServiceSlugs(card.slug, card.supported_services_count ?? 0),
-    [card.slug, card.supported_services_count],
+    () => getCardServiceSlugs(card.slug, card.top_services ?? null),
+    [card.slug, card.top_services],
   );
   const tableSlugs = useMemo(
     () => getTableServiceSlugs(card.slug, serviceSlugs, 3),
@@ -364,6 +364,7 @@ function TableRow({ card, first }: { card: Card; first: boolean }) {
         onClose={() => setModalOpen(false)}
         cardName={card.name}
         slugs={serviceSlugs}
+        supportedCount={card.supported_services_count ?? null}
       />
     </tr>
   );
@@ -372,8 +373,8 @@ function TableRow({ card, first }: { card: Card; first: boolean }) {
 function MobileCard({ card, first }: { card: Card; first: boolean }) {
   const [modalOpen, setModalOpen] = useState(false);
   const serviceSlugs = useMemo(
-    () => getCardServiceSlugs(card.slug, card.supported_services_count ?? 0),
-    [card.slug, card.supported_services_count],
+    () => getCardServiceSlugs(card.slug, card.top_services ?? null),
+    [card.slug, card.top_services],
   );
   const tableSlugs = useMemo(
     () => getTableServiceSlugs(card.slug, serviceSlugs, 4),
@@ -461,6 +462,7 @@ function MobileCard({ card, first }: { card: Card; first: boolean }) {
         onClose={() => setModalOpen(false)}
         cardName={card.name}
         slugs={serviceSlugs}
+        supportedCount={card.supported_services_count ?? null}
       />
     </article>
   );
