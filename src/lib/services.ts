@@ -597,6 +597,100 @@ function isCryptoCardSlug(cardSlug: string): boolean {
   return /heleket|e[-.]?pn|epn/.test(s);
 }
 
+// Real service sets sourced from Exnode, intersected with the SERVICES catalog.
+// Unknown slugs are silently filtered out at read time via SERVICES_BY_SLUG.
+const CARD_REAL_SERVICES: Record<string, string[]> = {
+  "plati-po-miru": [
+    "openai","claude","deepseek","cursor","elevenlabs","githubcopilot","freepik","suno","tripoai","heygen",
+    "x","vercel","google","netflix","spotify","deezer","youtube","steam","epicgames","playstation",
+    "nintendo","appstore","googleplay","xbox","amazon","ebay","etsy","aliexpress","iherb","temu",
+    "walmart","shein","adobe","figma","notion","canva","github","jetbrains","gitbook","fiverr",
+    "stripe","godaddy","cloudflare","amazonaws","ableton","binance","trustwallet","wechat","discord","icloud",
+    "microsoft","paypal","googleads","tiktok","meta","amazon-ads","adspy","bookingdotcom","airbnb","agoda",
+    "ticketmaster","uber","expedia","viagogo","dhl","deutschebahn","linkedin","patreon","zoom","telegram",
+  ],
+  "wanttopay": [
+    "openai","claude","midjourney","netflix","spotify","googleads","tiktok","googleplay","appstore","applepay",
+    "wizzair","aliexpress","alipay","atlassian","audible","cloudflare","crunchyroll","deepl","disneyplus","duolingo",
+    "ebay","emirates","expedia","framer","hostinger","hulu","linear","lovable","telegram","tinder",
+    "uber","udemy","upwork","vercel","webflow","zara","adidas","airfrance","shopify","slack",
+    "soundcloud","squarespace","strava","substack","supabase","surfshark","vinted","wolt","twilio",
+  ],
+  "wayment": [
+    "openai","claude","agoda","amazon-ads","appletv","cursor","deezer","elevenlabs","etsy","fiverr",
+    "githubcopilot","godaddy","googleplay","hbo","hetzner","heygen","icloud","iherb","jetbrains","krea",
+    "notion","paypal","shein","spotify","stripe","suno","temu","tiktok","walmart","wechat",
+    "airbnb","amazon","applemusic","appstore","bookingdotcom","canva","discord","dropbox","envato","figma",
+    "gamma","github","googleads","grok","netflix","runway","twitch","youtube","zoom","roblox",
+    "shopify","telegram","uber","vercel",
+  ],
+  "aifory-pro": [
+    "openai","abacusai","ableton","agoda","appletv","cursor","deepseek","deezer","dhgate","dhl",
+    "epicgames","etsy","fiverr","freepik","gitbook","godaddy","google","heygen","icloud","iherb",
+    "jetbrains","linkedin","midjourney","notion","patreon","paypal","playstation","shein","stripe","suno",
+    "temu","tiktok","tripoai","walmart","wechat","airbnb","amazon","applemusic","appstore","canva",
+    "discord","dropbox","elevenlabs","envato","figma","gamma","github","netflix","runway","spotify",
+    "twitch","youtube","zoom","nintendo",
+  ],
+  "flowbit-finance": [
+    "openai","adobe","agoda","appletv","cursor","elevenlabs","freepik","githubcopilot","google","hetzner",
+    "icloud","jetbrains","krea","linkedin","notion","shein","suno","claude","airbnb","applemusic",
+    "bookingdotcom","canva","dropbox","envato","figma","github","midjourney","netflix","runway","spotify",
+    "tiktok","youtube","zoom","cloudflare","crunchyroll","disneyplus","duolingo","framer","hostinger","hulu",
+    "lovable","paramount","poe","supabase","surfshark","telegram","udemy","vercel","webflow","zara",
+  ],
+  "zarub": [
+    "openai","adobe","amazon-ads","amazonaws","cursor","deepseek","freepik","google","heygen","jetbrains",
+    "kling","krea","midjourney","patreon","paypal","playstation","suno","tiktok","tripoai","amazon",
+    "canva","claude","discord","elevenlabs","envato","figma","gamma","github","grok","netflix",
+    "runway","spotify","zoom","xbox","binance","cloudflare","ebay","hostinger","ideogram","lovable",
+    "replit","roblox","supabase","surfshark","udemy","unity","vercel","vultr","windsurf",
+  ],
+  "o-plata": [
+    "adobe","google","notion","patreon","playstation","applemusic","canva","discord","netflix","spotify",
+    "steam","tiktok","twitch","youtube","zoom","xbox",
+  ],
+  "mig-pay": [
+    "openai","cursor","deepseek","githubcopilot","googleplay","iherb","jetbrains","kling","krea","patreon",
+    "suno","airbnb","appstore","bookingdotcom","canva","elevenlabs","envato","figma","gamma","google",
+    "grok","midjourney","runway","youtube",
+  ],
+  "chocopay": [
+    "openai","adobe","agoda","appletv","cursor","epicgames","freepik","godaddy","google","icloud",
+    "jetbrains","kling","linkedin","notion","nintendo","playstation","tiktok","airbnb","amazon","appstore",
+    "canva","claude","discord","elevenlabs","envato","figma","googleads","github","midjourney","netflix",
+    "runway","spotify","steam","youtube","zoom","xbox",
+  ],
+  "easy-payments": [
+    "openai","abacusai","ableton","adobe","adspy","agoda","amazon-ads","amazonaws","binance","cursor",
+    "deepseek","deezer","dhgate","dhl","elevenlabs","epicgames","etsy","fiverr","freepik","gitbook",
+    "githubcopilot","google","hetzner","heygen","icloud","iherb","jetbrains","linkedin","midjourney","notion",
+    "patreon","paypal","playstation","stripe","suno","temu","tiktok","tripoai","trustwallet","vercel",
+    "walmart","wechat","airbnb","amazon","bookingdotcom","canva","claude","discord","figma","netflix",
+    "steam","twitch","youtube","zoom",
+  ],
+  "terbium-wallet": [
+    "openai","abacusai","ableton","adobe","adspy","agoda","amazon-ads","amazonaws","binance","cursor",
+    "deepseek","deezer","dhgate","dhl","epicgames","etsy","fiverr","freepik","gitbook","godaddy",
+    "google","hetzner","heygen","icloud","iherb","jetbrains","linkedin","midjourney","notion","patreon",
+    "paypal","playstation","stripe","suno","temu","tiktok","tripoai","trustwallet","walmart","wechat",
+    "amazon","bookingdotcom","canva","claude","discord","elevenlabs","figma","github","netflix","steam",
+    "twitch","youtube","zoom",
+  ],
+  "cardclub": [
+    "openai","kling","suno","airbnb","amazon","bookingdotcom","canva","github","midjourney","runway",
+    "spotify","tiktok","zoom",
+  ],
+  "morekart": [
+    "openai","abacusai","ableton","adobe","adspy","agoda","amazon-ads","amazonaws","binance","cursor",
+    "deepseek","deezer","dhgate","dhl","epicgames","etsy","fiverr","freepik","gitbook","githubcopilot",
+    "godaddy","google","hetzner","heygen","icloud","iherb","jetbrains","linkedin","midjourney","notion",
+    "patreon","paypal","playstation","stripe","suno","temu","tiktok","tripoai","trustwallet","walmart",
+    "wechat","airbnb","amazon","bookingdotcom","canva","claude","figma","netflix","spotify","steam",
+    "twitch","youtube","zoom",
+  ],
+};
+
 /**
  * Deterministic per-card service list.
  *
@@ -605,6 +699,18 @@ function isCryptoCardSlug(cardSlug: string): boolean {
  * it as a fallback so old code paths keep working.
  */
 export function getCardServiceSlugs(cardSlug: string, fallbackCount = 0): string[] {
+  const real = CARD_REAL_SERVICES[cardSlug];
+  if (real) {
+    const seen = new Set<string>();
+    const out: string[] = [];
+    for (const slug of real) {
+      if (seen.has(slug)) continue;
+      if (!SERVICES_BY_SLUG[slug]) continue;
+      seen.add(slug);
+      out.push(slug);
+    }
+    return out;
+  }
   const target = CARD_SERVICE_COUNTS[cardSlug] ?? fallbackCount;
   const n = Math.min(Math.max(target, 0), SERVICES.length);
   if (n === 0) return [];
@@ -613,6 +719,8 @@ export function getCardServiceSlugs(cardSlug: string, fallbackCount = 0): string
 }
 
 export function getCardServiceCount(cardSlug: string, fallbackCount = 0): number {
+  const real = CARD_REAL_SERVICES[cardSlug];
+  if (real) return getCardServiceSlugs(cardSlug).length;
   return CARD_SERVICE_COUNTS[cardSlug] ?? fallbackCount;
 }
 
