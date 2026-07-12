@@ -180,7 +180,9 @@ export type Database = {
           id: string
           is_ad: boolean
           issue_cost: string | null
+          issue_cost_rub: number | null
           issue_speed: string | null
+          issue_speed_minutes: number | null
           issuer_country: string | null
           kyc: boolean
           last_checked: string
@@ -209,7 +211,9 @@ export type Database = {
           id?: string
           is_ad?: boolean
           issue_cost?: string | null
+          issue_cost_rub?: number | null
           issue_speed?: string | null
+          issue_speed_minutes?: number | null
           issuer_country?: string | null
           kyc?: boolean
           last_checked?: string
@@ -238,7 +242,9 @@ export type Database = {
           id?: string
           is_ad?: boolean
           issue_cost?: string | null
+          issue_cost_rub?: number | null
           issue_speed?: string | null
+          issue_speed_minutes?: number | null
           issuer_country?: string | null
           kyc?: boolean
           last_checked?: string
