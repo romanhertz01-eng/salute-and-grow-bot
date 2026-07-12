@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+
 const STATS: { value: string; label: string }[] = [
   { value: "41", label: "сервис проанализировали" },
   { value: "15", label: "прошли в рейтинг" },
@@ -29,7 +31,10 @@ export function TrustSection() {
           </dl>
 
           <p className="mt-10 border-t border-border pt-6 text-xs text-muted-foreground sm:text-sm">
-            Партнёрские ссылки помечены <code className="font-mono text-foreground/80">rel="sponsored"</code>. Место в рейтинге нельзя купить — формула одинакова для всех сервисов.
+            Некоторые ссылки на сайте — партнёрские: если вы оформите карту по ним, мы можем получить вознаграждение. Это не влияет на позиции —{" "}
+            <Link to="/methodology" className="text-primary underline decoration-primary/40 hover:decoration-primary">единой методологии</Link>{" "}
+            для всех сервисов. Подробнее — в{" "}
+            <Link to="/affiliate-disclosure" className="text-primary underline decoration-primary/40 hover:decoration-primary">раскрытии партнёрских ссылок</Link>.
           </p>
         </div>
       </div>
