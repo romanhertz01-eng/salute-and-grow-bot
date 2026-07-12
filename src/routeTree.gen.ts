@@ -38,6 +38,7 @@ import { Route as AiSlugRouteImport } from './routes/ai.$slug'
 import { Route as AdminSeoRouteImport } from './routes/admin.seo'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminCryptoRouteImport } from './routes/admin.crypto'
 import { Route as AdminCardsRouteImport } from './routes/admin.cards'
 import { Route as AdminBlogRouteImport } from './routes/admin.blog'
 import { Route as AdminBanksRouteImport } from './routes/admin.banks'
@@ -187,6 +188,11 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCryptoRoute = AdminCryptoRouteImport.update({
+  id: '/admin/crypto',
+  path: '/admin/crypto',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminCardsRoute = AdminCardsRouteImport.update({
   id: '/admin/cards',
   path: '/admin/cards',
@@ -218,6 +224,7 @@ export interface FileRoutesByFullPath {
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
+  '/admin/crypto': typeof AdminCryptoRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/seo': typeof AdminSeoRoute
@@ -252,6 +259,7 @@ export interface FileRoutesByTo {
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
+  '/admin/crypto': typeof AdminCryptoRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/seo': typeof AdminSeoRoute
@@ -287,6 +295,7 @@ export interface FileRoutesById {
   '/admin/banks': typeof AdminBanksRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/cards': typeof AdminCardsRoute
+  '/admin/crypto': typeof AdminCryptoRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/seo': typeof AdminSeoRoute
@@ -323,6 +332,7 @@ export interface FileRouteTypes {
     | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
+    | '/admin/crypto'
     | '/admin/login'
     | '/admin/reviews'
     | '/admin/seo'
@@ -357,6 +367,7 @@ export interface FileRouteTypes {
     | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
+    | '/admin/crypto'
     | '/admin/login'
     | '/admin/reviews'
     | '/admin/seo'
@@ -391,6 +402,7 @@ export interface FileRouteTypes {
     | '/admin/banks'
     | '/admin/blog'
     | '/admin/cards'
+    | '/admin/crypto'
     | '/admin/login'
     | '/admin/reviews'
     | '/admin/seo'
@@ -426,6 +438,7 @@ export interface RootRouteChildren {
   AdminBanksRoute: typeof AdminBanksRoute
   AdminBlogRoute: typeof AdminBlogRoute
   AdminCardsRoute: typeof AdminCardsRoute
+  AdminCryptoRoute: typeof AdminCryptoRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminSeoRoute: typeof AdminSeoRoute
@@ -651,6 +664,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/crypto': {
+      id: '/admin/crypto'
+      path: '/admin/crypto'
+      fullPath: '/admin/crypto'
+      preLoaderRoute: typeof AdminCryptoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/cards': {
       id: '/admin/cards'
       path: '/admin/cards'
@@ -690,6 +710,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminBanksRoute: AdminBanksRoute,
   AdminBlogRoute: AdminBlogRoute,
   AdminCardsRoute: AdminCardsRoute,
+  AdminCryptoRoute: AdminCryptoRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminReviewsRoute: AdminReviewsRoute,
   AdminSeoRoute: AdminSeoRoute,
