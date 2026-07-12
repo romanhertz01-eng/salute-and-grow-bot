@@ -40,6 +40,8 @@ type CardRow = {
   kyc: boolean;
   service_cost_rub_year: number | null;
   topup_fee_percent: number | null;
+  logo_domain: string | null;
+  logo_url: string | null;
 };
 
 const EMPTY: Omit<CardRow, "id"> = {
@@ -62,6 +64,8 @@ const EMPTY: Omit<CardRow, "id"> = {
   kyc: false,
   service_cost_rub_year: null,
   topup_fee_percent: null,
+  logo_domain: "",
+  logo_url: "",
 };
 
 function CardsPanel() {
@@ -73,7 +77,7 @@ function CardsPanel() {
     const { data } = await supabase
       .from("cards")
       .select(
-        "id, slug, name, bank, rank, editorial_score, verified, is_ad, affiliate_url, issue_cost, service_cost, topup_fee, payment_system, monthly_limit, issue_speed, issue_cost_rub, issue_speed_minutes, kyc, service_cost_rub_year, topup_fee_percent"
+        "id, slug, name, bank, rank, editorial_score, verified, is_ad, affiliate_url, issue_cost, service_cost, topup_fee, payment_system, monthly_limit, issue_speed, issue_cost_rub, issue_speed_minutes, kyc, service_cost_rub_year, topup_fee_percent, logo_domain, logo_url"
       )
       .order("rank");
     setItems((data as CardRow[] | null) ?? []);
@@ -262,6 +266,8 @@ function CardDialog({
             onChange={(v) => set("topup_fee_percent", Number.isFinite(v) ? v : null)}
           />
           <Field label="Affiliate URL" value={form.affiliate_url ?? ""} onChange={(v) => set("affiliate_url", v)} />
+          <Field label="Домен для логотипа" value={form.logo_domain ?? ""} onChange={(v) => set("logo_domain", v)} />
+          <Field label="URL логотипа (override)" value={form.logo_url ?? ""} onChange={(v) => set("logo_url", v)} />
           <BoolField label="Verified" value={form.verified} onChange={(v) => set("verified", v)} />
           <BoolField label="Реклама (is_ad)" value={form.is_ad} onChange={(v) => set("is_ad", v)} />
           <BoolField label="KYC" value={form.kyc} onChange={(v) => set("kyc", v)} />

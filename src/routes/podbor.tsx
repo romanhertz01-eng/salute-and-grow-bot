@@ -5,7 +5,8 @@ import { ArrowLeft, ArrowRight, ShieldCheck, RefreshCcw, Apple, Smartphone, Zap 
 
 import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
-import { cardsQueryOptions, initials, type Card } from "@/lib/cards";
+import { cardsQueryOptions, type Card } from "@/lib/cards";
+import { CardLogo } from "@/components/nhcard/CardLogo";
 import { noWrapMoney } from "@/lib/format";
 
 export const Route = createFileRoute("/podbor")({
@@ -447,9 +448,13 @@ function BigCard({ card }: { card: Card }) {
   return (
     <article className="mt-8 overflow-hidden rounded-xl border border-accent/40 bg-background p-6 shadow-sm sm:p-8">
       <div className="flex flex-wrap items-start gap-5">
-        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg border border-border bg-surface font-serif text-xl font-bold text-primary">
-          {initials(card.name)}
-        </div>
+        <CardLogo
+          name={card.name}
+          logoUrl={card.logo_url}
+          logoDomain={card.logo_domain}
+          size={56}
+          plateClassName="rounded-lg border border-border bg-surface text-primary"
+        />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <h2 className="font-serif text-2xl font-bold text-primary">{card.name}</h2>
@@ -517,9 +522,7 @@ function SmallCard({ card }: { card: Card }) {
   return (
     <article className="rounded-lg border border-border bg-background p-5 shadow-sm transition-colors hover:border-primary/40">
       <div className="flex items-start gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border bg-surface font-serif text-sm font-bold text-primary">
-          {initials(card.name)}
-        </div>
+        <CardLogo name={card.name} logoUrl={card.logo_url} logoDomain={card.logo_domain} size={40} />
         <div className="min-w-0 flex-1">
           <Link to="/cards/$slug" params={{ slug: card.slug }} className="font-semibold text-primary hover:underline">
             {card.name}

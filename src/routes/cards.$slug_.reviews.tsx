@@ -5,7 +5,8 @@ import { ArrowLeft, ChevronRight } from "lucide-react";
 import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
 import { ReviewsSection } from "@/components/nhcard/Reviews";
-import { cardBySlugQueryOptions, initials } from "@/lib/cards";
+import { cardBySlugQueryOptions } from "@/lib/cards";
+import { CardLogo } from "@/components/nhcard/CardLogo";
 import { supabase } from "@/integrations/supabase/client";
 import { PUBLIC_ROBOTS } from "@/lib/config";
 
@@ -136,9 +137,13 @@ function CardReviewsPage() {
             </nav>
 
             <div className="flex items-start gap-5">
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg border border-border bg-background font-serif text-lg font-bold text-primary">
-                {initials(card.name)}
-              </div>
+              <CardLogo
+                name={card.name}
+                logoUrl={card.logo_url}
+                logoDomain={card.logo_domain}
+                size={56}
+                plateClassName="rounded-lg border border-border bg-background text-primary"
+              />
               <div className="min-w-0 flex-1">
                 <div className="text-xs font-semibold uppercase tracking-wider text-accent">
                   Редакционная оценка · {Number(card.editorial_score).toFixed(1)}/10
