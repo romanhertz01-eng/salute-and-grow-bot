@@ -334,7 +334,8 @@ function TableRow({ card, first }: { card: Card; first: boolean }) {
                 : "border border-border bg-background text-primary hover:border-primary/40"
             }`}
           >
-            {first ? "Оформить" : <ArrowUpRight className="h-4 w-4" />}
+            Оформить
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
           </a>
         </div>
       </td>
@@ -429,9 +430,10 @@ function MobileCard({ card, first }: { card: Card; first: boolean }) {
           href={card.affiliate_url ?? "#"}
           target="_blank"
           rel="nofollow sponsored noopener"
-          className="inline-flex h-9 flex-1 items-center justify-center rounded-md bg-accent px-3 text-xs font-semibold text-accent-foreground"
+          className="inline-flex h-9 flex-1 items-center justify-center gap-1 rounded-md bg-accent px-3 text-xs font-semibold text-accent-foreground"
         >
           Оформить
+          <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
         </a>
       </div>
       <ServicesModal
