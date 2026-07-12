@@ -276,7 +276,7 @@ function CardPage() {
                     hash="rating"
                     className="inline-flex h-11 items-center rounded-md border border-border bg-background px-4 text-sm font-semibold text-primary hover:border-primary/40"
                   >
-                    Сравнить карты
+                    К рейтингу
                   </Link>
                   {card.last_checked ? (
                     <span className="inline-flex h-11 items-center rounded-md border border-transparent px-1 text-xs text-muted-foreground">

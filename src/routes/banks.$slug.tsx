@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { PUBLIC_ROBOTS } from "@/lib/config";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 type BankPage = {
   id: string;
@@ -233,7 +234,7 @@ function BankArticlePage() {
           <div className="mx-auto max-w-[760px] px-4 py-12 sm:px-6 lg:px-8">
             <article
               className="blog-content text-base leading-relaxed text-foreground/90"
-              dangerouslySetInnerHTML={{ __html: page.content }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(page.content) }}
             />
 
             {faqs.length > 0 && (
