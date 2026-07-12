@@ -35,6 +35,8 @@ type CardRow = {
   payment_system: string | null;
   monthly_limit: string | null;
   issue_speed: string | null;
+  issue_cost_rub: number | null;
+  issue_speed_minutes: number | null;
   kyc: boolean;
 };
 
@@ -53,6 +55,8 @@ const EMPTY: Omit<CardRow, "id"> = {
   payment_system: "",
   monthly_limit: "",
   issue_speed: "",
+  issue_cost_rub: null,
+  issue_speed_minutes: null,
   kyc: false,
 };
 
@@ -65,7 +69,7 @@ function CardsPanel() {
     const { data } = await supabase
       .from("cards")
       .select(
-        "id, slug, name, bank, rank, editorial_score, verified, is_ad, affiliate_url, issue_cost, service_cost, topup_fee, payment_system, monthly_limit, issue_speed, kyc"
+        "id, slug, name, bank, rank, editorial_score, verified, is_ad, affiliate_url, issue_cost, service_cost, topup_fee, payment_system, monthly_limit, issue_speed, issue_cost_rub, issue_speed_minutes, kyc"
       )
       .order("rank");
     setItems((data as CardRow[] | null) ?? []);
@@ -232,6 +236,16 @@ function CardDialog({
           <Field label="Комиссия пополнения" value={form.topup_fee ?? ""} onChange={(v) => set("topup_fee", v)} />
           <Field label="Лимит в месяц" value={form.monthly_limit ?? ""} onChange={(v) => set("monthly_limit", v)} />
           <Field label="Скорость выпуска" value={form.issue_speed ?? ""} onChange={(v) => set("issue_speed", v)} />
+          <NumField
+            label="Цена выпуска, ₽ (для сортировки)"
+            value={form.issue_cost_rub ?? 0}
+            onChange={(v) => set("issue_cost_rub", Number.isFinite(v) ? v : null)}
+          />
+          <NumField
+            label="Скорость, минут (для сортировки)"
+            value={form.issue_speed_minutes ?? 0}
+            onChange={(v) => set("issue_speed_minutes", Number.isFinite(v) ? v : null)}
+          />
           <Field label="Affiliate URL" value={form.affiliate_url ?? ""} onChange={(v) => set("affiliate_url", v)} />
           <BoolField label="Verified" value={form.verified} onChange={(v) => set("verified", v)} />
           <BoolField label="Реклама (is_ad)" value={form.is_ad} onChange={(v) => set("is_ad", v)} />

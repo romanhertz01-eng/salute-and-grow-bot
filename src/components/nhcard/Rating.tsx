@@ -8,93 +8,106 @@ import { ServicePreview, ServicesModal } from "./ServicesModal";
 
 type SortKey = "rank" | "price" | "speed";
 
-type Filter =
-  | "all"
-  | "visa"
-  | "mastercard"
-  | "sbp"
-  | "applepay"
-  | "nokyc"
-  | "am"
-  | "kz"
-  | "tr"
-  | "kg"
-  | "cy"
-  | "hk";
+type ChipId = string;
 
-const FILTERS: { id: Filter; label: (n: number) => string; test: (c: Card) => boolean }[] = [
-  { id: "all", label: (n) => `Все ${n}`, test: () => true },
-  { id: "visa", label: () => "Visa", test: (c) => /visa/i.test(c.payment_system ?? "") },
-  { id: "mastercard", label: () => "Mastercard", test: (c) => /mastercard/i.test(c.payment_system ?? "") },
-  { id: "sbp", label: () => "СБП-пополнение", test: (c) => (c.topup_methods ?? []).some((m) => /сбп/i.test(m)) },
-  { id: "applepay", label: () => "Apple Pay", test: (c) => c.apple_pay },
-  { id: "nokyc", label: () => "Без KYC", test: (c) => !c.kyc },
-  { id: "am", label: () => "Армения", test: (c) => c.issuer_country === "Армения" },
-  { id: "kz", label: () => "Казахстан", test: (c) => c.issuer_country === "Казахстан" },
-  { id: "tr", label: () => "Турция", test: (c) => c.issuer_country === "Турция" },
-  { id: "kg", label: () => "Киргизия", test: (c) => c.issuer_country === "Киргизия" },
-  { id: "cy", label: () => "Кипр", test: (c) => c.issuer_country === "Кипр" },
-  { id: "hk", label: () => "Гонконг", test: (c) => c.issuer_country === "Гонконг" },
-];
+type Chip = {
+  id: ChipId;
+  label: string;
+  test: (c: Card) => boolean;
+};
 
-function priceRank(cost: string | null): number {
-  if (!cost) return Number.POSITIVE_INFINITY;
-  const m = cost.match(/(\d[\d\s]*)/);
-  return m ? Number(m[1].replace(/\s/g, "")) : Number.POSITIVE_INFINITY;
+function buildChips(cards: Card[]): Chip[] {
+  const chips: Chip[] = [];
+  // Payment systems
+  const paySystems = new Map<string, number>();
+  for (const c of cards) {
+    const ps = (c.payment_system ?? "").trim();
+    if (!ps) continue;
+    // split combined like "Visa/Mastercard"
+    for (const part of ps.split(/[\/,]|\s+и\s+/i).map((s) => s.trim()).filter(Boolean)) {
+      paySystems.set(part, (paySystems.get(part) ?? 0) + 1);
+    }
+  }
+  for (const [ps] of Array.from(paySystems.entries()).sort((a, b) => b[1] - a[1])) {
+    chips.push({
+      id: `ps:${ps}`,
+      label: ps,
+      test: (c) => new RegExp(ps.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i").test(c.payment_system ?? ""),
+    });
+  }
+  // SBP
+  if (cards.some((c) => (c.topup_methods ?? []).some((m) => /сбп/i.test(m)))) {
+    chips.push({
+      id: "sbp",
+      label: "СБП-пополнение",
+      test: (c) => (c.topup_methods ?? []).some((m) => /сбп/i.test(m)),
+    });
+  }
+  // Apple Pay
+  if (cards.some((c) => c.apple_pay)) {
+    chips.push({ id: "applepay", label: "Apple Pay", test: (c) => c.apple_pay });
+  }
+  // Countries
+  const countries = new Map<string, number>();
+  for (const c of cards) {
+    const cc = (c.issuer_country ?? "").trim();
+    if (!cc) continue;
+    countries.set(cc, (countries.get(cc) ?? 0) + 1);
+  }
+  for (const [country] of Array.from(countries.entries()).sort((a, b) => b[1] - a[1])) {
+    chips.push({
+      id: `country:${country}`,
+      label: country,
+      test: (c) => c.issuer_country === country,
+    });
+  }
+  return chips;
 }
-function speedRank(s: string | null): number {
-  if (!s) return 999;
-  if (/мгнов/i.test(s)) return 0;
-  const m = s.match(/(\d+)/);
-  if (!m) return 500;
-  const n = Number(m[1]);
-  if (/дн/i.test(s)) return 1440 * n;
-  if (/час/i.test(s)) return 60 * n;
-  return n;
-}
 
-export function RatingSection({ cards }: { cards: Card[] }) {
-  const [filter, setFilter] = useState<Filter>("all");
+export function RatingSection({ cards, withControls = false }: { cards: Card[]; withControls?: boolean }) {
+  const [activeChip, setActiveChip] = useState<ChipId | null>(null);
   const [sort, setSort] = useState<SortKey>("rank");
-  const [query, setQuery] = useState("");
   const sectionRef = useRef<HTMLElement | null>(null);
 
+  const chips = useMemo(() => (withControls ? buildChips(cards) : []), [cards, withControls]);
+
   useEffect(() => {
+    if (!withControls) return;
     function onApply(e: Event) {
-      const detail = (e as CustomEvent<{
-        filter?: Filter;
-        query?: string;
-      }>).detail;
+      const detail = (e as CustomEvent<{ chip?: ChipId }>).detail;
       if (!detail) return;
-      if (detail.filter) setFilter(detail.filter);
-      if (typeof detail.query === "string") setQuery(detail.query);
+      if (detail.chip) setActiveChip(detail.chip);
       requestAnimationFrame(() => {
         sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     }
     window.addEventListener("erapay:apply-filter", onApply as EventListener);
     return () => window.removeEventListener("erapay:apply-filter", onApply as EventListener);
-  }, []);
+  }, [withControls]);
 
   const filtered = useMemo(() => {
-    const test = FILTERS.find((f) => f.id === filter)?.test ?? (() => true);
-    const q = query.trim().toLowerCase();
-    const list = cards.filter((c) => {
-      if (!test(c)) return false;
-      if (q !== "") {
-        const inNameOrBank =
-          c.name.toLowerCase().includes(q) || (c.bank ?? "").toLowerCase().includes(q);
-        if (!inNameOrBank) return false;
-      }
-      return true;
-    });
+    if (!withControls) return cards;
+    const chip = chips.find((f) => f.id === activeChip);
+    const list = chip ? cards.filter(chip.test) : cards;
     const sorted = [...list].sort((a, b) => {
-      if (sort === "price") return priceRank(a.issue_cost) - priceRank(b.issue_cost);
-      if (sort === "speed") return speedRank(a.issue_speed) - speedRank(b.issue_speed);
+      if (sort === "price") {
+        const av = a.issue_cost_rub ?? Number.POSITIVE_INFINITY;
+        const bv = b.issue_cost_rub ?? Number.POSITIVE_INFINITY;
+        if (av !== bv) return av - bv;
+        return a.rank - b.rank;
+      }
+      if (sort === "speed") {
+        const av = a.issue_speed_minutes ?? Number.POSITIVE_INFINITY;
+        const bv = b.issue_speed_minutes ?? Number.POSITIVE_INFINITY;
+        if (av !== bv) return av - bv;
+        return a.rank - b.rank;
+      }
       return a.rank - b.rank;
     });
     return sorted;
-  }, [cards, filter, sort, query]);
+  }, [cards, chips, activeChip, sort, withControls]);
+
+  const activeChipObj = chips.find((c) => c.id === activeChip) ?? null;
 
   return (
     <section ref={sectionRef} id="rating" className="scroll-mt-20 border-b border-border bg-background">
@@ -106,57 +119,80 @@ export function RatingSection({ cards }: { cards: Card[] }) {
           </h2>
         </div>
 
-        {/* Search */}
-        <div className="mb-4">
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Поиск по названию карты или банку"
-            className="h-11 w-full rounded-md border border-border bg-background px-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
-          />
-        </div>
-
-        {/* Filter bar */}
-        <div className="mb-5 flex flex-wrap items-center gap-3">
-          <div className="-mx-4 flex-1 overflow-x-auto px-4 sm:mx-0 sm:overflow-visible sm:px-0">
-            <div className="flex min-w-max items-center gap-2">
-              {FILTERS.map((f) => {
-                const active = filter === f.id;
-                return (
+        {withControls && (
+          <>
+            <div className="mb-3 flex flex-wrap items-center gap-3">
+              <div className="-mx-4 flex-1 overflow-x-auto px-4 sm:mx-0 sm:overflow-visible sm:px-0">
+                <div className="flex min-w-max items-center gap-2">
                   <button
-                    key={f.id}
                     type="button"
-                    onClick={() => setFilter(f.id)}
-                    className={`inline-flex h-8 items-center rounded-md border px-3 text-xs font-medium transition-colors ${
-                      active
+                    onClick={() => setActiveChip(null)}
+                    aria-pressed={activeChip === null}
+                    className={`inline-flex h-8 items-center rounded-md border px-3 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
+                      activeChip === null
                         ? "border-primary bg-primary text-primary-foreground"
                         : "border-border bg-background text-foreground/75 hover:border-primary/40 hover:text-primary"
                     }`}
                   >
-                    {f.label(cards.length)}
+                    Все {cards.length}
                   </button>
-                );
-              })}
+                  {chips.map((f) => {
+                    const active = activeChip === f.id;
+                    return (
+                      <button
+                        key={f.id}
+                        type="button"
+                        onClick={() => setActiveChip(active ? null : f.id)}
+                        aria-pressed={active}
+                        className={`inline-flex h-8 items-center whitespace-nowrap rounded-md border px-3 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
+                          active
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-border bg-background text-foreground/75 hover:border-primary/40 hover:text-primary"
+                        }`}
+                      >
+                        {f.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <label htmlFor="sort" className="text-xs text-muted-foreground">
+                  Сортировка:
+                </label>
+                <select
+                  id="sort"
+                  value={sort}
+                  onChange={(e) => setSort(e.target.value as SortKey)}
+                  className="h-8 rounded-md border border-border bg-background px-2 text-xs font-medium text-foreground focus:border-primary focus:outline-none"
+                >
+                  <option value="rank">по рейтингу</option>
+                  <option value="price">по цене выпуска</option>
+                  <option value="speed">по скорости выпуска</option>
+                </select>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <label htmlFor="sort" className="text-xs text-muted-foreground">
-              Сортировка:
-            </label>
-            <select
-              id="sort"
-              value={sort}
-              onChange={(e) => setSort(e.target.value as SortKey)}
-              className="h-8 rounded-md border border-border bg-background px-2 text-xs font-medium text-foreground focus:border-primary focus:outline-none"
-            >
-              <option value="rank">по рейтингу</option>
-              <option value="price">по цене выпуска</option>
-              <option value="speed">по скорости</option>
-            </select>
-          </div>
-        </div>
+            {activeChipObj && (
+              <div className="mb-4 text-xs text-muted-foreground">
+                Показано {filtered.length} из {cards.length}
+              </div>
+            )}
+          </>
+        )}
 
+        {filtered.length === 0 ? (
+          <div className="rounded-lg border border-border bg-surface/40 p-8 text-center">
+            <p className="mb-4 text-sm text-muted-foreground">Под этот фильтр карт нет</p>
+            <button
+              type="button"
+              onClick={() => setActiveChip(null)}
+              className="inline-flex h-9 items-center rounded-md border border-border bg-background px-4 text-xs font-semibold text-primary hover:border-primary/40"
+            >
+              Сбросить фильтр
+            </button>
+          </div>
+        ) : (
+          <>
         {/* Desktop table */}
         <div className="hidden overflow-hidden rounded-lg border border-border bg-background shadow-sm lg:block">
           <table className="w-full border-collapse text-sm">
@@ -177,7 +213,7 @@ export function RatingSection({ cards }: { cards: Card[] }) {
             </thead>
             <tbody>
               {filtered.map((c, i) => (
-                <TableRow key={c.id} card={c} first={i === 0 && sort === "rank" && filter === "all"} />
+                <TableRow key={c.id} card={c} first={i === 0 && sort === "rank" && activeChip === null} />
               ))}
             </tbody>
           </table>
@@ -186,9 +222,11 @@ export function RatingSection({ cards }: { cards: Card[] }) {
         {/* Mobile cards */}
         <div className="grid gap-3 lg:hidden">
           {filtered.map((c, i) => (
-            <MobileCard key={c.id} card={c} first={i === 0 && sort === "rank" && filter === "all"} />
+            <MobileCard key={c.id} card={c} first={i === 0 && sort === "rank" && activeChip === null} />
           ))}
         </div>
+          </>
+        )}
       </div>
     </section>
   );
@@ -251,8 +289,20 @@ function TableRow({ card, first }: { card: Card; first: boolean }) {
       <td className="px-3 py-4 align-top text-foreground">{card.issue_cost}</td>
       <td className="px-3 py-4 align-top text-foreground">{card.service_cost}</td>
       <td className="px-3 py-4 align-top text-foreground">{card.topup_fee}</td>
-      <td className="px-3 py-4 align-top text-foreground">{card.monthly_limit}</td>
-      <td className="px-3 py-4 align-top text-foreground">{card.issue_speed}</td>
+      <td className="px-3 py-4 align-top">
+        {card.monthly_limit ? (
+          <span className="text-foreground">{card.monthly_limit}</span>
+        ) : (
+          <span className="text-muted-foreground/70">нет данных</span>
+        )}
+      </td>
+      <td className="px-3 py-4 align-top">
+        {card.issue_speed ? (
+          <span className="text-foreground">{card.issue_speed}</span>
+        ) : (
+          <span className="text-muted-foreground/70">нет данных</span>
+        )}
+      </td>
       <td className="hidden px-3 py-4 align-top xl:table-cell">
         <ServicePreview
           slugs={tableSlugs}
@@ -398,7 +448,13 @@ function Row({ label, value, mono }: { label: string; value: string | null; mono
   return (
     <div className="flex items-baseline justify-between gap-3">
       <dt className="text-muted-foreground">{label}</dt>
-      <dd className={`text-right font-medium text-foreground ${mono ? "font-mono" : ""}`}>{value ?? "—"}</dd>
+      <dd
+        className={`text-right font-medium ${mono ? "font-mono " : ""}${
+          value ? "text-foreground" : "text-muted-foreground/70"
+        }`}
+      >
+        {value ?? "нет данных"}
+      </dd>
     </div>
   );
 }
