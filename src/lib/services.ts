@@ -694,40 +694,38 @@ const CARD_REAL_SERVICES: Record<string, string[]> = {
 };
 
 /**
- * Deterministic per-card service list.
- *
- * The length is authoritative and comes from `CARD_SERVICE_COUNTS` when the
- * card is known. When the caller passes a count for an unknown card we honor
- * it as a fallback so old code paths keep working.
+ * Real per-card service list. No synthetic catalog slices — only data we can
+ * confirm: the explicit `CARD_REAL_SERVICES` set, or the card's own
+ * `top_services` column, otherwise empty.
  */
-export function getCardServiceSlugs(cardSlug: string, fallbackCount = 0): string[] {
-  const real = CARD_REAL_SERVICES[cardSlug];
-  if (real) {
-    const seen = new Set<string>();
-    const out: string[] = [];
-    for (const slug of real) {
-      if (seen.has(slug)) continue;
-      if (!SERVICES_BY_SLUG[slug]) continue;
-      seen.add(slug);
-      out.push(slug);
-    }
-    return out;
+export function getCardServiceSlugs(
+  cardSlug: string,
+  topServices: readonly string[] | null | undefined = null,
+): string[] {
+  const source = CARD_REAL_SERVICES[cardSlug] ?? topServices ?? [];
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const slug of source) {
+    if (!slug || seen.has(slug)) continue;
+    if (!SERVICES_BY_SLUG[slug]) continue;
+    seen.add(slug);
+    out.push(slug);
   }
-  const target = CARD_SERVICE_COUNTS[cardSlug] ?? fallbackCount;
-  const n = Math.min(Math.max(target, 0), SERVICES.length);
-  if (n === 0) return [];
-  const order = isCryptoCardSlug(cardSlug) ? CRYPTO_ORDER : DEFAULT_ORDER;
-  return order.slice(0, n);
+  return out;
 }
 
-export function getCardServiceCount(cardSlug: string, fallbackCount = 0): number {
-  const real = CARD_REAL_SERVICES[cardSlug];
-  if (real) return getCardServiceSlugs(cardSlug).length;
-  return CARD_SERVICE_COUNTS[cardSlug] ?? fallbackCount;
+export function getCardServiceCount(
+  cardSlug: string,
+  topServices: readonly string[] | null | undefined = null,
+): number {
+  return getCardServiceSlugs(cardSlug, topServices).length;
 }
 
-export function getCardServices(cardSlug: string, fallbackCount = 0): Service[] {
-  return getCardServiceSlugs(cardSlug, fallbackCount)
+export function getCardServices(
+  cardSlug: string,
+  topServices: readonly string[] | null | undefined = null,
+): Service[] {
+  return getCardServiceSlugs(cardSlug, topServices)
     .map((s) => SERVICES_BY_SLUG[s])
     .filter(Boolean);
 }
