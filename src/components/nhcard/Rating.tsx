@@ -195,21 +195,20 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
         ) : (
           <>
         {/* Desktop table */}
-        <div className="hidden overflow-hidden rounded-lg border border-border bg-background shadow-sm lg:block">
+        <div className="hidden overflow-x-auto rounded-lg border border-border bg-background shadow-sm lg:block">
           <table className="w-full border-collapse text-sm">
             <thead>
               <tr className="border-b border-border bg-surface text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                 <th className="w-14 py-3 pl-4">№</th>
                 <th className="py-3 pr-4">Сервис</th>
-                <th className="min-w-[110px] px-3 py-3">Выпуск</th>
-                <th className="px-3 py-3">Обслуж.</th>
-                <th className="px-3 py-3">Пополнение</th>
-                <th className="min-w-[120px] px-3 py-3">Лимит/мес</th>
-                <th className="px-3 py-3">Скорость</th>
-                <th className="hidden px-3 py-3 xl:table-cell">Сервисы</th>
-                <th className="px-3 py-3">BIN</th>
-                <th className="px-3 py-3">Оценка</th>
-                <th className="py-3 pr-4"></th>
+                <th className="min-w-[110px] px-2.5 py-3">Выпуск</th>
+                <th className="px-2.5 py-3">Обслуж.</th>
+                <th className="px-2.5 py-3">Пополнение</th>
+                <th className="min-w-[120px] px-2.5 py-3">Лимит/мес</th>
+                <th className="px-2.5 py-3">Скорость</th>
+                <th className="hidden px-2.5 py-3 2xl:table-cell">Сервисы</th>
+                <th className="px-2.5 py-3">Оценка</th>
+                <th className="sticky right-0 bg-surface py-3 pl-3 pr-4 shadow-[-8px_0_8px_-8px_rgba(0,0,0,0.06)]"></th>
               </tr>
             </thead>
             <tbody>
