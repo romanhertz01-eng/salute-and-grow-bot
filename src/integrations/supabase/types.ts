@@ -192,10 +192,12 @@ export type Database = {
           rank: number
           reviews_count: number | null
           service_cost: string | null
+          service_cost_rub_year: number | null
           slug: string
           supported_services_count: number | null
           top_services: string[]
           topup_fee: string | null
+          topup_fee_percent: number | null
           topup_methods: string[] | null
           verified: boolean
         }
@@ -223,10 +225,12 @@ export type Database = {
           rank: number
           reviews_count?: number | null
           service_cost?: string | null
+          service_cost_rub_year?: number | null
           slug: string
           supported_services_count?: number | null
           top_services?: string[]
           topup_fee?: string | null
+          topup_fee_percent?: number | null
           topup_methods?: string[] | null
           verified?: boolean
         }
@@ -254,10 +258,12 @@ export type Database = {
           rank?: number
           reviews_count?: number | null
           service_cost?: string | null
+          service_cost_rub_year?: number | null
           slug?: string
           supported_services_count?: number | null
           top_services?: string[]
           topup_fee?: string | null
+          topup_fee_percent?: number | null
           topup_methods?: string[] | null
           verified?: boolean
         }
