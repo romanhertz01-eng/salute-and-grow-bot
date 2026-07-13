@@ -4,6 +4,7 @@ import { ChevronRight } from "lucide-react";
 
 import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
+import { MobileRatingCta } from "@/components/nhcard/MobileRatingCta";
 import { RatingSection } from "@/components/nhcard/Rating";
 import { cardsQueryOptions } from "@/lib/cards";
 import { PUBLIC_ROBOTS } from "@/lib/config";
@@ -231,6 +232,7 @@ function ForeignVirtualCardsPage() {
           </div>
         </section>
       </main>
+      <MobileRatingCta />
       <SiteFooter />
     </div>
   );

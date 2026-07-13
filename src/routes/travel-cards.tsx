@@ -4,6 +4,7 @@ import { ChevronRight } from "lucide-react";
 
 import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
+import { MobileRatingCta } from "@/components/nhcard/MobileRatingCta";
 import { RatingSection } from "@/components/nhcard/Rating";
 import { supabase } from "@/integrations/supabase/client";
 import { cardsQueryOptions } from "@/lib/cards";
@@ -220,6 +221,7 @@ function TravelCardsPage() {
           </div>
         </section>
       </main>
+      <MobileRatingCta />
       <SiteFooter />
     </div>
   );
