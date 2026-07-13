@@ -15,6 +15,13 @@ import {
 import { ServiceIcon, ServicePreview, ServicesModal } from "./ServicesModal";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetFooter,
+} from "@/components/ui/sheet";
+import {
   Command,
   CommandEmpty,
   CommandGroup,
@@ -33,6 +40,7 @@ type Chip = {
   id: ChipId;
   label: string;
   test: (c: Card) => boolean;
+  group: "ps" | "topup" | "country";
 };
 
 function buildChips(cards: Card[]): Chip[] {
@@ -52,6 +60,7 @@ function buildChips(cards: Card[]): Chip[] {
       id: `ps:${ps}`,
       label: ps,
       test: (c) => new RegExp(ps.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i").test(c.payment_system ?? ""),
+      group: "ps",
     });
   }
   // SBP
@@ -60,11 +69,12 @@ function buildChips(cards: Card[]): Chip[] {
       id: "sbp",
       label: "СБП-пополнение",
       test: (c) => (c.topup_methods ?? []).some((m) => /сбп/i.test(m)),
+      group: "topup",
     });
   }
   // Apple Pay
   if (cards.some((c) => c.apple_pay)) {
-    chips.push({ id: "applepay", label: "Apple Pay", test: (c) => c.apple_pay });
+    chips.push({ id: "applepay", label: "Apple Pay", test: (c) => c.apple_pay, group: "topup" });
   }
   // Countries
   const countries = new Map<string, number>();
@@ -78,6 +88,7 @@ function buildChips(cards: Card[]): Chip[] {
       id: `country:${country}`,
       label: country,
       test: (c) => c.issuer_country === country,
+      group: "country",
     });
   }
   return chips;
@@ -89,6 +100,7 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
   const [search, setSearch] = useState("");
   const [serviceSlug, setServiceSlug] = useState<string | null>(null);
   const [servicePickerOpen, setServicePickerOpen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
 
   const chips = useMemo(() => (withControls ? buildChips(cards) : []), [cards, withControls]);
@@ -176,6 +188,25 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
 
   const activeChipObj = chips.find((c) => c.id === activeChip) ?? null;
 
+  const activeFilterCount =
+    (activeChip !== null ? 1 : 0) + (serviceSlug !== null ? 1 : 0);
+
+  const chipsByGroup = useMemo(() => {
+    const g: Record<"ps" | "topup" | "country", Chip[]> = {
+      ps: [],
+      topup: [],
+      country: [],
+    };
+    for (const ch of chips) g[ch.group].push(ch);
+    return g;
+  }, [chips]);
+
+  const GROUP_LABEL: Record<"ps" | "topup" | "country", string> = {
+    ps: "Платёжная система",
+    topup: "Пополнение и Pay",
+    country: "Страна выпуска",
+  };
+
   return (
     <section ref={sectionRef} id="rating" className="scroll-mt-20 border-b border-border bg-background">
       <div className="mx-auto max-w-[1240px] px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
@@ -262,7 +293,7 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
                 </span>
               </div>
             )}
-            <div className="mb-3 -mx-4 overflow-x-auto px-4 sm:mx-0 sm:overflow-visible sm:px-0">
+            <div className="relative mb-3 -mx-4 overflow-x-auto px-4 sm:mx-0 sm:overflow-visible sm:px-0 [mask-image:linear-gradient(to_right,black_calc(100%-32px),transparent)] sm:[mask-image:none]">
               <div className="flex min-w-max items-center gap-2">
                 <span className="text-xs text-muted-foreground">Популярные:</span>
                 {QUICK_SERVICE_SLUGS.map((slug) => {
@@ -288,8 +319,9 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
                 })}
               </div>
             </div>
-            <div className="mb-3 flex flex-wrap items-center gap-3">
-              <div className="-mx-4 flex-1 overflow-x-auto px-4 sm:mx-0 sm:overflow-visible sm:px-0">
+            {/* Desktop chips + sort */}
+            <div className="mb-3 hidden flex-wrap items-center gap-3 md:flex">
+              <div className="flex-1 overflow-visible">
                 <div className="flex min-w-max items-center gap-2">
                   <button
                     type="button"
@@ -339,8 +371,119 @@ export function RatingSection({ cards, withControls = false }: { cards: Card[]; 
                 </select>
               </div>
             </div>
+
+            {/* Mobile filter/sort row */}
+            <div className="mb-3 grid grid-cols-2 gap-2 md:hidden">
+              <button
+                type="button"
+                onClick={() => setFiltersOpen(true)}
+                className="inline-flex h-10 items-center justify-center gap-1.5 rounded-md border border-border bg-background px-3 text-sm font-medium text-foreground hover:border-primary/40"
+                aria-label="Открыть фильтры"
+              >
+                Фильтры
+                {activeFilterCount > 0 && (
+                  <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[11px] font-semibold text-primary-foreground">
+                    {activeFilterCount}
+                  </span>
+                )}
+              </button>
+              <div className="relative">
+                <select
+                  value={sort}
+                  onChange={(e) => setSort(e.target.value as SortKey)}
+                  aria-label="Сортировка"
+                  className="h-10 w-full appearance-none rounded-md border border-border bg-background pl-3 pr-8 text-sm font-medium text-foreground focus:border-primary focus:outline-none"
+                >
+                  <option value="rank">Сортировка: по рейтингу</option>
+                  <option value="price">Сортировка: по цене</option>
+                  <option value="speed">Сортировка: по скорости</option>
+                </select>
+                <ChevronsUpDown className="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
+              </div>
+            </div>
+
+            {/* Mobile active chip pill */}
+            {activeChipObj && (
+              <div className="mb-3 flex flex-wrap items-center gap-2 md:hidden">
+                <span className="inline-flex items-center gap-1.5 rounded-md border border-primary bg-primary px-2.5 py-1 text-xs font-medium text-primary-foreground">
+                  {activeChipObj.label}
+                  <button
+                    type="button"
+                    onClick={() => setActiveChip(null)}
+                    aria-label="Убрать фильтр"
+                    className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full hover:bg-primary-foreground/20"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  Показано {filtered.length} из {cards.length}
+                </span>
+              </div>
+            )}
+
+            <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
+              <SheetContent
+                side="bottom"
+                className="max-h-[85vh] overflow-y-auto rounded-t-2xl"
+              >
+                <SheetHeader>
+                  <SheetTitle>Фильтры</SheetTitle>
+                </SheetHeader>
+                <div className="mt-4 space-y-6 pb-4">
+                  {(["ps", "topup", "country"] as const).map((g) => {
+                    const list = chipsByGroup[g];
+                    if (list.length === 0) return null;
+                    return (
+                      <div key={g}>
+                        <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          {GROUP_LABEL[g]}
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {list.map((f) => {
+                            const active = activeChip === f.id;
+                            return (
+                              <button
+                                key={f.id}
+                                type="button"
+                                onClick={() => setActiveChip(active ? null : f.id)}
+                                aria-pressed={active}
+                                className={`inline-flex h-9 items-center rounded-md border px-3 text-sm font-medium transition-colors ${
+                                  active
+                                    ? "border-primary bg-primary text-primary-foreground"
+                                    : "border-border bg-background text-foreground/80 hover:border-primary/40"
+                                }`}
+                              >
+                                {f.label}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <SheetFooter className="sticky bottom-0 -mx-6 flex-row gap-2 border-t border-border bg-background px-6 py-3">
+                  <button
+                    type="button"
+                    onClick={resetAll}
+                    className="inline-flex h-11 flex-1 items-center justify-center rounded-md border border-border bg-background text-sm font-semibold text-foreground/80 hover:border-primary/40"
+                  >
+                    Сбросить
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFiltersOpen(false)}
+                    className="inline-flex h-11 flex-1 items-center justify-center rounded-md bg-primary text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+                  >
+                    Показать {filtered.length} карт
+                  </button>
+                </SheetFooter>
+              </SheetContent>
+            </Sheet>
+
             {hasAnyFilter && (
-              <div className="mb-4 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+              <div className="mb-4 hidden flex-wrap items-center gap-3 text-xs text-muted-foreground md:flex">
                 <span>
                   Показано {filtered.length} из {cards.length}
                 </span>
