@@ -128,6 +128,7 @@ export type Database = {
           published: boolean
           published_at: string
           slug: string
+          sources: Json | null
           title: string
           updated_at: string
         }
@@ -145,6 +146,7 @@ export type Database = {
           published?: boolean
           published_at?: string
           slug: string
+          sources?: Json | null
           title: string
           updated_at?: string
         }
@@ -162,6 +164,7 @@ export type Database = {
           published?: boolean
           published_at?: string
           slug?: string
+          sources?: Json | null
           title?: string
           updated_at?: string
         }
