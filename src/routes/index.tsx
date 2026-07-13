@@ -4,6 +4,7 @@ import { Suspense } from "react";
 
 import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
+import { MobileRatingCta } from "@/components/nhcard/MobileRatingCta";
 import { Hero } from "@/components/nhcard/Hero";
 import { RatingSection } from "@/components/nhcard/Rating";
 import { TrustSection } from "@/components/nhcard/Trust";
@@ -90,6 +91,7 @@ function HomePage() {
           <HomeContent />
         </Suspense>
       </main>
+      <MobileRatingCta />
       <SiteFooter />
     </div>
   );
