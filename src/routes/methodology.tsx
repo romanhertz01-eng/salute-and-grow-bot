@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { InfoShell, H2, P, UL, Callout } from "@/components/nhcard/InfoShell";
+import { SourcesSection } from "@/components/nhcard/SourcesSection";
 
 export const Route = createFileRoute("/methodology")({
   head: () => ({
@@ -106,6 +107,15 @@ function MethodologyPage() {
         Часть данных на сайте сейчас демонстрационная и помечена как таковая. Перед оформлением
         карты всегда сверяйте актуальные условия у эмитента.
       </Callout>
+
+      <SourcesSection
+        sources={[
+          { title: "ФЗ № 173-ФЗ «О валютном регулировании и валютном контроле», ст. 12", url: null },
+          { title: "Постановление Правительства РФ № 1365", url: null },
+          { title: "КоАП РФ, ст. 15.25", url: null },
+          { title: "Личный кабинет налогоплательщика (nalog.gov.ru)", url: "https://nalog.gov.ru" },
+        ]}
+      />
     </InfoShell>
   );
 }

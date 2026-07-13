@@ -10,6 +10,7 @@ import {
 import { AdminShell } from "@/components/admin/AdminShell";
 import { Field, TextAreaField } from "@/components/admin/fields";
 import { Loader2, Pencil, Plus, Trash2, X, Eye, EyeOff } from "lucide-react";
+import type { Source } from "@/components/nhcard/SourcesSection";
 
 export const Route = createFileRoute("/admin/blog")({
   head: () => ({
@@ -39,6 +40,7 @@ type BlogRow = {
   cover_emoji: string;
   published: boolean;
   published_at: string;
+  sources: Source[];
 };
 
 function emptyRow(): BlogRow {
@@ -56,6 +58,7 @@ function emptyRow(): BlogRow {
     cover_emoji: "📝",
     published: true,
     published_at: new Date().toISOString(),
+    sources: [],
   };
 }
 
@@ -211,6 +214,10 @@ function BlogDialog({
   isNew?: boolean;
 }) {
   const [form, setForm] = useState<BlogRow>(initial);
+  // Normalize sources on open (DB may return null)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const _initSources = form.sources ?? [];
+  void _initSources;
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const runCreate = useServerFn(createBlogPost);
@@ -218,6 +225,18 @@ function BlogDialog({
 
   function set<K extends keyof BlogRow>(field: K, value: BlogRow[K]) {
     setForm((f) => ({ ...f, [field]: value }));
+  }
+
+  const sources: Source[] = Array.isArray(form.sources) ? form.sources : [];
+  function updateSource(i: number, patch: Partial<Source>) {
+    const next = sources.map((s, idx) => (idx === i ? { ...s, ...patch } : s));
+    set("sources", next);
+  }
+  function addSource() {
+    set("sources", [...sources, { title: "", url: "" }]);
+  }
+  function removeSource(i: number) {
+    set("sources", sources.filter((_, idx) => idx !== i));
   }
 
   async function save() {
@@ -315,6 +334,53 @@ function BlogDialog({
             />
             <span className="text-sm text-slate-700">Опубликовано</span>
           </label>
+          <div className="sm:col-span-2">
+            <div className="mb-2 flex items-center justify-between">
+              <span className="text-xs font-medium text-slate-600">
+                Источники и нормативные документы
+              </span>
+              <button
+                type="button"
+                onClick={addSource}
+                className="inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs hover:bg-slate-100"
+              >
+                <Plus className="h-3 w-3" /> Добавить
+              </button>
+            </div>
+            {sources.length === 0 ? (
+              <div className="rounded-md border border-dashed border-slate-200 px-3 py-3 text-xs text-slate-500">
+                Нет источников. Секция не будет отображаться в статье.
+              </div>
+            ) : (
+              <ul className="space-y-2">
+                {sources.map((s, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <div className="grid flex-1 grid-cols-1 gap-2 sm:grid-cols-5">
+                      <input
+                        placeholder="Название документа"
+                        value={s.title}
+                        onChange={(e) => updateSource(i, { title: e.target.value })}
+                        className="rounded-md border border-slate-300 px-2 py-1.5 text-sm sm:col-span-3"
+                      />
+                      <input
+                        placeholder="URL (необязательно)"
+                        value={s.url ?? ""}
+                        onChange={(e) => updateSource(i, { url: e.target.value })}
+                        className="rounded-md border border-slate-300 px-2 py-1.5 text-sm sm:col-span-2"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeSource(i)}
+                      className="mt-1 rounded-md border border-red-200 p-1 text-red-600 hover:bg-red-50"
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
         {error && <div className="mt-3 rounded-md bg-red-50 p-2 text-xs text-red-700">{error}</div>}
         <div className="mt-5 flex justify-end gap-2">

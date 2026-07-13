@@ -5,6 +5,7 @@ import { ChevronRight } from "lucide-react";
 import { SiteHeader } from "@/components/nhcard/Header";
 import { SiteFooter } from "@/components/nhcard/Footer";
 import { BlogCover } from "@/components/nhcard/BlogCover";
+import { SourcesSection, type Source } from "@/components/nhcard/SourcesSection";
 import { supabase } from "@/integrations/supabase/client";
 import { PUBLIC_ROBOTS } from "@/lib/config";
 import { sanitizeHtml } from "@/lib/sanitize";
@@ -24,6 +25,7 @@ type BlogPost = {
   published: boolean;
   published_at: string;
   updated_at?: string | null;
+  sources?: Source[] | null;
 };
 
 const postBySlugQueryOptions = (slug: string) =>
@@ -215,6 +217,8 @@ function BlogArticlePage() {
               className="blog-content text-base leading-relaxed text-foreground/90"
               dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
             />
+
+            <SourcesSection sources={post.sources ?? null} />
 
             <div className="mt-12 rounded-xl border border-border bg-surface p-6 shadow-sm">
               <div className="text-xs font-semibold uppercase tracking-wider text-accent">
